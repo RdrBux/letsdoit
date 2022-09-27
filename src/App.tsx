@@ -2,6 +2,7 @@ import { useState } from 'react';
 import AddTaskButton from './components/AddTaskButton/AddTaskButton';
 import ContactsNav from './components/ContactsNav/ContactsNav';
 import HamburgerMenu from './components/HamburgerMenu/HamburgerMenu';
+import MonthDisplay from './components/MonthDisplay/MonthDisplay';
 import MonthPicker from './components/MonthPicker/MonthPicker';
 import TopNav from './components/TopNav/TopNav';
 
@@ -19,6 +20,7 @@ function App() {
       <ContactsNav />
       <AddTaskButton />
       <MonthPicker />
+      <MonthDisplay />
     </div>
   );
 }
