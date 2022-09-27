@@ -1,9 +1,10 @@
 import React from 'react';
+import TopNav from './components/TopNav/TopNav';
 
 function App() {
   return (
-    <div className="App | text-9xl bg-red-200">
-      HI
+    <div className="font-manrope">
+      <TopNav />
     </div>
   );
 }
