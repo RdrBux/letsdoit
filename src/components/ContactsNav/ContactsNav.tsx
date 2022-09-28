@@ -7,7 +7,7 @@ import plusButton from '../../assets/plusButton.svg';
 
 export default function ContactsNav() {
 	return (
-		<div className='flex bg-zinc-800 py-2 px-4 gap-4 justify-center'>
+		<div className='flex bg-fuchsia-800/80 py-2 px-4 gap-4 justify-center'>
 			<div className='flex gap-4 overflow-x-auto'>
 				<img src={AvatarTwo} alt="" />
 				<img src={AvatarThree} alt="" />
