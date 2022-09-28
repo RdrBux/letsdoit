@@ -2,9 +2,8 @@ import { useState } from 'react';
 import AddTaskButton from './components/AddTaskButton/AddTaskButton';
 import ContactsNav from './components/ContactsNav/ContactsNav';
 import HamburgerMenu from './components/HamburgerMenu/HamburgerMenu';
-import MonthDisplay from './components/MonthDisplay/MonthDisplay';
-import MonthPicker from './components/MonthPicker/MonthPicker';
 import TopNav from './components/TopNav/TopNav';
+import Calendar from 'react-calendar';
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -19,8 +18,7 @@ function App() {
       {menuOpen && <HamburgerMenu />}
       <ContactsNav />
       <AddTaskButton />
-      <MonthPicker />
-      <MonthDisplay />
+      <div className='flex flex-col items-center'><Calendar /></div>
     </div>
   );
 }

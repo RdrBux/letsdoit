@@ -8,7 +8,7 @@ type TopNavProps = {
 
 export default function TopNav({ toggleMenu }: TopNavProps) {
 	return (
-		<div className='bg-fuchsia-800 p-4 text-white flex items-center justify-between'>
+		<div className='sticky top-0 z-10 bg-fuchsia-800 p-4 text-white flex items-center justify-between'>
 			<div className='flex items-center gap-4'>
 				<button onClick={toggleMenu}><img className='w-5' src={hamburger} alt="" /></button>
 				<h1 className='text-2xl font-bold'>LET'S DO IT</h1>
