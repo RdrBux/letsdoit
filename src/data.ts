@@ -1,38 +1,32 @@
-type Tasks = {
-	hour: number;
+type Task = {
+	day: string;
+	time: number;
+	title: string;
 	description: string;
 	people: string[];
-	sendMsj: null | string;
+	sendMsg: null | string;
 }
 
-type Days = {
-	day: number;
-	tasks: Tasks[];
-}
-
-type AllTaks = {
+type Person = {
 	month: string;
-	days: Days[]
+	tasks: Task[]
 }
 
-const allTasks: AllTaks[] = [
+const person: Person[] = [
 	{
-		month: 'January',
-		days: [
+		month: 'September',
+		tasks: [
 			{
-				day: 1,
-				tasks: [
-					{
-						hour: 7,
-						description: 'Hacer algo',
-						people: [],
-						sendMsj: null,
-					}
-				]
-			}
+				day: 'Wed Sep 28 2022 00:00:00 GMT-0300 (Argentina Standard Time)',
+				time: 3,
+				title: 'Título',
+				description: 'Algo',
+				people: [],
+				sendMsg: null
+			}			
 		]
 	},
 
 ];
 
-export default allTasks;
+export default person;
