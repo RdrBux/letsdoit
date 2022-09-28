@@ -102,30 +102,30 @@ abbr[title] {
   background-color: #e6e6e6;
 }
 .react-calendar__tile--now {
-  background-color: rgb(253 244 255);
+  background-color: rgb(209 250 229);
   border-radius: 4px;
 }
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-  background-color: rgb(250 232 255);
+  background-color: rgb(167 243 208);
 }
 .react-calendar__tile--hasActive {
-  background-color: rgb(217 70 239);
+  background-color: rgb(16 185 129);
   color: white;
 }
 .react-calendar__tile--hasActive:enabled:hover,
 .react-calendar__tile--hasActive:enabled:focus {
-  background-color: rgb(240 171 252);
+  background-color: rgb(110 231 183);
 }
 .react-calendar__tile--active {
-  background-color: rgb(192 38 211);
+  background-color: rgb(5 150 105);
   color: white;
   font-weight: bold;
   border-radius: 4px;
 }
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
-  background-color: rgb(192 38 211);
+  background-color: rgb(5 150 105);
 }
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
