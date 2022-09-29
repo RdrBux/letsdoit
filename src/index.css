@@ -14,6 +14,8 @@ abbr[title] {
   font-family: 'Manrope', Arial, Helvetica, sans-serif;
   line-height: 1.125em;
   color: #1f2937;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
 }
 .react-calendar--doubleView {
   width: 700px;
