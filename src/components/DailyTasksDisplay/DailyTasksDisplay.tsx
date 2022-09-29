@@ -21,5 +21,15 @@ export default function DailyTasksDisplay({ tasks }: Props) {
     </div>
   ));
 
-  return <div className="w-[360px] p-4 bg-gray-100">{tasksJSX}</div>;
+  return (
+    <div className="w-[350px] p-4 bg-gray-100 shadow-lg mb-4">
+      {tasks.length > 0 ? (
+        tasksJSX
+      ) : (
+        <div className="text-gray-800 p-4">
+          No hay tareas creadas en la fecha seleccionada.
+        </div>
+      )}
+    </div>
+  );
 }

@@ -29,16 +29,30 @@ function App() {
     setSelectedDayTasks(tasks);
   }
 
-  console.log(findTasksByDay(selectedDay.toString()));
-
   return (
-    <div className="font-manrope">
+    <div className="font-manrope min-h-screen">
       <TopNav toggleMenu={toggleMenu} />
       {menuOpen && <HamburgerMenu />}
       <ContactsNav />
       <AddTaskButton />
       <div className="flex flex-col items-center">
-        <Calendar value={selectedDay} onChange={handleCalendarChange} />
+        <Calendar
+          value={selectedDay}
+          onChange={handleCalendarChange}
+          minDetail="year"
+          tileContent={({ activeStartDate, date, view }) =>
+            view === 'month' &&
+            personData[0].tasks.some((task) => task.day === date.toString()) ? (
+              <div className="absolute top-1 right-2 text-xs">⚫</div>
+            ) : null
+          }
+          tileClassName={({ activeStartDate, date, view }) =>
+            view === 'month' &&
+            personData[0].tasks.some((task) => task.day === date.toString())
+              ? 'font-bold'
+              : null
+          }
+        />
         <DailyTasksDisplay tasks={selectedDayTasks} />
       </div>
     </div>
