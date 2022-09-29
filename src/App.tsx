@@ -35,7 +35,7 @@ function App() {
       {menuOpen && <HamburgerMenu />}
       <ContactsNav />
       <AddTaskButton />
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center md:flex-row md:justify-center md:items-start md:gap-8">
         <Calendar
           value={selectedDay}
           onChange={handleCalendarChange}
