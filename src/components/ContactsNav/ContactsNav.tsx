@@ -15,7 +15,7 @@ export default function ContactsNav() {
         <img className="w-10 h-10" src={AvatarFive} alt="" />
       </div>
 
-      <button className="w-10 h-10 bg-emerald-900/50 p-3 rounded-full flex items-center justify-center">
+      <button className="w-10 h-10 bg-black/25 p-3 rounded-full flex items-center justify-center">
         <img src={msgIcon} alt="" />
       </button>
     </div>

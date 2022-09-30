@@ -9,7 +9,6 @@ export default function HamburgerMenu() {
         <img className="w-3" src={plusButton} alt="" />
       </button>
       <TasksSlider />
-      <TasksSlider />
     </div>
   );
 }
