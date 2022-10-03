@@ -17,7 +17,7 @@ export default function DailyTasksDisplay({ tasks }: Props) {
         <img src={AvatarTwo} alt="" />
         <img src={AvatarThree} alt="" />
       </div>
-      <hr className="bg-zinc-300" />
+      <hr />
     </div>
   ));
 

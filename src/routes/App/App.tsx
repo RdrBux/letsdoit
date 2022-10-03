@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import AddTaskButton from './components/AddTaskButton/AddTaskButton';
-import ContactsNav from './components/ContactsNav/ContactsNav';
-import HamburgerMenu from './components/HamburgerMenu/HamburgerMenu';
-import TopNav from './components/TopNav/TopNav';
+import AddTaskButton from '../../components/AddTaskButton/AddTaskButton';
+import ContactsNav from '../../components/ContactsNav/ContactsNav';
+import HamburgerMenu from '../../components/HamburgerMenu/HamburgerMenu';
+import TopNav from '../../components/TopNav/TopNav';
 import Calendar from 'react-calendar';
-import person from './data';
-import DailyTasksDisplay from './components/DailyTasksDisplay/DailyTasksDisplay';
-import { Task } from './types/types';
+import person from '../../data';
+import DailyTasksDisplay from '../../components/DailyTasksDisplay/DailyTasksDisplay';
+import { Task } from '../../types/types';
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,6 +55,10 @@ function App() {
         />
         <DailyTasksDisplay tasks={selectedDayTasks} />
       </div>
+      {/* <div className="">
+        <MonthPicker />
+        <MonthDisplay />
+      </div> */}
     </div>
   );
 }
