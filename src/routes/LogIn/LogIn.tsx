@@ -35,7 +35,6 @@ export default function LogIn() {
       <h1>TITULO</h1>
       <button onClick={handleLogInGoogle}>LOG IN WITH GOOGLE</button>
       <button onClick={handleLogInFacebook}>LOG IN WITH FACEBOOK</button>
-      <button onClick={handleLogOut}>LOG OUT</button>
     </div>
   );
 }
