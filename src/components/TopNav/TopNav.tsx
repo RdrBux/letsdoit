@@ -11,9 +11,12 @@ type TopNavProps = {
 
 export default function TopNav({ toggleMenu }: TopNavProps) {
   const [openAvatar, setOpenAvatar] = useState(false);
-
   const user = useContext(AuthContext);
 
+  function handleAvatar() {
+    if (!openAvatar) setOpenAvatar(true);
+  }
+  console.log(openAvatar);
   return (
     <div className="sticky top-0 z-10 bg-emerald-900 p-4 text-white flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -26,7 +29,7 @@ export default function TopNav({ toggleMenu }: TopNavProps) {
       </div>
       <div className="flex items-center gap-4">
         <NotificationButton />
-        <button className="relative" onClick={() => setOpenAvatar(true)}>
+        <button className="relative" onClick={handleAvatar}>
           <img
             className="w-10 rounded-full"
             src={user?.photoURL || avatar}
