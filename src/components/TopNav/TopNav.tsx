@@ -4,6 +4,7 @@ import NotificationButton from '../NotificationButton/NotificationButton';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import AvatarMenu from '../AvatarMenu/AvatarMenu';
+import NotificationsMenu from '../NotificationsMenu/NotificationsMenu';
 
 type TopNavProps = {
   toggleMenu: any;
@@ -11,14 +12,19 @@ type TopNavProps = {
 
 export default function TopNav({ toggleMenu }: TopNavProps) {
   const [openAvatar, setOpenAvatar] = useState(false);
+  const [openNotifications, setOpenNotifications] = useState(false);
   const user = useContext(AuthContext);
 
   function handleAvatar() {
     if (!openAvatar) setOpenAvatar(true);
   }
-  console.log(openAvatar);
+
+  function handleNotifications() {
+    if (!openNotifications) setOpenNotifications(true);
+  }
+
   return (
-    <div className="sticky top-0 z-10 bg-emerald-900 p-4 text-white flex items-center justify-between">
+    <div className="sticky top-0 z-10 bg-emerald-900 px-4 py-2 text-white flex items-center justify-between">
       <div className="flex items-center gap-4">
         <button onClick={toggleMenu}>
           <img className="w-6" src={hamburger} alt="" />
@@ -28,7 +34,7 @@ export default function TopNav({ toggleMenu }: TopNavProps) {
         </h1>
       </div>
       <div className="relative flex items-center">
-        <NotificationButton />
+        <NotificationButton handleClick={handleNotifications} />
         <button className="ml-4" onClick={handleAvatar}>
           <img
             className="w-10 rounded-full"
@@ -37,6 +43,9 @@ export default function TopNav({ toggleMenu }: TopNavProps) {
             referrerPolicy="no-referrer"
           />
         </button>
+        {openNotifications && (
+          <NotificationsMenu close={() => setOpenNotifications(false)} />
+        )}
         {openAvatar && <AvatarMenu close={() => setOpenAvatar(false)} />}
       </div>
     </div>

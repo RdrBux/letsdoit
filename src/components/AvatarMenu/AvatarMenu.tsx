@@ -20,15 +20,15 @@ export default function AvatarMenu({ close }: Props) {
 
   return (
     <OutsideAlerter action={close}>
-      <div className="absolute rounded-lg shadow-lg p-4 bg-white text-zinc-800 w-80 right-0 top-14">
-        <div className="flex items-center gap-4 border-b pb-4">
+      <div className="absolute rounded-lg shadow-lg px-4 bg-white text-zinc-800 w-80 right-0 top-14">
+        <div className="flex items-center gap-4 border-b py-4">
           <img
             className="w-10 rounded-full"
             src={user?.photoURL || Avatar}
             alt=""
             referrerPolicy="no-referrer"
           />
-          <p className="font-semibold text-">{user?.displayName}</p>
+          <p className="font-semibold">{user?.displayName}</p>
         </div>
         <div
           onClick={handleLogOut}
