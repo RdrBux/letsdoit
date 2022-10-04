@@ -23,7 +23,7 @@ export default function NotificationsMenu({ close }: Props) {
           <div>
             <p className="text-sm">
               <span className="font-semibold">{user?.displayName} </span>
-              ha compartido un recordatorio contigo.
+              ha compartido un evento contigo.
             </p>
             <p className="text-xs font-bold mt-2">hace 22 horas</p>
           </div>

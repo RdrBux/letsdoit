@@ -27,7 +27,7 @@ export default function DailyTasksDisplay({ tasks }: Props) {
         tasksJSX
       ) : (
         <div className="text-zinc-800 p-4">
-          No hay recordatorios creados en la fecha seleccionada.
+          No hay eventos creados en la fecha seleccionada.
         </div>
       )}
     </div>

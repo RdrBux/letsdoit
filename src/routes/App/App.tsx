@@ -10,7 +10,7 @@ import { Task } from '../../types/types';
 import TaskForm from '../../components/TaskForm/TaskForm';
 
 function App() {
-  const [taskFormOpen, setTaskFormOpen] = useState(true);
+  const [taskFormOpen, setTaskFormOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState(new Date());
   const [selectedDayTasks, setSelectedDayTasks] = useState<Task[]>([]);

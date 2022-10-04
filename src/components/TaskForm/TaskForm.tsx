@@ -25,9 +25,32 @@ export default function TaskForm({ close }: Props) {
               />
             </svg>
           </button>
-          <h1 className="text-lg font-bold">AGREGAR RECORDATORIO</h1>
-          <p>1</p>
-          <p>2</p>
+          <h1 className="text-lg font-bold">AGREGAR EVENTO</h1>
+          <form className="font-bold text-sm text-zinc-600 mt-4 flex flex-col gap-3">
+            <label className="flex flex-col gap-2">
+              Título
+              <input className="h-8 pl-2 border" type="text" />
+            </label>
+            <label className="flex flex-col gap-2">
+              Descripción
+              <input className="h-8 pl-2 border" type="text" />
+            </label>
+            <label className="flex flex-col gap-2">
+              Fecha y hora
+              <input className="h-8 pl-2 border" type="datetime-local" />
+            </label>
+            <label className="flex flex-col gap-2">
+              Participantes
+              <input
+                className="h-8 pl-2 border"
+                type="text"
+                placeholder="Solo yo"
+              />
+            </label>
+            <button className="mt-4 font-bold text-sm text-white flex items-center w-fit gap-2 py-3 px-8 bg-emerald-700 rounded-lg shadow-lg">
+              AGREGAR
+            </button>
+          </form>
         </div>
       </OutsideAlerter>
     </div>
