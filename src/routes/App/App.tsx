@@ -7,8 +7,10 @@ import Calendar from 'react-calendar';
 import person from '../../data';
 import DailyTasksDisplay from '../../components/DailyTasksDisplay/DailyTasksDisplay';
 import { Task } from '../../types/types';
+import TaskForm from '../../components/TaskForm/TaskForm';
 
 function App() {
+  const [taskFormOpen, setTaskFormOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState(new Date());
   const [selectedDayTasks, setSelectedDayTasks] = useState<Task[]>([]);
@@ -29,12 +31,17 @@ function App() {
     setSelectedDayTasks(tasks);
   }
 
+  function handleClickTaskButton() {
+    setTaskFormOpen(true);
+  }
+
   return (
     <div className="font-manrope min-h-screen">
+      {taskFormOpen && <TaskForm close={() => setTaskFormOpen(false)} />}
       <TopNav toggleMenu={toggleMenu} />
       {menuOpen && <HamburgerMenu />}
       <ContactsNav />
-      <AddTaskButton />
+      <AddTaskButton handleClick={handleClickTaskButton} />
       <div className="flex flex-col items-center md:flex-row md:justify-center md:items-start md:gap-8">
         <Calendar
           value={selectedDay}
@@ -57,10 +64,6 @@ function App() {
         />
         <DailyTasksDisplay tasks={selectedDayTasks} />
       </div>
-      {/* <div className="">
-        <MonthPicker />
-        <MonthDisplay />
-      </div> */}
     </div>
   );
 }

@@ -22,12 +22,12 @@ export default function DailyTasksDisplay({ tasks }: Props) {
   ));
 
   return (
-    <div className="w-[350px] md:mt-4 p-4 bg-zinc-100 shadow-lg mb-4">
+    <div className="w-[350px] md:mt-4 p-4 bg-zinc-100 shadow-lg mb-4 rounded-lg">
       {tasks.length > 0 ? (
         tasksJSX
       ) : (
         <div className="text-zinc-800 p-4">
-          No hay tareas creadas en la fecha seleccionada.
+          No hay recordatorios creados en la fecha seleccionada.
         </div>
       )}
     </div>

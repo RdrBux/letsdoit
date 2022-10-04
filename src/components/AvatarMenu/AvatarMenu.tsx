@@ -20,7 +20,7 @@ export default function AvatarMenu({ close }: Props) {
 
   return (
     <OutsideAlerter action={close}>
-      <div className="absolute rounded-lg shadow-lg px-4 bg-white text-zinc-800 w-80 right-0 top-14">
+      <div className="absolute rounded-lg shadow-lg px-4 bg-white text-zinc-800 w-80 right-0 top-12">
         <div className="flex items-center gap-4 border-b py-4">
           <img
             className="w-10 rounded-full"
