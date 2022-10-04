@@ -27,17 +27,17 @@ export default function TopNav({ toggleMenu }: TopNavProps) {
           DO<span className="text-lime-200">IT</span>
         </h1>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="relative flex items-center">
         <NotificationButton />
-        <button className="relative" onClick={handleAvatar}>
+        <button className="ml-4" onClick={handleAvatar}>
           <img
             className="w-10 rounded-full"
             src={user?.photoURL || avatar}
             alt=""
             referrerPolicy="no-referrer"
           />
-          {openAvatar && <AvatarMenu close={() => setOpenAvatar(false)} />}
         </button>
+        {openAvatar && <AvatarMenu close={() => setOpenAvatar(false)} />}
       </div>
     </div>
   );

@@ -43,7 +43,9 @@ function App() {
           tileContent={({ activeStartDate, date, view }) =>
             view === 'month' &&
             personData[0].tasks.some((task) => task.day === date.toString()) ? (
-              <div className="absolute top-1 right-2 text-xs">⚫</div>
+              <div className="absolute top-1 right-2 text-xs text-emerald-700 opacity-50">
+                ⚫
+              </div>
             ) : null
           }
           tileClassName={({ activeStartDate, date, view }) =>

@@ -32,7 +32,7 @@ export default function AvatarMenu({ close }: Props) {
         </div>
         <div
           onClick={handleLogOut}
-          className="flex items-center gap-4 py-4 rounded-lg hover:bg-zinc-100"
+          className="flex items-center gap-4 py-4 rounded-lg hover:bg-zinc-100 cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
