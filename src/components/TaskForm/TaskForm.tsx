@@ -1,6 +1,9 @@
 import { format } from 'date-fns';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
+import { doc, setDoc, addDoc, collection } from 'firebase/firestore';
+import { AuthContext } from '../../context/AuthContext';
+import { db } from '../../firebase';
 
 type Props = {
   close: () => void;
@@ -12,13 +15,27 @@ export default function TaskForm({ close }: Props) {
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [hour, setHour] = useState(format(new Date(), 'HH:mm'));
 
-  function handleSubmitForm(e: React.BaseSyntheticEvent) {
+  const user = useContext(AuthContext);
+
+  async function handleSubmitForm(e: React.BaseSyntheticEvent) {
     e.preventDefault();
+
+    // ACTIONS HERE
+
+    const docRef = doc(db, 'tasks', user?.uid || 'unknown');
+    const colRef = collection(docRef, 'tasks');
+    addDoc(colRef, {
+      title: title,
+      description: description,
+      date: date,
+      hour: hour,
+    });
 
     setTitle('');
     setDescription('');
     setDate(format(new Date(), 'yyyy-MM-dd'));
     setHour(format(new Date(), 'HH:mm'));
+    close();
   }
 
   return (
