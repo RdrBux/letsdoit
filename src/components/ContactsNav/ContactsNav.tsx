@@ -7,15 +7,15 @@ import msgIcon from '../../assets/msgIcon.svg';
 
 export default function ContactsNav() {
   return (
-    <div className="flex border-t border-emerald-500/10 shadow-lg bg-emerald-900/90 py-2 px-4 gap-4 justify-center">
+    <div className="flex justify-center gap-4 border-t border-emerald-500/10 bg-emerald-900/90 py-2 px-4 shadow-lg">
       <div className="flex gap-4">
-        <img className="w-10 h-10" src={AvatarTwo} alt="" />
-        <img className="w-10 h-10" src={AvatarThree} alt="" />
-        <img className="w-10 h-10" src={AvatarFour} alt="" />
-        <img className="w-10 h-10" src={AvatarFive} alt="" />
+        <img className="h-10 w-10" src={AvatarTwo} alt="" />
+        <img className="h-10 w-10" src={AvatarThree} alt="" />
+        <img className="h-10 w-10" src={AvatarFour} alt="" />
+        <img className="h-10 w-10" src={AvatarFive} alt="" />
       </div>
 
-      <button className="w-10 h-10 bg-black/25 p-3 rounded-full flex items-center justify-center">
+      <button className="flex h-10 w-10 items-center justify-center rounded-full bg-black/25 p-3">
         <img src={msgIcon} alt="" />
       </button>
     </div>

@@ -20,7 +20,7 @@ export default function AvatarMenu({ close }: Props) {
 
   return (
     <OutsideAlerter action={close}>
-      <div className="absolute rounded-lg shadow-lg px-4 bg-white text-zinc-800 w-80 right-0 top-12">
+      <div className="absolute right-0 top-12 w-80 rounded-lg bg-white px-4 text-zinc-800 shadow-lg">
         <div className="flex items-center gap-4 border-b py-4">
           <img
             className="w-10 rounded-full"
@@ -32,7 +32,7 @@ export default function AvatarMenu({ close }: Props) {
         </div>
         <div
           onClick={handleLogOut}
-          className="flex items-center gap-4 py-4 rounded-lg hover:bg-zinc-100 cursor-pointer"
+          className="flex cursor-pointer items-center gap-4 rounded-lg py-4 hover:bg-zinc-100"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ export default function AvatarMenu({ close }: Props) {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="h-6 w-6"
           >
             <path
               strokeLinecap="round"

@@ -10,10 +10,10 @@ type Props = {
 export default function DailyTasksDisplay({ tasks }: Props) {
   const tasksJSX = tasks.map((task) => (
     <div key={task.id} className="flex flex-col p-4">
-      <p className="text-sm text-zinc-700 font-bold">{formatHour(task.time)}</p>
-      <p className="text-zinc-900 text-lg font-semibold mb-2">{task.title}</p>
+      <p className="text-sm font-bold text-zinc-700">{formatHour(task.time)}</p>
+      <p className="mb-2 text-lg font-semibold text-zinc-900">{task.title}</p>
       <p className="text-sm text-zinc-800">{task.description}</p>
-      <div className="self-end flex gap-2 my-4">
+      <div className="my-4 flex gap-2 self-end">
         <img src={AvatarTwo} alt="" />
         <img src={AvatarThree} alt="" />
       </div>
@@ -22,12 +22,12 @@ export default function DailyTasksDisplay({ tasks }: Props) {
   ));
 
   return (
-    <div className="w-[350px] md:mt-4 p-4 bg-zinc-100 shadow-lg mb-4 rounded-lg">
+    <div className="mb-4 w-[350px] rounded-lg bg-zinc-100 p-4 shadow-lg md:mt-4">
       {tasks.length > 0 ? (
         tasksJSX
       ) : (
-        <div className="text-zinc-800 p-4">
-          No hay eventos creados en la fecha seleccionada.
+        <div className="p-4 text-zinc-800">
+          No hay actividades creadas en la fecha seleccionada.
         </div>
       )}
     </div>

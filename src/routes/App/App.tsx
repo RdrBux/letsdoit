@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import AddTaskButton from '../../components/AddTaskButton/AddTaskButton';
 import ContactsNav from '../../components/ContactsNav/ContactsNav';
 import HamburgerMenu from '../../components/HamburgerMenu/HamburgerMenu';
@@ -8,6 +8,9 @@ import person from '../../data';
 import DailyTasksDisplay from '../../components/DailyTasksDisplay/DailyTasksDisplay';
 import { Task } from '../../types/types';
 import TaskForm from '../../components/TaskForm/TaskForm';
+import { collection, getDocs } from 'firebase/firestore';
+import { AuthContext } from '../../context/AuthContext';
+import { db } from '../../firebase';
 
 function App() {
   const [taskFormOpen, setTaskFormOpen] = useState(false);
@@ -15,6 +18,19 @@ function App() {
   const [selectedDay, setSelectedDay] = useState(new Date());
   const [selectedDayTasks, setSelectedDayTasks] = useState<Task[]>([]);
   const [personData, setPersonData] = useState(person);
+
+  const user = useContext(AuthContext);
+
+  async function getData() {
+    const docs = await getDocs(
+      collection(db, 'tasks', user?.uid || '', 'tasks')
+    );
+
+    const data: any[] = [];
+    docs.forEach((doc) => data.push(doc.data()));
+    console.log(data);
+  }
+  getData();
 
   function toggleMenu() {
     setMenuOpen((prevState) => !prevState);
@@ -36,13 +52,13 @@ function App() {
   }
 
   return (
-    <div className="font-manrope min-h-screen">
+    <div className="min-h-screen font-manrope">
       {taskFormOpen && <TaskForm close={() => setTaskFormOpen(false)} />}
       <TopNav toggleMenu={toggleMenu} />
       {menuOpen && <HamburgerMenu />}
       <ContactsNav />
       <AddTaskButton handleClick={handleClickTaskButton} />
-      <div className="flex flex-col items-center md:flex-row md:justify-center md:items-start md:gap-8">
+      <div className="flex flex-col items-center md:flex-row md:items-start md:justify-center md:gap-8">
         <Calendar
           value={selectedDay}
           onChange={handleCalendarChange}

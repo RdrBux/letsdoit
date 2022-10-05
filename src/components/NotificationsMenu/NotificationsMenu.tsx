@@ -12,7 +12,7 @@ export default function NotificationsMenu({ close }: Props) {
 
   return (
     <OutsideAlerter action={close}>
-      <div className="absolute rounded-lg shadow-lg px-4 bg-white text-zinc-800 w-80 right-0 top-12">
+      <div className="absolute right-0 top-12 w-80 rounded-lg bg-white px-4 text-zinc-800 shadow-lg">
         <div className="flex items-center gap-4 border-b py-4">
           <img
             className="w-16 rounded-full"
@@ -23,9 +23,9 @@ export default function NotificationsMenu({ close }: Props) {
           <div>
             <p className="text-sm">
               <span className="font-semibold">{user?.displayName} </span>
-              ha compartido un evento contigo.
+              ha compartido una actividad contigo.
             </p>
-            <p className="text-xs font-bold mt-2">hace 22 horas</p>
+            <p className="mt-2 text-xs font-bold">hace 22 horas</p>
           </div>
         </div>
 
@@ -41,7 +41,7 @@ export default function NotificationsMenu({ close }: Props) {
               <span className="font-semibold">{user?.displayName} </span>
               ha compartido un recordatorio contigo.
             </p>
-            <p className="text-xs font-bold mt-2">hace 22 horas</p>
+            <p className="mt-2 text-xs font-bold">hace 22 horas</p>
           </div>
         </div>
       </div>
