@@ -6,6 +6,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
 import Avatar from '../../assets/avatar.png';
 import DropdownFriends from '../DropdownFriends/DropdownFriends';
+import { nanoid } from 'nanoid';
 
 type Props = {
   close: () => void;
@@ -27,8 +28,9 @@ export default function TaskForm({ close }: Props) {
 
     const docRef = doc(db, 'users', user?.id || 'unknown');
     const colRef = collection(docRef, 'tasks');
-    addDoc(colRef, {
-      id: docRef.id,
+
+    await addDoc(colRef, {
+      id: nanoid(),
       title: title,
       description: description,
       date: date,

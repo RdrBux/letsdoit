@@ -10,9 +10,9 @@ type Props = {
 export default function DailyTasksDisplay({ date, tasks }: Props) {
   const dailyTasks = tasks.filter((task) => task.date === date);
   const tasksJSX = dailyTasks.map((task) => (
-    <div key={task.id} className="flex flex-col">
+    <div key={task.id} className="gap- flex flex-col">
       <p className="text-sm font-bold text-zinc-700">{task.hour}</p>
-      <p className="mb-2 text-lg font-semibold text-zinc-900">{task.title}</p>
+      <p className="text-2xl font-semibold text-zinc-900">{task.title}</p>
       <p className="text-sm text-zinc-800">{task.description}</p>
       <div className="my-4 flex gap-2 self-end">
         {/* <img src={AvatarTwo} alt="" />
