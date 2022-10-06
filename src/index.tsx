@@ -9,11 +9,11 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/login',
     element: <LogIn />,
   },
   {
-    path: '/home',
+    path: '/',
     element: (
       <ProtectedRoute>
         <App />

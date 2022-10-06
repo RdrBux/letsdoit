@@ -23,15 +23,9 @@ export default function LogIn() {
     }
   }
 
-  function handleLogOut() {
-    signOut(auth)
-      .then(() => {})
-      .catch((err) => console.log(err));
-  }
-
   return (
     <div className="">
-      {user && <Navigate to="/home" replace={true} />}
+      {user && <Navigate to="/" replace={true} />}
       <h1>TITULO</h1>
       <button onClick={handleLogInGoogle}>LOG IN WITH GOOGLE</button>
       <button onClick={handleLogInFacebook}>LOG IN WITH FACEBOOK</button>
