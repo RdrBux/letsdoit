@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AddTaskButton from '../../components/AddTaskButton/AddTaskButton';
 import ContactsNav from '../../components/ContactsNav/ContactsNav';
 import HamburgerMenu from '../../components/HamburgerMenu/HamburgerMenu';
@@ -18,38 +18,32 @@ function App() {
   const [selectedDay, setSelectedDay] = useState(
     format(new Date(), 'yyyy-MM-dd')
   );
-  const [selectedDayTasks, setSelectedDayTasks] = useState<Task[]>([]);
-
+  const [tasks, setTasks] = useState<Task[]>([]);
   const user = useContext(AuthContext);
 
-  console.log(parseISO(selectedDay));
-  console.log(user);
+  useEffect(() => {
+    async function getData() {
+      const docs = await getDocs(
+        collection(db, 'users', user?.id || '', 'tasks')
+      );
 
-  async function getData() {
-    const docs = await getDocs(
-      collection(db, 'users', user?.id || '', 'tasks')
-    );
-
-    const data: any[] = [];
-    docs.forEach((doc) => data.push(doc.data()));
-    console.log(data);
-  }
-  getData();
+      const data: any[] = [];
+      docs.forEach((doc) => {
+        data.push(doc.data());
+      });
+      setTasks(data);
+    }
+    return () => {
+      getData();
+    };
+  }, [user, taskFormOpen]);
 
   function toggleMenu() {
     setMenuOpen((prevState) => !prevState);
   }
 
-  function findTasksByDay(day: string) {
-    if (!user) throw new Error('Invalid User');
-    const tasks = user.tasks.filter((task) => task.date === day);
-    return tasks;
-  }
-
   function handleCalendarChange(value: Date) {
     setSelectedDay(format(value, 'yyyy-MM-dd'));
-    const tasks = findTasksByDay(value.toString());
-    setSelectedDayTasks(tasks);
   }
 
   function handleClickTaskButton() {
@@ -70,22 +64,20 @@ function App() {
           minDetail="year"
           tileContent={({ activeStartDate, date, view }) =>
             view === 'month' &&
-            user?.tasks.some(
-              (task) => task.date === format(date, 'yyyy-MM-dd')
-            ) ? (
+            tasks.some((task) => task.date === format(date, 'yyyy-MM-dd')) ? (
               <div className="absolute top-1 right-2 text-xs text-emerald-700 opacity-50">
                 ⚫
               </div>
             ) : null
           }
-          /* tileClassName={({ activeStartDate, date, view }) =>
+          tileClassName={({ activeStartDate, date, view }) =>
             view === 'month' &&
-            personData[0].tasks.some((task) => task.day === date.toString())
+            tasks.some((task) => task.date === format(date, 'yyyy-MM-dd'))
               ? 'font-bold'
               : null
-          } */
+          }
         />
-        <DailyTasksDisplay tasks={selectedDayTasks} />
+        <DailyTasksDisplay date={selectedDay} tasks={tasks} />
       </div>
     </div>
   );

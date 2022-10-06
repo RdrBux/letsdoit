@@ -28,6 +28,7 @@ export default function TaskForm({ close }: Props) {
     const docRef = doc(db, 'users', user?.id || 'unknown');
     const colRef = collection(docRef, 'tasks');
     addDoc(colRef, {
+      id: docRef.id,
       title: title,
       description: description,
       date: date,
