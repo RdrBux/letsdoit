@@ -1,14 +1,14 @@
 export type Task = {
-  id: string;
-  day: string;
-  time: number;
-  title: string;
+  date: string;
   description: string;
-  people: string[];
-  sendMsg: null | string;
+  hour: string;
+  title: string;
 };
 
-export type Person = {
+export type User = {
   id: string;
+  name: string;
+  email: string;
+  photoURL: string;
   tasks: Task[];
 };

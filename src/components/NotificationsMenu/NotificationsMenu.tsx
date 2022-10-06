@@ -22,7 +22,7 @@ export default function NotificationsMenu({ close }: Props) {
           />
           <div>
             <p className="text-sm">
-              <span className="font-semibold">{user?.displayName} </span>
+              <span className="font-semibold">{user?.name} </span>
               ha compartido una actividad contigo.
             </p>
             <p className="mt-2 text-xs font-bold">hace 22 horas</p>
@@ -38,7 +38,7 @@ export default function NotificationsMenu({ close }: Props) {
           />
           <div>
             <p className="text-sm">
-              <span className="font-semibold">{user?.displayName} </span>
+              <span className="font-semibold">{user?.name} </span>
               ha compartido un recordatorio contigo.
             </p>
             <p className="mt-2 text-xs font-bold">hace 22 horas</p>

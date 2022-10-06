@@ -28,7 +28,7 @@ export default function AvatarMenu({ close }: Props) {
             alt=""
             referrerPolicy="no-referrer"
           />
-          <p className="font-semibold">{user?.displayName}</p>
+          <p className="font-semibold">{user?.name}</p>
         </div>
         <div
           onClick={handleLogOut}

@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function DailyTasksDisplay({ tasks }: Props) {
-  const tasksJSX = tasks.map((task) => (
+  const tasksJSX: [] = []; /* tasks.map((task) => (
     <div key={task.id} className="flex flex-col p-4">
       <p className="text-sm font-bold text-zinc-700">{formatHour(task.time)}</p>
       <p className="mb-2 text-lg font-semibold text-zinc-900">{task.title}</p>
@@ -19,7 +19,7 @@ export default function DailyTasksDisplay({ tasks }: Props) {
       </div>
       <hr />
     </div>
-  ));
+  )); */
 
   return (
     <div className="mb-4 w-[350px] rounded-lg bg-zinc-100 p-4 shadow-lg md:mt-4">
