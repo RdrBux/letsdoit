@@ -8,7 +8,13 @@ type Props = {
 };
 
 export default function DailyTasksDisplay({ date, tasks }: Props) {
-  const dailyTasks = tasks.filter((task) => task.date === date);
+  const dailyTasksUnordered = tasks.filter((task) => task.date === date);
+  const dailyTasks = [...dailyTasksUnordered].sort(
+    (a, b) =>
+      Number(a.hour.replace(':', '.')) - Number(b.hour.replace(':', '.'))
+  );
+  console.log(dailyTasksUnordered);
+  console.log(dailyTasks);
   const tasksJSX = dailyTasks.map((task) => (
     <div key={task.id} className="gap- flex flex-col">
       <p className="text-sm font-bold text-zinc-700">{task.hour}</p>
