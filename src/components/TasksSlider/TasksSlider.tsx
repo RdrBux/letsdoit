@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import { parseISO } from 'date-fns/esm';
 import { es } from 'date-fns/locale';
 import { useState } from 'react';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import { Task } from '../../types/types';
 
 type Props = {
@@ -22,12 +23,34 @@ export default function TasksSlider({ type, tasks }: Props) {
     setExpanded((prev) => !prev);
   }
 
+  function displayByType(task: Task) {
+    if (type === 'day') {
+      return (
+        <p className="w-8 text-sm font-bold uppercase text-zinc-500">
+          {task.hour}
+        </p>
+      );
+    }
+    if (type === 'week') {
+      return (
+        <p className="w-8 text-sm font-bold uppercase text-zinc-500">
+          {format(parseISO(task.date), 'eee', { locale: es })}
+        </p>
+      );
+    }
+    if (type === 'month') {
+      return (
+        <p className="w-14 text-sm font-bold uppercase text-zinc-500">
+          {format(parseISO(task.date), 'eee, dd', { locale: es })}
+        </p>
+      );
+    }
+  }
+
   const tasksDisplay = tasks.map((task) => (
-    <div key={task.id} className="flex flex-col gap-4">
-      <div className="flex items-center gap-4">
-        <p className="text-sm font-bold uppercase text-zinc-500">{task.hour}</p>
-        <p className="font-semibold">{task.title}</p>
-      </div>
+    <div key={task.id} className="flex items-center gap-4">
+      {displayByType(task)}
+      <p className="font-semibold">{task.title}</p>
     </div>
   ));
 
@@ -57,7 +80,7 @@ export default function TasksSlider({ type, tasks }: Props) {
       </div>
       <div className={`${expanded ? 'block' : 'hidden'}`}>
         {tasks.length > 0 ? (
-          <div className="mt-4 flex flex-col gap-4">{tasksDisplay}</div>
+          <div className="mt-4 flex flex-col gap-2">{tasksDisplay}</div>
         ) : (
           <div className="mt-4">Sin actividades.</div>
         )}

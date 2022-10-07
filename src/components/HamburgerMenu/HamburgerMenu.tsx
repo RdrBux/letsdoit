@@ -28,9 +28,6 @@ export default function HamburgerMenu({ tasks }: Props) {
       +parseISO(a.date + 'T' + a.hour) - +parseISO(b.date + 'T' + b.hour)
   );
 
-  console.table(monthTasksUnsorted);
-  console.table(monthTasks);
-
   const weekTasks = monthTasks.filter((task) =>
     isThisWeek(parseISO(task.date), { weekStartsOn: 1 })
   );
