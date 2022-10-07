@@ -1,50 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Task } from '../../types/types';
 
-export default function TasksSlider() {
+type Props = {
+  title: string;
+  tasks: Task[];
+};
+
+export default function TasksSlider({ title, tasks }: Props) {
+  const [expanded, setExpanded] = useState(false);
+
+  function expandMenu() {
+    setExpanded((prev) => !prev);
+  }
+
+  const tasksDisplay = tasks.map((task) => (
+    <div key={task.id} className="flex flex-col gap-4">
+      <div className="flex items-center gap-4">
+        <p className="text-sm font-bold text-zinc-500">{task.hour}</p>
+        <p className="font-semibold">{task.title}</p>
+      </div>
+    </div>
+  ));
+
   return (
-    <fieldset className="rounded-lg bg-white p-4 shadow-lg">
-      <div className="mb-4 flex items-center justify-between">
-        <legend className="text-xl font-bold text-emerald-700">Vista</legend>
-        <button>^</button>
+    <div className="rounded-lg bg-white p-4 shadow-lg">
+      <div
+        onClick={expandMenu}
+        className="mb flex cursor-pointer items-center justify-between"
+      >
+        <legend className="text-xl font-bold text-emerald-700">{title}</legend>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className={`h-6 w-6 ${expanded && 'rotate-180'}`}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+          />
+        </svg>
       </div>
-      <div className="flex flex-col gap-4">
-        <label className="flex items-center gap-3">
-          <input
-            className="h-5 w-5 appearance-none rounded-full border border-zinc-400 checked:bg-emerald-500"
-            type="radio"
-            name="view"
-            id="calendar"
-          />
-          Calendario
-        </label>
-        <label className="flex items-center gap-3">
-          <input
-            className="h-5 w-5 appearance-none rounded-full border border-zinc-400 checked:bg-emerald-500"
-            type="radio"
-            name="view"
-            id="day"
-          />
-          Día
-        </label>
-        <label className="flex items-center gap-3">
-          <input
-            className="h-5 w-5 appearance-none rounded-full border border-zinc-400 checked:bg-emerald-500"
-            type="radio"
-            name="view"
-            id="week"
-          />
-          Semana
-        </label>
-        <label className="flex items-center gap-3">
-          <input
-            className="h-5 w-5 appearance-none rounded-full border border-zinc-400 checked:bg-emerald-500"
-            type="radio"
-            name="view"
-            id="month"
-          />
-          Mes
-        </label>
-      </div>
-    </fieldset>
+      {expanded && (
+        <div className="mt-4 flex flex-col gap-4">{tasksDisplay}</div>
+      )}
+    </div>
   );
 }

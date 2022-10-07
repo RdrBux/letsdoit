@@ -16,7 +16,7 @@ export default function DailyTasksDisplay({ date, tasks }: Props) {
   console.log(dailyTasksUnordered);
   console.log(dailyTasks);
   const tasksJSX = dailyTasks.map((task) => (
-    <div key={task.id} className="gap- flex flex-col">
+    <div key={task.id} className="flex flex-col py-2">
       <p className="text-sm font-bold text-zinc-700">{task.hour}</p>
       <p className="text-2xl font-semibold text-zinc-900">{task.title}</p>
       <p className="text-sm text-zinc-800">{task.description}</p>
