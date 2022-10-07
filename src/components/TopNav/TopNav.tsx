@@ -35,7 +35,10 @@ export default function TopNav({ toggleMenu }: TopNavProps) {
       </div>
       <div className="relative flex items-center">
         <NotificationButton handleClick={handleNotifications} />
-        <button className="ml-4" onClick={handleAvatar}>
+        <button
+          className="ml-4 h-10 w-10 rounded-full bg-white/10"
+          onClick={handleAvatar}
+        >
           <img
             className="w-10 rounded-full"
             src={user?.photoURL || avatar}
