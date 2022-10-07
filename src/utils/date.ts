@@ -1,9 +1,9 @@
-export function formatHour(hour: number) {
-  if (hour <= 12) {
-    return `${hour}:00 AM`;
-  }
+import { Task } from '../types/types';
 
-  if (hour > 12) {
-    return `${hour}:00 PM`;
-  }
+export function sortTasksbyHour(arr: Task[]) {
+  const newArr = [...arr].sort(
+    (a, b) =>
+      Number(a.hour.replace(':', '.')) - Number(b.hour.replace(':', '.'))
+  );
+  return newArr;
 }

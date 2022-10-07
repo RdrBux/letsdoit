@@ -1,6 +1,7 @@
 import { Task } from '../../types/types';
 import { es } from 'date-fns/locale';
 import { format, parseISO } from 'date-fns';
+import { sortTasksbyHour } from '../../utils/date';
 
 type Props = {
   date: string;
@@ -9,10 +10,7 @@ type Props = {
 
 export default function DailyTasksDisplay({ date, tasks }: Props) {
   const dailyTasksUnordered = tasks.filter((task) => task.date === date);
-  const dailyTasks = [...dailyTasksUnordered].sort(
-    (a, b) =>
-      Number(a.hour.replace(':', '.')) - Number(b.hour.replace(':', '.'))
-  );
+  const dailyTasks = sortTasksbyHour(dailyTasksUnordered);
   console.log(dailyTasksUnordered);
   console.log(dailyTasks);
   const tasksJSX = dailyTasks.map((task) => (

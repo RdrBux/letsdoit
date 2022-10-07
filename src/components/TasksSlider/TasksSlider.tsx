@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Task } from '../../types/types';
+import { sortTasksbyHour } from '../../utils/date';
 
 type Props = {
   title: string;
@@ -9,11 +10,13 @@ type Props = {
 export default function TasksSlider({ title, tasks }: Props) {
   const [expanded, setExpanded] = useState(false);
 
+  const sortedTasks = sortTasksbyHour(tasks);
+
   function expandMenu() {
     setExpanded((prev) => !prev);
   }
 
-  const tasksDisplay = tasks.map((task) => (
+  const tasksDisplay = sortedTasks.map((task) => (
     <div key={task.id} className="flex flex-col gap-4">
       <div className="flex items-center gap-4">
         <p className="text-sm font-bold text-zinc-500">{task.hour}</p>
