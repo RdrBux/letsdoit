@@ -45,7 +45,7 @@ export default function TaskForm({ close }: Props) {
   }
 
   return (
-    <div className="absolute inset-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-900/80">
+    <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-900/80">
       <OutsideAlerter action={close}>
         <div className="relative w-80 rounded-lg bg-white p-6 text-zinc-700 shadow-lg">
           <button onClick={close} className="absolute top-6 right-6">

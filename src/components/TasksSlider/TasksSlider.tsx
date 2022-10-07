@@ -2,7 +2,6 @@ import { format } from 'date-fns';
 import { parseISO } from 'date-fns/esm';
 import { es } from 'date-fns/locale';
 import { useState } from 'react';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import { Task } from '../../types/types';
 
 type Props = {
@@ -26,23 +25,34 @@ export default function TasksSlider({ type, tasks }: Props) {
   function displayByType(task: Task) {
     if (type === 'day') {
       return (
-        <p className="w-8 text-sm font-bold uppercase text-zinc-500">
-          {task.hour}
-        </p>
+        <div>
+          <p className="w-8 text-sm font-bold uppercase text-zinc-500">
+            {task.hour}
+          </p>
+        </div>
       );
     }
     if (type === 'week') {
       return (
-        <p className="w-8 text-sm font-bold uppercase text-zinc-500">
-          {format(parseISO(task.date), 'eee', { locale: es })}
-        </p>
+        <div className="flex w-20 gap-2 text-sm font-bold uppercase text-zinc-500">
+          <p className="w-8">
+            {format(parseISO(task.date), 'eee', {
+              locale: es,
+              weekStartsOn: 1,
+            })}
+          </p>
+          <p>{task.hour}</p>
+        </div>
       );
     }
     if (type === 'month') {
       return (
-        <p className="w-14 text-sm font-bold uppercase text-zinc-500">
-          {format(parseISO(task.date), 'eee, dd', { locale: es })}
-        </p>
+        <div className="flex gap-2 text-sm font-bold uppercase text-zinc-500">
+          <p className="w-14">
+            {format(parseISO(task.date), 'eee, dd', { locale: es })}
+          </p>
+          <p>{task.hour}</p>
+        </div>
       );
     }
   }

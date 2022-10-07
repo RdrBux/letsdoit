@@ -24,7 +24,7 @@ export default function TopNav({ toggleMenu }: TopNavProps) {
   }
 
   return (
-    <div className="sticky top-0 z-50 flex items-center justify-between bg-emerald-900 px-4 py-2 text-white">
+    <div className="sticky top-0 z-40 flex items-center justify-between bg-emerald-900 px-4 py-2 text-white">
       <div className="flex items-center gap-4">
         <button onClick={toggleMenu}>
           <img className="w-6" src={hamburger} alt="" />
