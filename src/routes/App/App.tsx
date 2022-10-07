@@ -54,7 +54,9 @@ function App() {
     <div className="min-h-screen font-manrope">
       {taskFormOpen && <TaskForm close={() => setTaskFormOpen(false)} />}
       <TopNav toggleMenu={toggleMenu} />
-      {menuOpen && <HamburgerMenu tasks={tasks} />}
+      {menuOpen && (
+        <HamburgerMenu tasks={tasks} handleTaskButton={handleClickTaskButton} />
+      )}
       <ContactsNav />
       <AddTaskButton handleClick={handleClickTaskButton} />
       <div className="flex flex-col items-center md:flex-row md:items-start md:justify-center md:gap-8">
