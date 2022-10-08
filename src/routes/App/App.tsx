@@ -11,9 +11,11 @@ import { collection, getDocs } from 'firebase/firestore';
 import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
 import { format, parseISO } from 'date-fns';
+import TaskDisplay from '../../components/TaskDisplay/TaskDisplay';
 
 function App() {
   const [taskFormOpen, setTaskFormOpen] = useState(false);
+  const [taskDisplayOpen, setTaskDisplayOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState(
     format(new Date(), 'yyyy-MM-dd')
@@ -23,15 +25,18 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      const docs = await getDocs(
-        collection(db, 'users', user?.id || '', 'tasks')
-      );
-
-      const data: any[] = [];
-      docs.forEach((doc) => {
-        data.push(doc.data());
-      });
-      setTasks(data);
+      try {
+        const docs = await getDocs(
+          collection(db, 'users', user?.id || '', 'tasks')
+        );
+        const data: any[] = [];
+        docs.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setTasks(data);
+      } catch (err) {
+        console.log(err);
+      }
     }
     return () => {
       getData();
@@ -56,6 +61,10 @@ function App() {
       <TopNav toggleMenu={toggleMenu} />
       {menuOpen && (
         <HamburgerMenu tasks={tasks} handleTaskButton={handleClickTaskButton} />
+      )}
+      <button onClick={() => setTaskDisplayOpen(true)}>OPEN</button>
+      {taskDisplayOpen && (
+        <TaskDisplay task={tasks[0]} close={() => setTaskDisplayOpen(false)} />
       )}
       <ContactsNav />
       <AddTaskButton handleClick={handleClickTaskButton} />

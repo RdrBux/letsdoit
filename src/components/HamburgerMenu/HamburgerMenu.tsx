@@ -38,7 +38,7 @@ export default function HamburgerMenu({ tasks, handleTaskButton }: Props) {
   );
 
   return (
-    <div className="fixed z-10 flex h-screen w-screen flex-col gap-4 bg-zinc-200 p-4 text-zinc-800">
+    <div className="fixed z-10 flex h-screen w-screen flex-col gap-4 bg-zinc-200/[0.95] p-4 text-zinc-900">
       <h2 className="text-2xl font-bold">PRÓXIMAS ACTIVIDADES</h2>
       <button
         onClick={handleTaskButton}

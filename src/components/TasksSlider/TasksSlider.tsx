@@ -34,21 +34,21 @@ export default function TasksSlider({ type, tasks }: Props) {
     }
     if (type === 'week') {
       return (
-        <div className="flex w-20 gap-2 text-sm font-bold uppercase text-zinc-500">
+        <div className="flex w-20 gap-2 text-sm font-bold uppercase text-zinc-700">
           <p className="w-8">
             {format(parseISO(task.date), 'eee', {
               locale: es,
               weekStartsOn: 1,
             })}
           </p>
-          <p>{task.hour}</p>
+          <p className="text-zinc-500">{task.hour}</p>
         </div>
       );
     }
     if (type === 'month') {
       return (
         <div className="flex gap-2 text-sm font-bold uppercase text-zinc-500">
-          <p className="w-14">
+          <p className="w-16">
             {format(parseISO(task.date), 'eee, dd', { locale: es })}
           </p>
           <p>{task.hour}</p>

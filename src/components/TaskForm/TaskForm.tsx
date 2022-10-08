@@ -29,14 +29,17 @@ export default function TaskForm({ close }: Props) {
     const docRef = doc(db, 'users', user?.id || 'unknown');
     const colRef = collection(docRef, 'tasks');
 
-    await addDoc(colRef, {
-      id: nanoid(),
-      title: title,
-      description: description,
-      date: date,
-      hour: hour,
-    });
-
+    try {
+      await addDoc(colRef, {
+        id: nanoid(),
+        title: title,
+        description: description,
+        date: date,
+        hour: hour,
+      });
+    } catch (err) {
+      console.log(err);
+    }
     setTitle('');
     setDescription('');
     setDate(format(new Date(), 'yyyy-MM-dd'));
@@ -47,8 +50,8 @@ export default function TaskForm({ close }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-900/80">
       <OutsideAlerter action={close}>
-        <div className="relative w-80 rounded-lg bg-white p-6 text-zinc-700 shadow-lg">
-          <button onClick={close} className="absolute top-6 right-6">
+        <div className="relative w-80 rounded-lg bg-white py-6 px-4 text-zinc-700 shadow-lg">
+          <button onClick={close} className="absolute top-4 right-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -64,7 +67,7 @@ export default function TaskForm({ close }: Props) {
               />
             </svg>
           </button>
-          <h1 className="text-lg font-bold">AGREGAR ACTIVIDAD</h1>
+          <h1 className="text-2xl font-semibold">AGREGAR ACTIVIDAD</h1>
           <form
             onSubmit={handleSubmitForm}
             className="mt-4 flex flex-col gap-4 text-sm font-bold text-zinc-600"
@@ -72,7 +75,7 @@ export default function TaskForm({ close }: Props) {
             <label className="flex flex-col gap-1">
               Título
               <input
-                className="h-10 rounded-lg border p-2 font-normal shadow"
+                className="h-10 rounded border p-2 font-normal shadow"
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -81,7 +84,7 @@ export default function TaskForm({ close }: Props) {
             <label className="flex flex-col gap-1">
               Descripción
               <input
-                className="h-10 rounded-lg border p-2 font-normal shadow"
+                className="h-10 rounded border p-2 font-normal shadow"
                 type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -91,7 +94,7 @@ export default function TaskForm({ close }: Props) {
               <label className="flex flex-col gap-1">
                 Fecha
                 <input
-                  className="h-10 rounded-lg border p-2 font-normal shadow"
+                  className="h-10 rounded border p-2 font-normal shadow"
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
@@ -100,7 +103,7 @@ export default function TaskForm({ close }: Props) {
               <label className="flex flex-col gap-1">
                 Hora
                 <input
-                  className="h-10 rounded-lg border p-2 font-normal shadow"
+                  className="h-10 rounded border p-2 font-normal shadow"
                   type="time"
                   value={hour}
                   onChange={(e) => setHour(e.target.value)}
