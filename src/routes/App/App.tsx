@@ -16,6 +16,7 @@ import TaskDisplay from '../../components/TaskDisplay/TaskDisplay';
 function App() {
   const [taskFormOpen, setTaskFormOpen] = useState(false);
   const [taskDisplayOpen, setTaskDisplayOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<string>('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState(
     format(new Date(), 'yyyy-MM-dd')
@@ -26,9 +27,8 @@ function App() {
   useEffect(() => {
     async function getData() {
       try {
-        const docs = await getDocs(
-          collection(db, 'users', user?.id || '', 'tasks')
-        );
+        if (!user) return;
+        const docs = await getDocs(collection(db, 'users', user.id, 'tasks'));
         const data: any[] = [];
         docs.forEach((doc) => {
           data.push(doc.data());
@@ -55,16 +55,37 @@ function App() {
     setTaskFormOpen(true);
   }
 
+  function removeFromTasksState(id: string) {
+    setTasks((prevState) => prevState.filter((task) => task.id !== id));
+  }
+
+  function selectedTaskBody(id: string) {
+    const selected = tasks.find((task) => task.id === id);
+    if (!selected) {
+      throw new Error('Task not found');
+    }
+
+    return selected;
+  }
+
   return (
     <div className="min-h-screen font-manrope">
       {taskFormOpen && <TaskForm close={() => setTaskFormOpen(false)} />}
       <TopNav toggleMenu={toggleMenu} />
       {menuOpen && (
-        <HamburgerMenu tasks={tasks} handleTaskButton={handleClickTaskButton} />
+        <HamburgerMenu
+          tasks={tasks}
+          handleTaskButton={handleClickTaskButton}
+          selectTask={setSelectedTask}
+          displayTask={setTaskDisplayOpen}
+        />
       )}
-      <button onClick={() => setTaskDisplayOpen(true)}>OPEN</button>
       {taskDisplayOpen && (
-        <TaskDisplay task={tasks[0]} close={() => setTaskDisplayOpen(false)} />
+        <TaskDisplay
+          task={selectedTaskBody(selectedTask)}
+          close={() => setTaskDisplayOpen(false)}
+          remove={removeFromTasksState}
+        />
       )}
       <ContactsNav />
       <AddTaskButton handleClick={handleClickTaskButton} />
@@ -88,7 +109,12 @@ function App() {
               : null
           }
         />
-        <DailyTasksDisplay date={selectedDay} tasks={tasks} />
+        <DailyTasksDisplay
+          date={selectedDay}
+          tasks={tasks}
+          selectTask={setSelectedTask}
+          displayTask={setTaskDisplayOpen}
+        />
       </div>
     </div>
   );

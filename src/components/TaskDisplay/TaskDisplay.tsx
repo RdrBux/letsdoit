@@ -5,14 +5,29 @@ import Avatar from '../../assets/avatar.png';
 import { Task } from '../../types/types';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 type Props = {
   task: Task;
+  remove: (id: string) => void;
   close: () => void;
 };
 
-export default function TaskDisplay({ task, close }: Props) {
+export default function TaskDisplay({ task, remove, close }: Props) {
   const user = useContext(AuthContext);
+
+  async function handleDelete() {
+    if (!user) return;
+
+    try {
+      await deleteDoc(doc(db, 'users', user.id, 'tasks', task.id));
+      remove(task.id);
+      close();
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-900/80">
@@ -60,7 +75,10 @@ export default function TaskDisplay({ task, close }: Props) {
             />
           </div>
           <div className="pt-4">
-            <button className="flex items-center gap-1 font-bold text-emerald-700">
+            <button
+              onClick={handleDelete}
+              className="flex items-center gap-1 font-bold text-emerald-700"
+            >
               ELIMINAR{' '}
               <svg
                 xmlns="http://www.w3.org/2000/svg"

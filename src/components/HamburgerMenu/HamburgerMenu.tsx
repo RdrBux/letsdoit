@@ -13,9 +13,16 @@ import TasksSlider from '../TasksSlider/TasksSlider';
 type Props = {
   tasks: Task[];
   handleTaskButton: () => void;
+  selectTask: React.Dispatch<React.SetStateAction<string>>;
+  displayTask: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function HamburgerMenu({ tasks, handleTaskButton }: Props) {
+export default function HamburgerMenu({
+  tasks,
+  handleTaskButton,
+  selectTask,
+  displayTask,
+}: Props) {
   const monthTasksUnsorted = tasks.filter(
     (task) =>
       isThisMonth(parseISO(task.date)) &&
@@ -47,9 +54,24 @@ export default function HamburgerMenu({ tasks, handleTaskButton }: Props) {
         <p className="text-base font-bold text-white">AGREGAR</p>
         <img className="w-3" src={plusButton} alt="" />
       </button>
-      <TasksSlider type="day" tasks={todayTasks} />
-      <TasksSlider type="week" tasks={weekTasks} />
-      <TasksSlider type="month" tasks={monthTasks} />
+      <TasksSlider
+        type="day"
+        tasks={todayTasks}
+        selectTask={selectTask}
+        displayTask={displayTask}
+      />
+      <TasksSlider
+        type="week"
+        tasks={weekTasks}
+        selectTask={selectTask}
+        displayTask={displayTask}
+      />
+      <TasksSlider
+        type="month"
+        tasks={monthTasks}
+        selectTask={selectTask}
+        displayTask={displayTask}
+      />
     </div>
   );
 }

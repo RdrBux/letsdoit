@@ -7,9 +7,16 @@ import { Task } from '../../types/types';
 type Props = {
   type: 'day' | 'week' | 'month';
   tasks: Task[];
+  selectTask: React.Dispatch<React.SetStateAction<string>>;
+  displayTask: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function TasksSlider({ type, tasks }: Props) {
+export default function TasksSlider({
+  type,
+  tasks,
+  selectTask,
+  displayTask,
+}: Props) {
   const [expanded, setExpanded] = useState(type === 'day' ? true : false);
 
   const titleByType = {
@@ -17,6 +24,11 @@ export default function TasksSlider({ type, tasks }: Props) {
     week: 'Esta semana',
     month: 'Este mes',
   };
+
+  function handleClick(id: string) {
+    selectTask(id);
+    displayTask(true);
+  }
 
   function expandMenu() {
     setExpanded((prev) => !prev);
@@ -58,7 +70,11 @@ export default function TasksSlider({ type, tasks }: Props) {
   }
 
   const tasksDisplay = tasks.map((task) => (
-    <div key={task.id} className="flex items-center gap-4">
+    <div
+      onClick={() => handleClick(task.id)}
+      key={task.id}
+      className="flex cursor-pointer items-center gap-4"
+    >
       {displayByType(task)}
       <p className="font-semibold">{task.title}</p>
     </div>

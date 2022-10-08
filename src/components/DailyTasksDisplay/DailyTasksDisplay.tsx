@@ -6,13 +6,29 @@ import { sortTasksbyHour } from '../../utils/date';
 type Props = {
   date: string;
   tasks: Task[];
+  selectTask: React.Dispatch<React.SetStateAction<string>>;
+  displayTask: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function DailyTasksDisplay({ date, tasks }: Props) {
+export default function DailyTasksDisplay({
+  date,
+  tasks,
+  selectTask,
+  displayTask,
+}: Props) {
+  function handleClick(id: string) {
+    selectTask(id);
+    displayTask(true);
+  }
+
   const dailyTasksUnordered = tasks.filter((task) => task.date === date);
   const dailyTasks = sortTasksbyHour(dailyTasksUnordered);
   const tasksJSX = dailyTasks.map((task) => (
-    <div key={task.id} className="flex flex-col py-1">
+    <div
+      onClick={() => handleClick(task.id)}
+      key={task.id}
+      className="flex cursor-pointer flex-col py-1"
+    >
       <p className="text-sm font-bold text-zinc-700">{task.hour}</p>
       <p className="text-2xl font-semibold text-zinc-900">{task.title}</p>
       <p className="text-sm text-zinc-800">{task.description}</p>

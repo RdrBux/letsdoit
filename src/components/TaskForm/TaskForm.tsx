@@ -1,12 +1,11 @@
 import { format } from 'date-fns';
 import React, { useContext, useState } from 'react';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
-import { doc, addDoc, collection } from 'firebase/firestore';
+import { doc, setDoc, collection } from 'firebase/firestore';
 import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
 import Avatar from '../../assets/avatar.png';
 import DropdownFriends from '../DropdownFriends/DropdownFriends';
-import { nanoid } from 'nanoid';
 
 type Props = {
   close: () => void;
@@ -24,14 +23,12 @@ export default function TaskForm({ close }: Props) {
   async function handleSubmitForm(e: React.BaseSyntheticEvent) {
     e.preventDefault();
 
-    // ACTIONS HERE
-
-    const docRef = doc(db, 'users', user?.id || 'unknown');
-    const colRef = collection(docRef, 'tasks');
-
     try {
-      await addDoc(colRef, {
-        id: nanoid(),
+      const docRef = doc(
+        collection(db, 'users', user?.id || 'unknown', 'tasks')
+      );
+      await setDoc(docRef, {
+        id: docRef.id,
         title: title,
         description: description,
         date: date,
@@ -50,7 +47,7 @@ export default function TaskForm({ close }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-900/80">
       <OutsideAlerter action={close}>
-        <div className="relative w-80 rounded-lg bg-white py-6 px-4 text-zinc-700 shadow-lg">
+        <div className="relative w-80 rounded-lg bg-white p-6 text-zinc-700 shadow-lg">
           <button onClick={close} className="absolute top-4 right-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
