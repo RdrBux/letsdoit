@@ -73,7 +73,7 @@ function App() {
   return (
     <div className="min-h-screen font-manrope">
       {taskFormOpen && <TaskForm close={() => setTaskFormOpen(false)} />}
-      <TopNav toggleMenu={toggleMenu} />
+      <TopNav menuOpen={menuOpen} toggleMenu={toggleMenu} />
       {menuOpen && (
         <HamburgerMenu
           tasks={tasks}

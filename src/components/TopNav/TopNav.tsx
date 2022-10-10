@@ -7,10 +7,11 @@ import AvatarMenu from '../AvatarMenu/AvatarMenu';
 import NotificationsMenu from '../NotificationsMenu/NotificationsMenu';
 
 type TopNavProps = {
+  menuOpen: boolean;
   toggleMenu: any;
 };
 
-export default function TopNav({ toggleMenu }: TopNavProps) {
+export default function TopNav({ menuOpen, toggleMenu }: TopNavProps) {
   const [openAvatar, setOpenAvatar] = useState(false);
   const [openNotifications, setOpenNotifications] = useState(false);
   const user = useContext(AuthContext);
@@ -27,7 +28,12 @@ export default function TopNav({ toggleMenu }: TopNavProps) {
     <div className="sticky top-0 z-40 flex items-center justify-between bg-emerald-900 px-4 py-2 text-white">
       <div className="flex items-center gap-4">
         <button onClick={toggleMenu}>
-          <img className="w-6" src={hamburger} alt="" />
+          <div id="nav-icon" className={`${menuOpen ? 'open' : ''}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </button>
         <h1 className="cursor-default text-2xl font-bold tracking-wide">
           DO<span className="text-lime-200">IT</span>
