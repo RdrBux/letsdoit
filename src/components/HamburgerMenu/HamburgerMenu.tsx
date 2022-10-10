@@ -49,7 +49,7 @@ export default function HamburgerMenu({
       <h2 className="text-2xl font-bold">PRÓXIMAS ACTIVIDADES</h2>
       <button
         onClick={handleTaskButton}
-        className="flex w-fit items-center gap-2 rounded-lg bg-emerald-700 py-4 px-8 shadow-lg"
+        className="flex w-fit items-center gap-2 rounded-lg bg-emerald-700 py-4 px-8 shadow-lg duration-300 hover:bg-emerald-800"
       >
         <p className="text-base font-bold text-white">AGREGAR</p>
         <img className="w-3" src={plusButton} alt="" />

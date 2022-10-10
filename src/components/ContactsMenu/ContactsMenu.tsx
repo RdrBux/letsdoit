@@ -35,7 +35,7 @@ export default function ContactsMenu({ close }: Props) {
           </button>
           <h1 className="text-2xl font-semibold">CONTACTOS</h1>
 
-          <label className="mt-2 flex items-center gap-2 rounded-lg bg-zinc-200 px-2">
+          <label className="mt-2 flex items-center gap-2 rounded-full bg-zinc-200 px-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
