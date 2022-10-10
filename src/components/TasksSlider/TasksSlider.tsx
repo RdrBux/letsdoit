@@ -59,11 +59,11 @@ export default function TasksSlider({
     }
     if (type === 'month') {
       return (
-        <div className="flex gap-2 text-sm font-bold uppercase text-zinc-500">
-          <p className="w-16">
+        <div className="flex gap-2 text-sm font-bold uppercase text-zinc-700">
+          <p className="w-14">
             {format(parseISO(task.date), 'eee, dd', { locale: es })}
           </p>
-          <p>{task.hour}</p>
+          <p className="text-zinc-500">{task.hour}</p>
         </div>
       );
     }

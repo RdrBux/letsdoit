@@ -12,10 +12,12 @@ import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
 import { format, parseISO } from 'date-fns';
 import TaskDisplay from '../../components/TaskDisplay/TaskDisplay';
+import ContactsMenu from '../../components/ContactsMenu/ContactsMenu';
 
 function App() {
   const [taskFormOpen, setTaskFormOpen] = useState(false);
   const [taskDisplayOpen, setTaskDisplayOpen] = useState(false);
+  const [contactsMenuOpen, setContactsMenuOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<string>('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState(
@@ -87,7 +89,10 @@ function App() {
           remove={removeFromTasksState}
         />
       )}
-      <ContactsNav />
+      {contactsMenuOpen && (
+        <ContactsMenu close={() => setContactsMenuOpen(false)} />
+      )}
+      <ContactsNav openMenu={() => setContactsMenuOpen(true)} />
       <AddTaskButton handleClick={handleClickTaskButton} />
       <div className="flex flex-col items-center md:flex-row md:items-start md:justify-center md:gap-8">
         <Calendar

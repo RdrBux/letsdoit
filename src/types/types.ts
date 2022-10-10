@@ -13,3 +13,9 @@ export type User = {
   photoURL: string;
   tasks: Task[];
 };
+
+export type userData = {
+  bio?: string;
+  avatarURL?: string;
+  darkMode?: boolean;
+};

@@ -27,6 +27,7 @@ export default function TaskForm({ close }: Props) {
       const docRef = doc(
         collection(db, 'users', user?.id || 'unknown', 'tasks')
       );
+      close();
       await setDoc(docRef, {
         id: docRef.id,
         title: title,
@@ -41,7 +42,6 @@ export default function TaskForm({ close }: Props) {
     setDescription('');
     setDate(format(new Date(), 'yyyy-MM-dd'));
     setHour(format(new Date(), 'HH:mm'));
-    close();
   }
 
   return (
