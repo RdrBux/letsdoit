@@ -14,8 +14,10 @@ export type User = {
   tasks: Task[];
 };
 
-export type userData = {
+export type UserData = {
+  id: string;
+  name: string;
   bio?: string;
-  avatarURL?: string;
   darkMode?: boolean;
+  friends?: string[];
 };

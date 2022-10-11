@@ -16,7 +16,7 @@ export default function ContactsMenu({ close }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-900/80">
       <OutsideAlerter action={close}>
-        <div className="relative w-80 rounded-lg bg-white py-6 px-3 text-zinc-800 shadow-lg">
+        <div className="relative w-80 rounded-lg bg-white px-4 pt-8 pb-4 text-zinc-800 shadow-lg">
           <button onClick={close} className="absolute top-4 right-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -63,13 +63,13 @@ export default function ContactsMenu({ close }: Props) {
           <div className="mt-4 flex flex-col gap-2">
             <div
               onClick={handleClick}
-              className="flex cursor-pointer items-center gap-4 rounded-lg py-2 hover:bg-zinc-200"
+              className="flex cursor-pointer items-center gap-4 rounded-lg py-2 hover:bg-zinc-100"
             >
               <img className="h-12 w-12" src={AvatarTwo} alt="" />
-              <div>
-                <p className="font-semibold">Rodrigo Emmanuel Rodríguez</p>
+              <div className="w-full">
+                <p className="font-semibold">Rodrigo Rodríguez</p>
                 <div className="flex justify-between text-sm text-zinc-700">
-                  <p className="w-40 overflow-hidden text-ellipsis whitespace-nowrap">
+                  <p className="w-44 overflow-hidden text-ellipsis whitespace-nowrap">
                     Este es el último mensaje. Y e
                   </p>
                   <p className="font-bold">6/07</p>
@@ -81,10 +81,10 @@ export default function ContactsMenu({ close }: Props) {
               className="flex cursor-pointer items-center gap-4 rounded-lg py-2 hover:bg-zinc-200"
             >
               <img className="h-12 w-12" src={AvatarTwo} alt="" />
-              <div>
-                <p className="font-semibold">Rodrigo Emmanuel Rodríguez</p>
+              <div className="w-full">
+                <p className="font-semibold">Rodrigo Rodríguez</p>
                 <div className="flex justify-between text-sm text-zinc-700">
-                  <p className="w-40 overflow-hidden text-ellipsis whitespace-nowrap">
+                  <p className="w-44 overflow-hidden text-ellipsis whitespace-nowrap">
                     Este es el último mensaje. Y e
                   </p>
                   <p className="font-bold">6/07</p>
@@ -96,10 +96,10 @@ export default function ContactsMenu({ close }: Props) {
               className="flex cursor-pointer items-center gap-4 rounded-lg py-2 hover:bg-zinc-200"
             >
               <img className="h-12 w-12" src={AvatarTwo} alt="" />
-              <div>
-                <p className="font-semibold">Rodrigo Emmanuel Rodríguez</p>
+              <div className="w-full">
+                <p className="font-semibold">Rodrigo Rodríguez</p>
                 <div className="flex justify-between text-sm text-zinc-700">
-                  <p className="w-40 overflow-hidden text-ellipsis whitespace-nowrap">
+                  <p className="w-44 overflow-hidden text-ellipsis whitespace-nowrap">
                     Este es el último mensaje. Y e
                   </p>
                   <p className="font-bold">6/07</p>
