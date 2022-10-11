@@ -17,7 +17,9 @@ export type User = {
 export type UserData = {
   id: string;
   name: string;
+  email: string;
   bio?: string;
   darkMode?: boolean;
   friends?: string[];
+  photoURL: string;
 };

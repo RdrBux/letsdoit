@@ -15,10 +15,12 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         const docRef = doc(db, 'users', user.uid);
         const data: UserData = {
           id: user.uid,
+          email: user.email,
           name: user.displayName,
           bio: '',
           darkMode: false,
           friends: [],
+          photoURL: user.photoURL,
         };
 
         await setDoc(docRef, data);

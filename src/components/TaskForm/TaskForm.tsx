@@ -12,8 +12,8 @@ type Props = {
 };
 
 export default function TaskForm({ close }: Props) {
-  const [title, setTitle] = useState('título');
-  const [description, setDescription] = useState('descripción');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [hour, setHour] = useState(format(new Date(), 'HH:mm'));
   const [openPeople, setOpenPeople] = useState(false);
@@ -76,6 +76,7 @@ export default function TaskForm({ close }: Props) {
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                required
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -95,6 +96,7 @@ export default function TaskForm({ close }: Props) {
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
+                  required
                 />
               </label>
               <label className="flex flex-col gap-1">
@@ -104,6 +106,7 @@ export default function TaskForm({ close }: Props) {
                   type="time"
                   value={hour}
                   onChange={(e) => setHour(e.target.value)}
+                  required
                 />
               </label>
             </div>
