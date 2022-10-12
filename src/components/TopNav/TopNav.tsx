@@ -5,13 +5,19 @@ import { AuthContext } from '../../context/AuthContext';
 import AvatarMenu from '../AvatarMenu/AvatarMenu';
 import NotificationsMenu from '../NotificationsMenu/NotificationsMenu';
 import SearchMenu from '../SearchMenu/SearchMenu';
+import { SelectedUser } from '../../types/types';
 
 type TopNavProps = {
   menuOpen: boolean;
   toggleMenu: any;
+  selectChatUser: (user: SelectedUser) => void;
 };
 
-export default function TopNav({ menuOpen, toggleMenu }: TopNavProps) {
+export default function TopNav({
+  menuOpen,
+  toggleMenu,
+  selectChatUser,
+}: TopNavProps) {
   const [openAvatar, setOpenAvatar] = useState(false);
   const [openNotifications, setOpenNotifications] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
@@ -72,7 +78,12 @@ export default function TopNav({ menuOpen, toggleMenu }: TopNavProps) {
             referrerPolicy="no-referrer"
           />
         </button>
-        {openSearch && <SearchMenu close={() => setOpenSearch(false)} />}
+        {openSearch && (
+          <SearchMenu
+            selectChatUser={selectChatUser}
+            close={() => setOpenSearch(false)}
+          />
+        )}
         {openNotifications && (
           <NotificationsMenu close={() => setOpenNotifications(false)} />
         )}

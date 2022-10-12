@@ -1,10 +1,14 @@
 import Avatar from '../../assets/avatar.png';
+type Props = {
+  selectedChatUser: any;
+  close: () => void;
+};
 
-export default function ChatDisplay() {
+export default function ChatDisplay({ selectedChatUser, close }: Props) {
   return (
     <div className="flex flex-col justify-between bg-zinc-100 text-zinc-900">
       <div className="sticky top-14 flex items-center gap-4 rounded-b-2xl bg-white px-4 py-2 shadow">
-        <button className="py-2">
+        <button onClick={close} className="py-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -21,8 +25,13 @@ export default function ChatDisplay() {
           </svg>
         </button>
 
-        <img className="h-12 w-12" src={Avatar} alt="" />
-        <p className="font-semibold leading-5">Rodrigo Rodriguez</p>
+        <img
+          className="h-12 w-12 rounded-full"
+          src={selectedChatUser.photoURL}
+          alt=""
+          referrerPolicy="no-referrer"
+        />
+        <p className="font-semibold leading-5">{selectedChatUser.name}</p>
       </div>
       <div className="flex h-screen flex-col gap-2 p-4">
         <div className="mr-8 w-fit rounded-xl rounded-tl-none bg-white p-4 shadow-sm">

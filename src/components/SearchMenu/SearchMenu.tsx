@@ -1,14 +1,15 @@
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from '../../firebase';
+import { SelectedUser } from '../../types/types';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
-import Avatar from '../../assets/avatar.png';
 
 type Props = {
+  selectChatUser: (user: SelectedUser) => void;
   close: () => void;
 };
 
-export default function SearchMenu({ close }: Props) {
+export default function SearchMenu({ selectChatUser, close }: Props) {
   const [searchValue, setSearchValue] = useState('');
   const [searchData, setSearchData] = useState<any[]>([]);
 
@@ -21,7 +22,7 @@ export default function SearchMenu({ close }: Props) {
           where('tags', 'array-contains', searchValue.toLowerCase())
         );
         const querySnapshot = await getDocs(q);
-        const data: any[] = [];
+        const data: SelectedUser[] = [];
         querySnapshot.forEach((doc) =>
           data.push({
             name: doc.get('name'),
@@ -46,9 +47,15 @@ export default function SearchMenu({ close }: Props) {
   const dataDisplay = searchData.map((result) => (
     <div
       key={result.id}
+      onClick={() => selectChatUser(result)}
       className="flex cursor-pointer items-center gap-4 border-b py-4"
     >
-      <img className="w-10 rounded-full" src={result.photoURL} alt="" />
+      <img
+        className="w-10 rounded-full"
+        src={result.photoURL}
+        alt=""
+        referrerPolicy="no-referrer"
+      />
       <p className="font-semibold">{result.name}</p>
     </div>
   ));

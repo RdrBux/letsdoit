@@ -24,3 +24,9 @@ export type UserData = {
   friends?: string[];
   photoURL: string;
 };
+
+export type SelectedUser = {
+  id: string;
+  name: string;
+  photoURL: string;
+};
