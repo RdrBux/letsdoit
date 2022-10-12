@@ -18,7 +18,7 @@ export default function ContactsMenu({ close }: Props) {
       <OutsideAlerter action={close}>
         <div className="flex w-80 flex-col rounded-lg shadow-lg">
           <div className="flex items-center justify-between rounded-t-lg border-b border-emerald-500/10 bg-gradient-to-b from-emerald-600 to-emerald-700 p-4 text-white">
-            <h1 className="text-2xl font-bold">CONTACTOS</h1>
+            <h1 className="text-2xl font-bold">AMIGOS</h1>
             <button onClick={close} className="">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -13,6 +13,7 @@ import { db } from '../../firebase';
 import { format, parseISO } from 'date-fns';
 import TaskDisplay from '../../components/TaskDisplay/TaskDisplay';
 import ContactsMenu from '../../components/ContactsMenu/ContactsMenu';
+import ChatDisplay from '../../components/ChatDisplay/ChatDisplay';
 
 function App() {
   const [taskFormOpen, setTaskFormOpen] = useState(false);
@@ -93,8 +94,9 @@ function App() {
         <ContactsMenu close={() => setContactsMenuOpen(false)} />
       )}
       <ContactsNav openMenu={() => setContactsMenuOpen(true)} />
-      <AddTaskButton handleClick={handleClickTaskButton} />
-      <div className="flex flex-col items-center md:flex-row md:items-start md:justify-center md:gap-8">
+      <ChatDisplay />
+      {/* <AddTaskButton handleClick={handleClickTaskButton} /> */}
+      {/* <div className="flex flex-col items-center md:flex-row md:items-start md:justify-center md:gap-8">
         <Calendar
           value={parseISO(selectedDay)}
           onChange={handleCalendarChange}
@@ -120,7 +122,7 @@ function App() {
           selectTask={setSelectedTask}
           displayTask={setTaskDisplayOpen}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
