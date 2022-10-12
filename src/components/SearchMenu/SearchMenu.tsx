@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { db } from '../../firebase';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
+import Avatar from '../../assets/avatar.png';
 
 type Props = {
   close: () => void;
@@ -7,11 +10,49 @@ type Props = {
 
 export default function SearchMenu({ close }: Props) {
   const [searchValue, setSearchValue] = useState('');
+  const [searchData, setSearchData] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function getSearchData() {
+      try {
+        const usersRef = collection(db, 'users');
+        const q = query(
+          usersRef,
+          where('tags', 'array-contains', searchValue.toLowerCase())
+        );
+        const querySnapshot = await getDocs(q);
+        const data: any[] = [];
+        querySnapshot.forEach((doc) =>
+          data.push({
+            name: doc.get('name'),
+            photoURL: doc.get('photoURL'),
+          })
+        );
+
+        setSearchData(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    if (searchValue.length >= 3) {
+      getSearchData();
+    } else {
+      setSearchData([]);
+    }
+  }, [searchValue]);
+
+  const dataDisplay = searchData.map((result) => (
+    <div className="flex cursor-pointer items-center gap-4 border-b py-4">
+      <img className="w-10 rounded-full" src={result.photoURL} alt="" />
+      <p className="font-semibold">{result.name}</p>
+    </div>
+  ));
 
   return (
     <OutsideAlerter action={close}>
-      <div className="absolute right-0 top-12 w-80 rounded-lg bg-white px-4 text-zinc-800 shadow-lg">
-        <label className="mt-2 flex items-center gap-2 rounded-full bg-zinc-200 px-2">
+      <div className="absolute right-0 top-12 w-80 rounded-lg bg-white p-4 text-zinc-800 shadow-lg">
+        <label className="flex items-center gap-2 rounded-full bg-zinc-200 px-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -30,11 +71,12 @@ export default function SearchMenu({ close }: Props) {
           <input
             className="bg-zinc-200 p-2"
             type="text"
-            placeholder="Buscar"
+            placeholder="Buscar personas"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </label>
+        {dataDisplay}
       </div>
     </OutsideAlerter>
   );

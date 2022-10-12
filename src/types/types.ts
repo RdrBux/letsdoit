@@ -17,6 +17,7 @@ export type User = {
 export type UserData = {
   id: string;
   name: string;
+  tags: string[];
   email: string;
   bio?: string;
   darkMode?: boolean;

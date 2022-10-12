@@ -3,6 +3,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { createContext, useEffect, useState } from 'react';
 import { auth, db } from '../firebase';
 import { User, UserData } from '../types/types';
+import { generateTags } from '../utils/textSearch';
 
 export const AuthContext = createContext<User | null>(null);
 
@@ -17,6 +18,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           id: user.uid,
           email: user.email,
           name: user.displayName,
+          tags: generateTags(user.displayName.toLowerCase()),
           bio: '',
           darkMode: false,
           friends: [],
