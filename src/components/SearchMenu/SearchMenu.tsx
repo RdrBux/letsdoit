@@ -44,10 +44,15 @@ export default function SearchMenu({ selectChatUser, close }: Props) {
     }
   }, [searchValue]);
 
+  function handleClick(user: SelectedUser) {
+    selectChatUser(user);
+    close();
+  }
+
   const dataDisplay = searchData.map((result) => (
     <div
       key={result.id}
-      onClick={() => selectChatUser(result)}
+      onClick={() => handleClick(result)}
       className="flex cursor-pointer items-center gap-4 border-b py-4"
     >
       <img
@@ -63,6 +68,7 @@ export default function SearchMenu({ selectChatUser, close }: Props) {
   return (
     <OutsideAlerter action={close}>
       <div className="absolute right-0 top-12 w-80 rounded-lg bg-white p-4 text-zinc-800 shadow-lg">
+        <h2 className="mb-2 text-xl font-bold">Buscar personas</h2>
         <label className="flex items-center gap-2 rounded-full bg-zinc-200 px-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +88,7 @@ export default function SearchMenu({ selectChatUser, close }: Props) {
           <input
             className="bg-zinc-200 p-2"
             type="text"
-            placeholder="Buscar personas"
+            placeholder="Nombre"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
