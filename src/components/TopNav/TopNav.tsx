@@ -50,7 +50,7 @@ export default function TopNav({
         </button>
         <h1
           onClick={backToHome}
-          className="cursor-default text-2xl font-bold tracking-wide"
+          className="cursor-pointer text-2xl font-bold tracking-wide"
         >
           DO<span className="text-lime-200">IT</span>
         </h1>

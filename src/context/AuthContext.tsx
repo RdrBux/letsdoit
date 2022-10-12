@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { createContext, useEffect, useState } from 'react';
 import { auth, db } from '../firebase';
 import { User, UserData } from '../types/types';
@@ -14,19 +14,23 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     async function addUserToDb(user: any) {
       try {
         const docRef = doc(db, 'users', user.uid);
-        const data: UserData = {
-          id: user.uid,
-          email: user.email,
-          name: user.displayName,
-          tags: generateTags(user.displayName.toLowerCase()),
-          bio: '',
-          darkMode: false,
-          friends: [],
-          photoURL: user.photoURL,
-        };
 
-        await setDoc(docRef, data);
+        const docInDb = await getDoc(docRef);
 
+        if (!docInDb.exists()) {
+          const data: UserData = {
+            id: user.uid,
+            email: user.email,
+            name: user.displayName,
+            tags: generateTags(user.displayName.toLowerCase()),
+            bio: '',
+            darkMode: false,
+            friends: [],
+            photoURL: user.photoURL,
+          };
+
+          await setDoc(docRef, data);
+        }
         setUser({
           id: user.uid,
           name: user.displayName,
