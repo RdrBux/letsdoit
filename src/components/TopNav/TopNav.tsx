@@ -11,12 +11,14 @@ type TopNavProps = {
   menuOpen: boolean;
   toggleMenu: any;
   selectChatUser: (user: SelectedUser) => void;
+  backToHome: () => void;
 };
 
 export default function TopNav({
   menuOpen,
   toggleMenu,
   selectChatUser,
+  backToHome,
 }: TopNavProps) {
   const [openAvatar, setOpenAvatar] = useState(false);
   const [openNotifications, setOpenNotifications] = useState(false);
@@ -46,7 +48,10 @@ export default function TopNav({
             <span></span>
           </div>
         </button>
-        <h1 className="cursor-default text-2xl font-bold tracking-wide">
+        <h1
+          onClick={backToHome}
+          className="cursor-default text-2xl font-bold tracking-wide"
+        >
           DO<span className="text-lime-200">IT</span>
         </h1>
       </div>

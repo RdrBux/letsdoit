@@ -79,12 +79,13 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen font-manrope">
+    <div className="min-h-screen bg-zinc-100 font-manrope">
       {taskFormOpen && <TaskForm close={() => setTaskFormOpen(false)} />}
       <TopNav
         menuOpen={menuOpen}
         toggleMenu={toggleMenu}
         selectChatUser={selectChatUser}
+        backToHome={() => setSelectedChatUser(null)}
       />
       {menuOpen && (
         <HamburgerMenu
