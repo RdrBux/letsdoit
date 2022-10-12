@@ -26,6 +26,7 @@ export default function SearchMenu({ close }: Props) {
           data.push({
             name: doc.get('name'),
             photoURL: doc.get('photoURL'),
+            id: doc.get('id'),
           })
         );
 
@@ -43,7 +44,10 @@ export default function SearchMenu({ close }: Props) {
   }, [searchValue]);
 
   const dataDisplay = searchData.map((result) => (
-    <div className="flex cursor-pointer items-center gap-4 border-b py-4">
+    <div
+      key={result.id}
+      className="flex cursor-pointer items-center gap-4 border-b py-4"
+    >
       <img className="w-10 rounded-full" src={result.photoURL} alt="" />
       <p className="font-semibold">{result.name}</p>
     </div>
@@ -76,6 +80,9 @@ export default function SearchMenu({ close }: Props) {
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </label>
+        {dataDisplay.length > 0 && (
+          <h2 className="mt-4 text-lg font-bold">Personas</h2>
+        )}
         {dataDisplay}
       </div>
     </OutsideAlerter>
