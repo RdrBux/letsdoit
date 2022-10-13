@@ -1,11 +1,17 @@
 import { format } from 'date-fns';
-import React, { useContext, useState } from 'react';
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  useContext,
+  useState,
+} from 'react';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { doc, setDoc, collection } from 'firebase/firestore';
 import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
 import Avatar from '../../assets/avatar.png';
 import DropdownFriends from '../DropdownFriends/DropdownFriends';
+import FormInput from '../FormInput/FormInput';
 
 type Props = {
   close: () => void;
@@ -72,46 +78,33 @@ export default function TaskForm({ close }: Props) {
               onSubmit={handleSubmitForm}
               className="flex flex-col gap-4 font-semibold text-zinc-600"
             >
-              <label className="flex flex-col gap-1">
-                Título
-                <input
-                  className="h-10 rounded border p-2 font-normal shadow"
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                />
-              </label>
-              <label className="flex flex-col gap-1">
-                Descripción
-                <input
-                  className="h-10 rounded border p-2 font-normal shadow"
-                  type="text"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </label>
+              <FormInput
+                label="Título"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+
+              <FormInput
+                label="Descripción"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required={false}
+              />
+
               <div className="flex gap-4">
-                <label className="flex flex-col gap-1">
-                  Fecha
-                  <input
-                    className="h-10 rounded border p-2 font-normal shadow"
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    required
-                  />
-                </label>
-                <label className="flex flex-col gap-1">
-                  Hora
-                  <input
-                    className="h-10 rounded border p-2 font-normal shadow"
-                    type="time"
-                    value={hour}
-                    onChange={(e) => setHour(e.target.value)}
-                    required
-                  />
-                </label>
+                <FormInput
+                  label="Fecha"
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                />
+
+                <FormInput
+                  label="Hora"
+                  type="time"
+                  value={hour}
+                  onChange={(e) => setHour(e.target.value)}
+                />
               </div>
               <div>
                 <div className="flex flex-col gap-1">

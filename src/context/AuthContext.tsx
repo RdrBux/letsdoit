@@ -30,14 +30,15 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           };
 
           await setDoc(docRef, data);
+        } else {
+          setUser({
+            id: user.uid,
+            name: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            tasks: [],
+          });
         }
-        setUser({
-          id: user.uid,
-          name: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-          tasks: [],
-        });
       } catch (err) {
         console.log(err);
       }
