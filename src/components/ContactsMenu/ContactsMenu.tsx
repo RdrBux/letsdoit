@@ -66,7 +66,7 @@ export default function ContactsMenu({ close }: Props) {
             <div className="flex flex-col gap-2">
               <div
                 onClick={handleClick}
-                className="flex cursor-pointer items-center gap-4 rounded-lg py-2 hover:bg-zinc-100"
+                className="flex cursor-pointer items-center gap-4 py-2 hover:bg-zinc-100"
               >
                 <img className="h-12 w-12" src={AvatarTwo} alt="" />
                 <div className="w-full">

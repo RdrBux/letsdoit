@@ -26,17 +26,31 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             bio: '',
             darkMode: false,
             friends: [],
+            notifications: [],
             photoURL: user.photoURL,
           };
-
           await setDoc(docRef, data);
-        } else {
+
           setUser({
             id: user.uid,
             name: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
-            tasks: [],
+            friends: [],
+            notifications: [],
+          });
+        } else {
+          const userData = docInDb.data();
+          const friends = userData.friends;
+          const notifications = userData.notifications;
+
+          setUser({
+            id: user.uid,
+            name: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            friends: friends,
+            notifications: notifications,
           });
         }
       } catch (err) {

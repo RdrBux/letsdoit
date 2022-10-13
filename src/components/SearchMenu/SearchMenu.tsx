@@ -53,7 +53,7 @@ export default function SearchMenu({ selectChatUser, close }: Props) {
     <div
       key={result.id}
       onClick={() => handleClick(result)}
-      className="flex cursor-pointer items-center gap-4 border-b py-4"
+      className="flex cursor-pointer items-center gap-4 border-b py-4 hover:bg-zinc-100"
     >
       <img
         className="w-10 rounded-full"
@@ -69,7 +69,7 @@ export default function SearchMenu({ selectChatUser, close }: Props) {
     <OutsideAlerter action={close}>
       <div className="absolute right-0 top-12 w-80 rounded-lg bg-white p-4 text-zinc-800 shadow-lg">
         <h2 className="mb-2 text-xl font-bold">Buscar personas</h2>
-        <label className="flex items-center gap-2 rounded-full bg-zinc-200 px-2">
+        <label className="flex items-center gap-2 rounded-full bg-zinc-200 px-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

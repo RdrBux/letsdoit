@@ -10,7 +10,7 @@ import {
 import { KeyboardEvent, useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
-import { SelectedUser } from '../../types/types';
+import { FriendData, Notif, SelectedUser } from '../../types/types';
 import { nanoid } from 'nanoid';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -24,6 +24,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   const user = useContext(AuthContext);
   const [chatData, setChatData] = useState<DocumentData | undefined>();
   const [message, setMessage] = useState('');
+  const [friendRequestSend, setFriendRequestSend] = useState(false);
   const messageRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
@@ -65,6 +66,31 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   useEffect(() => {
     scrollToBottom();
   }, [chatData]);
+
+  useEffect(() => {
+    async function checkFriend() {
+      if (!user) return;
+      try {
+        const userRef = doc(db, 'users', user.id);
+        const friendsDoc = await getDoc(userRef);
+        if (friendsDoc.exists()) {
+          const friendsData = friendsDoc.data();
+          if (
+            friendsData.friends.some(
+              (friend: { id: string; status: string }) =>
+                friend.id === selectedChatUser.id &&
+                friend.status !== 'accepted'
+            )
+          ) {
+            setFriendRequestSend(true);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    checkFriend();
+  }, [user]);
 
   function chatDataToJSX() {
     if (chatData === undefined) return;
@@ -143,9 +169,48 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
     }
   }
 
+  const isFriend = user?.friends.some(
+    (friend) =>
+      friend.id === selectedChatUser.id && friend.status === 'accepted'
+  );
+
+  async function handleSendFriendRequest() {
+    if (!user) return;
+    const docRef = doc(db, 'users', selectedChatUser.id);
+    const userFriendsRef = doc(db, 'users', user?.id || 'unknown');
+
+    try {
+      setFriendRequestSend(true);
+
+      const newNotif: Notif = {
+        type: 'friendRequest',
+        id: user.id,
+        name: user.name,
+        photoURL: user.photoURL,
+        time: new Date(),
+        seen: false,
+      };
+      await updateDoc(docRef, {
+        notifications: arrayUnion(newNotif),
+      });
+
+      const newFriendData: FriendData = {
+        id: selectedChatUser.id,
+        name: selectedChatUser.name,
+        lastMsg: '',
+        status: 'pending',
+      };
+      await updateDoc(userFriendsRef, {
+        friends: arrayUnion(newFriendData),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div className="flex flex-col justify-between bg-zinc-100 text-zinc-900">
-      <div className="sticky top-14 z-10 flex items-center gap-4 rounded-b-2xl bg-white px-4 py-2 shadow">
+      <div className="sticky top-14 z-10 flex items-center gap-4 bg-white px-4 py-2 shadow">
         <button onClick={close} className="py-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -172,32 +237,54 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         <p className="font-semibold leading-5">{selectedChatUser.name}</p>
       </div>
 
-      <div className="mb-20 flex flex-col gap-8 p-4">{chatToJSX}</div>
-      <div ref={messageRef} className=""></div>
-
-      <div className="fixed bottom-0 flex w-full items-center rounded-t-2xl bg-white p-4 shadow-sm">
-        <input
-          className="h-10 w-full rounded-l-lg bg-zinc-100 p-4"
-          type="text"
-          placeholder="Mensaje"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={handleKey}
-        />
-        <button
-          onClick={handleSubmit}
-          className="h-10 rounded-r-lg bg-emerald-800 px-3 text-white"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 rotate-90"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-          </svg>
-        </button>
+      <div className="mb-20 flex flex-col gap-8 p-4">
+        {chatToJSX}
+        {!isFriend && (
+          <div className="flex w-fit flex-col self-center  rounded-lg bg-yellow-100 p-4 shadow">
+            <p>
+              Tú y{' '}
+              <span className="font-semibold">{selectedChatUser.name}</span>{' '}
+              actualmente no son amigos.
+            </p>
+            {friendRequestSend ? (
+              <p className="pt-2 font-bold">Solicitud de amistad enviada.</p>
+            ) : (
+              <button
+                onClick={handleSendFriendRequest}
+                className="self-start pt-2 font-bold text-emerald-800"
+              >
+                Enviar solicitud de amistad.
+              </button>
+            )}
+          </div>
+        )}
       </div>
+      <div ref={messageRef} className=""></div>
+      {isFriend && (
+        <div className="fixed bottom-0 flex w-full items-center  bg-white p-4 shadow-sm">
+          <input
+            className="h-10 w-full rounded-l-lg bg-zinc-200 p-4"
+            type="text"
+            placeholder="Mensaje"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKey}
+          />
+          <button
+            onClick={handleSubmit}
+            className="h-10 rounded-r-lg bg-emerald-800 px-3 text-white"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 rotate-90"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

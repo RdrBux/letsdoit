@@ -1,10 +1,5 @@
 import { format } from 'date-fns';
-import React, {
-  ChangeEvent,
-  ChangeEventHandler,
-  useContext,
-  useState,
-} from 'react';
+import React, { useContext, useState } from 'react';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { doc, setDoc, collection } from 'firebase/firestore';
 import { AuthContext } from '../../context/AuthContext';

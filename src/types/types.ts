@@ -11,7 +11,8 @@ export type User = {
   name: string;
   email: string;
   photoURL: string;
-  tasks: Task[];
+  friends: FriendData[];
+  notifications: Notif[];
 };
 
 export type UserData = {
@@ -21,8 +22,9 @@ export type UserData = {
   email: string;
   bio?: string;
   darkMode?: boolean;
-  friends?: string[];
+  friends?: FriendData[];
   photoURL: string;
+  notifications: Notif[];
 };
 
 export type SelectedUser = {
@@ -35,4 +37,20 @@ export type Chat = {
   id: string;
   time: Date;
   msg: string;
+};
+
+export type FriendData = {
+  id: string;
+  name: string;
+  lastMsg: string;
+  status: 'accepted' | 'rejected' | 'pending';
+};
+
+export type Notif = {
+  type: 'friendRequest';
+  id: string;
+  name: string;
+  photoURL: string;
+  time: any;
+  seen: boolean;
 };

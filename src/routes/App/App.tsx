@@ -1,3 +1,5 @@
+/* ADD FRIENDS AS OBJECT'S ARRAY IN USER, FETCH FROM HERE. DATA: NAME, ID, LAST MSG */
+
 import { useContext, useEffect, useState } from 'react';
 import AddTaskButton from '../../components/AddTaskButton/AddTaskButton';
 import ContactsNav from '../../components/ContactsNav/ContactsNav';
