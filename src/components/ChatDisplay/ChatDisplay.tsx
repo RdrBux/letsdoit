@@ -7,7 +7,7 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
-import { KeyboardEvent, useContext, useEffect, useState } from 'react';
+import { KeyboardEvent, useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
 import { SelectedUser } from '../../types/types';
@@ -24,6 +24,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   const user = useContext(AuthContext);
   const [chatData, setChatData] = useState<DocumentData | undefined>();
   const [message, setMessage] = useState('');
+  const messageRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
     async function fetchChat() {
@@ -60,6 +61,10 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
       unsub();
     };
   }, [user, selectedChatUser]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatData]);
 
   function chatDataToJSX() {
     if (chatData === undefined) return;
@@ -127,9 +132,20 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
       handleSubmit();
     }
   }
+
+  function scrollToBottom() {
+    if (messageRef.current) {
+      messageRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
+    }
+  }
+
   return (
     <div className="flex flex-col justify-between bg-zinc-100 text-zinc-900">
-      <div className="sticky top-14 flex items-center gap-4 rounded-b-2xl bg-white px-4 py-2 shadow">
+      <div className="sticky top-14 z-10 flex items-center gap-4 rounded-b-2xl bg-white px-4 py-2 shadow">
         <button onClick={close} className="py-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -157,6 +173,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
       </div>
 
       <div className="mb-20 flex flex-col gap-8 p-4">{chatToJSX}</div>
+      <div ref={messageRef} className=""></div>
 
       <div className="fixed bottom-0 flex w-full items-center rounded-t-2xl bg-white p-4 shadow-sm">
         <input
