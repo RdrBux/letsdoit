@@ -6,6 +6,7 @@ import App from './routes/App/App';
 import LogIn from './routes/LogIn/LogIn';
 import { AuthContextProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import { NotifContextProvider } from './context/NotifContext';
 
 const router = createBrowserRouter([
   {
@@ -27,8 +28,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <AuthContextProvider>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    <NotifContextProvider>
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </NotifContextProvider>
   </AuthContextProvider>
 );

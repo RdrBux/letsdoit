@@ -3,17 +3,39 @@ import { AuthContext } from '../../context/AuthContext';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { NotifContext } from '../../context/NotifContext';
+import { nanoid } from 'nanoid';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 type Props = {
   close: () => void;
 };
 
 export default function NotificationsMenu({ close }: Props) {
+  const notifs = useContext(NotifContext);
   const user = useContext(AuthContext);
 
+  /* TODO: 
+  - ADD ID TO NOTIFS
+  - GET NOTIFS ARRAY AND UPDATE THE HOVERED NOTIF
+  - UPDATE DATA IN FIRESTORE
+ 
+  async function handleNotifHover() {
+    if (!user) return;
+    const userRef = doc(db, 'users', user.id);
+    await updateDoc(userRef, {
+      notifications: arra
+    })
+  } */
+
   const notificationsDisplay =
-    user?.notifications.map((notif) => (
-      <div className="flex cursor-pointer items-center gap-4 border-b py-4 hover:bg-zinc-100">
+    notifs?.map((notif) => (
+      <div
+        key={nanoid()}
+        onMouseEnter={() => console.log('hi')}
+        className="flex cursor-pointer items-center gap-4 border-b py-4 hover:bg-zinc-100"
+      >
         <img
           className="w-16 rounded-full"
           src={notif.photoURL}
