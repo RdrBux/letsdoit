@@ -30,3 +30,9 @@ export type SelectedUser = {
   name: string;
   photoURL: string;
 };
+
+export type Chat = {
+  id: string;
+  time: Date;
+  msg: string;
+};
