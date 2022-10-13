@@ -155,19 +155,9 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         />
         <p className="font-semibold leading-5">{selectedChatUser.name}</p>
       </div>
-      <div className="flex flex-col gap-8 p-4">
-        {chatToJSX}
-        {/* <div className="mr-8 w-fit rounded-xl rounded-tl-none bg-white p-4 shadow-sm">
-          Hola rodrigo!
-        </div>
-        <div className="ml-8 w-fit self-end rounded-2xl rounded-tr-none bg-emerald-200 p-4 shadow-sm">
-          Hola José!
-        </div>
-        <div className="ml-8 w-fit self-end rounded-2xl rounded-tr-none bg-emerald-200 p-4 shadow-sm">
-          Todo bien? Te quería comentar que el otro día pensé que podía ser
-          blabla
-        </div> */}
-      </div>
+
+      <div className="mb-20 flex flex-col gap-8 p-4">{chatToJSX}</div>
+
       <div className="fixed bottom-0 flex w-full items-center rounded-t-2xl bg-white p-4 shadow-sm">
         <input
           className="h-10 w-full rounded-l-lg bg-zinc-100 p-4"
