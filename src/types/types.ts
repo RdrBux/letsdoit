@@ -12,7 +12,6 @@ export type User = {
   email: string;
   photoURL: string;
   friends: FriendData[];
-  notifications: Notif[];
 };
 
 export type UserData = {
@@ -25,6 +24,7 @@ export type UserData = {
   friends?: FriendData[];
   photoURL: string;
   notifications: Notif[];
+  seenNotifs: string[];
 };
 
 export type SelectedUser = {

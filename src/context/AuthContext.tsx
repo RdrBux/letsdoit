@@ -11,7 +11,6 @@ export const AuthContext = createContext<User>({
   email: '',
   photoURL: '',
   friends: [],
-  notifications: [],
 });
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
@@ -21,7 +20,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     email: '',
     photoURL: '',
     friends: [],
-    notifications: [],
   });
 
   useEffect(() => {
@@ -41,6 +39,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             darkMode: false,
             friends: [],
             notifications: [],
+            seenNotifs: [],
             photoURL: user.photoURL,
           };
           await setDoc(docRef, data);
@@ -51,12 +50,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             email: user.email,
             photoURL: user.photoURL,
             friends: [],
-            notifications: [],
           });
         } else {
           const userData = docInDb.data();
           const friends = userData.friends;
-          const notifications = userData.notifications;
 
           setUser({
             id: user.uid,
@@ -64,7 +61,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             email: user.email,
             photoURL: user.photoURL,
             friends: friends,
-            notifications: notifications,
           });
         }
       } catch (err) {
@@ -85,7 +81,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           email: '',
           photoURL: '',
           friends: [],
-          notifications: [],
         });
       }
     });

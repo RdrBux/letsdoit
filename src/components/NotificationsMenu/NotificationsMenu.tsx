@@ -5,7 +5,7 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { NotifContext } from '../../context/NotifContext';
 import { nanoid } from 'nanoid';
-import { doc, updateDoc } from 'firebase/firestore';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 type Props = {
@@ -16,24 +16,24 @@ export default function NotificationsMenu({ close }: Props) {
   const { notifs, seenNotifs } = useContext(NotifContext);
   const user = useContext(AuthContext);
 
-  /* TODO: 
-  - ADD ID TO NOTIFS
-  - GET NOTIFS ARRAY AND UPDATE THE HOVERED NOTIF
-  - UPDATE DATA IN FIRESTORE
- 
-  async function handleNotifHover() {
-    if (!user) return;
-    const userRef = doc(db, 'users', user.id);
-    await updateDoc(userRef, {
-      notifications: arra
-    })
-  } */
+  const unseenNotifs = notifs.filter((notif) => !seenNotifs.includes(notif.id));
+
+  async function handleClick(id: string) {
+    try {
+      const docRef = doc(db, 'users', user.id);
+      await updateDoc(docRef, {
+        seenNotifs: arrayUnion(id),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const notificationsDisplay =
-    notifs.map((notif) => (
+    unseenNotifs.map((notif) => (
       <div
         key={nanoid()}
-        onMouseEnter={() => console.log('hi')}
+        onClick={() => handleClick(notif.id)}
         className="flex cursor-pointer items-center gap-4 border-b py-4 hover:bg-zinc-100"
       >
         <img
@@ -61,7 +61,7 @@ export default function NotificationsMenu({ close }: Props) {
     <OutsideAlerter action={close}>
       <div className="absolute right-0 top-12 w-80 rounded-lg bg-white px-4 text-zinc-800 shadow-lg">
         <h2 className="mt-4 text-xl font-bold">Notificaciones</h2>
-        {notifs.length < 1 && (
+        {unseenNotifs.length < 1 && (
           <p className="py-4">No tienes nuevas notificaciones.</p>
         )}
         {notificationsDisplay}
