@@ -5,10 +5,24 @@ import { auth, db } from '../firebase';
 import { User, UserData } from '../types/types';
 import { generateTags } from '../utils/textSearch';
 
-export const AuthContext = createContext<User | null>(null);
+export const AuthContext = createContext<User>({
+  id: '',
+  name: '',
+  email: '',
+  photoURL: '',
+  friends: [],
+  notifications: [],
+});
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>({
+    id: '',
+    name: '',
+    email: '',
+    photoURL: '',
+    friends: [],
+    notifications: [],
+  });
 
   useEffect(() => {
     async function addUserToDb(user: any) {
@@ -65,7 +79,14 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         }
         addUserToDb(user);
       } else {
-        setUser(null);
+        setUser({
+          id: '',
+          name: '',
+          email: '',
+          photoURL: '',
+          friends: [],
+          notifications: [],
+        });
       }
     });
 

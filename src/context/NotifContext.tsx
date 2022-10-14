@@ -4,16 +4,26 @@ import { db } from '../firebase';
 import { Notif } from '../types/types';
 import { AuthContext } from './AuthContext';
 
-export const NotifContext = createContext<Notif[] | null>(null);
+type NotifContextType = {
+  notifs: Notif[];
+  seenNotifs: string[];
+};
+
+export const NotifContext = createContext<NotifContextType>({
+  notifs: [],
+  seenNotifs: [],
+});
 
 export const NotifContextProvider = ({ children }: { children: any }) => {
-  const [notifs, setNotifs] = useState<Notif[] | null>(null);
+  const [notifs, setNotifs] = useState<Notif[]>([]);
   const user = useContext(AuthContext);
+  const [seenNotifs, setSeenNotifs] = useState<string[]>([]);
 
   useEffect(() => {
     const unsub = onSnapshot(doc(db, 'users', user?.id || 'unknown'), (doc) => {
       const data = doc.data();
       setNotifs(data?.notifications);
+      setSeenNotifs(data?.seenNotifs);
     });
 
     return () => {
@@ -22,6 +32,8 @@ export const NotifContextProvider = ({ children }: { children: any }) => {
   }, [user]);
 
   return (
-    <NotifContext.Provider value={notifs}>{children}</NotifContext.Provider>
+    <NotifContext.Provider value={{ notifs, seenNotifs }}>
+      {children}
+    </NotifContext.Provider>
   );
 };

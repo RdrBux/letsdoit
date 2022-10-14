@@ -48,6 +48,7 @@ export type FriendData = {
 
 export type Notif = {
   type: 'friendRequest';
+  userId?: string;
   id: string;
   name: string;
   photoURL: string;

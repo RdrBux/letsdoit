@@ -184,7 +184,8 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
 
       const newNotif: Notif = {
         type: 'friendRequest',
-        id: user.id,
+        id: nanoid(),
+        userId: user.id,
         name: user.name,
         photoURL: user.photoURL,
         time: new Date(),
