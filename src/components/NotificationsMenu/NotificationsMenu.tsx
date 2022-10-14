@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { formatDistanceToNowStrict } from 'date-fns';
@@ -15,8 +15,14 @@ type Props = {
 export default function NotificationsMenu({ close }: Props) {
   const { notifs, seenNotifs } = useContext(NotifContext);
   const user = useContext(AuthContext);
+  const [filterNotifs, setFilterNotifs] = useState(true);
 
-  const unseenNotifs = notifs.filter((notif) => !seenNotifs.includes(notif.id));
+  const unseenNotifs = getNotifs();
+
+  function getNotifs() {
+    if (!filterNotifs) return notifs;
+    return notifs.filter((notif) => !seenNotifs.includes(notif.id));
+  }
 
   async function handleClick(id: string) {
     try {
@@ -34,7 +40,7 @@ export default function NotificationsMenu({ close }: Props) {
       <div
         key={nanoid()}
         onClick={() => handleClick(notif.id)}
-        className="flex cursor-pointer items-center gap-4 border-b py-4 hover:bg-zinc-100"
+        className="flex cursor-pointer items-center gap-4 border-b p-4 hover:bg-zinc-100"
       >
         <img
           className="w-16 rounded-full"
@@ -59,12 +65,19 @@ export default function NotificationsMenu({ close }: Props) {
 
   return (
     <OutsideAlerter action={close}>
-      <div className="absolute right-0 top-12 w-80 rounded-lg bg-white px-4 text-zinc-800 shadow-lg">
-        <h2 className="mt-4 text-xl font-bold">Notificaciones</h2>
+      <div className="absolute right-0 top-12 w-80 rounded-lg bg-white text-zinc-800 shadow-lg">
+        <h2 className="mt-4 px-4 text-xl font-bold">Notificaciones</h2>
         {unseenNotifs.length < 1 && (
-          <p className="py-4">No tienes nuevas notificaciones.</p>
+          <p className="p-4">No tienes nuevas notificaciones.</p>
         )}
         {notificationsDisplay}
+
+        <button
+          onClick={() => setFilterNotifs((prev) => !prev)}
+          className="px-4 py-2 text-sm font-semibold underline"
+        >
+          {filterNotifs ? 'Ver todas' : 'Ver no leídas'}
+        </button>
       </div>
     </OutsideAlerter>
   );
