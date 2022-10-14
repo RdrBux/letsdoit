@@ -20,7 +20,7 @@ export const NotifContextProvider = ({ children }: { children: any }) => {
   const [seenNotifs, setSeenNotifs] = useState<string[]>([]);
 
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'users', user?.id || 'unknown'), (doc) => {
+    const unsub = onSnapshot(doc(db, 'users', user.id || 'unknown'), (doc) => {
       const data = doc.data();
       setNotifs(data?.notifications);
       setSeenNotifs(data?.seenNotifs);

@@ -18,8 +18,6 @@ export default function TaskDisplay({ task, remove, close }: Props) {
   const user = useContext(AuthContext);
 
   async function handleDelete() {
-    if (!user) return;
-
     try {
       await deleteDoc(doc(db, 'users', user.id, 'tasks', task.id));
       remove(task.id);
@@ -69,7 +67,7 @@ export default function TaskDisplay({ task, remove, close }: Props) {
             <div className="font-semibold">PARTICIPANTES</div>
             <img
               className="w-10 rounded-full"
-              src={user?.photoURL || Avatar}
+              src={user.photoURL || Avatar}
               alt=""
               referrerPolicy="no-referrer"
             />

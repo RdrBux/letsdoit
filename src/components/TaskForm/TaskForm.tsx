@@ -25,9 +25,7 @@ export default function TaskForm({ close }: Props) {
     e.preventDefault();
 
     try {
-      const docRef = doc(
-        collection(db, 'users', user?.id || 'unknown', 'tasks')
-      );
+      const docRef = doc(collection(db, 'users', user.id, 'tasks'));
       close();
       await setDoc(docRef, {
         id: docRef.id,
@@ -107,7 +105,7 @@ export default function TaskForm({ close }: Props) {
                   <div className="flex items-center gap-2">
                     <img
                       className="h-8 w-8 rounded-full"
-                      src={user?.photoURL || Avatar}
+                      src={user.photoURL || Avatar}
                       alt=""
                       referrerPolicy="no-referrer"
                     />

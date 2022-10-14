@@ -25,7 +25,7 @@ export default function LogIn() {
 
   return (
     <div className="">
-      {user && <Navigate to="/" replace={true} />}
+      {user.id && <Navigate to="/" replace={true} />}
       <h1>TITULO</h1>
       <button onClick={handleLogInGoogle}>LOG IN WITH GOOGLE</button>
       <button onClick={handleLogInFacebook}>LOG IN WITH FACEBOOK</button>

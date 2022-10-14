@@ -78,7 +78,7 @@ export default function TopNav({
         >
           <img
             className="w-10 rounded-full"
-            src={user?.photoURL || avatar}
+            src={user.photoURL || avatar}
             alt=""
             referrerPolicy="no-referrer"
           />

@@ -24,11 +24,11 @@ export default function AvatarMenu({ close }: Props) {
         <div className="flex items-center gap-4 border-b py-4">
           <img
             className="w-10 rounded-full"
-            src={user?.photoURL || Avatar}
+            src={user.photoURL}
             alt=""
             referrerPolicy="no-referrer"
           />
-          <p className="font-semibold">{user?.name}</p>
+          <p className="font-semibold">{user.name}</p>
         </div>
         <div
           onClick={handleLogOut}

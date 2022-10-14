@@ -1,5 +1,3 @@
-/* ADD FRIENDS AS OBJECT'S ARRAY IN USER, FETCH FROM HERE. DATA: NAME, ID, LAST MSG */
-
 import { useContext, useEffect, useState } from 'react';
 import AddTaskButton from '../../components/AddTaskButton/AddTaskButton';
 import ContactsNav from '../../components/ContactsNav/ContactsNav';
@@ -36,7 +34,8 @@ function App() {
     async function getData() {
       try {
         if (!user) return;
-        const docs = await getDocs(collection(db, 'users', user.id, 'tasks'));
+        const collectionRef = collection(db, 'users', user.id, 'tasks');
+        const docs = await getDocs(collectionRef);
         const data: any[] = [];
         docs.forEach((doc) => {
           data.push(doc.data());

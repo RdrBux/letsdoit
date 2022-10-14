@@ -30,7 +30,6 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   useEffect(() => {
     async function fetchChat() {
       try {
-        if (!user) return;
         const combinedId =
           user.id > selectedChatUser.id
             ? user.id + selectedChatUser.id
@@ -49,7 +48,6 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   }, [user, selectedChatUser]);
 
   useEffect(() => {
-    if (!user) return;
     const combinedId =
       user.id > selectedChatUser.id
         ? user.id + selectedChatUser.id
@@ -69,7 +67,6 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
 
   useEffect(() => {
     async function checkFriend() {
-      if (!user) return;
       try {
         const userRef = doc(db, 'users', user.id);
         const friendsDoc = await getDoc(userRef);
@@ -95,7 +92,6 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   function chatDataToJSX() {
     if (chatData === undefined) return;
     if (chatData === null) return;
-    if (!user) return;
 
     const data = chatData.chat.map((chat: DocumentData) => {
       if (chat.id === user.id) {
@@ -133,7 +129,6 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   const chatToJSX = chatDataToJSX();
 
   async function handleSubmit() {
-    if (!user) return;
     const combinedId =
       user.id > selectedChatUser.id
         ? user.id + selectedChatUser.id
@@ -169,13 +164,12 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
     }
   }
 
-  const isFriend = user?.friends.some(
+  const isFriend = user.friends.some(
     (friend) =>
       friend.id === selectedChatUser.id && friend.status === 'accepted'
   );
 
   async function handleSendFriendRequest() {
-    if (!user) return;
     const docRef = doc(db, 'users', selectedChatUser.id);
     const userFriendsRef = doc(db, 'users', user?.id || 'unknown');
 

@@ -9,7 +9,7 @@ type Props = {
 
 export default function NotificationButton({ handleClick }: Props) {
   const user = useContext(AuthContext);
-  const notifications = user?.notifications.length || 0;
+  const notifications = user.notifications.length || 0;
 
   return (
     <button

@@ -27,7 +27,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   useEffect(() => {
     async function addUserToDb(user: any) {
       try {
-        const docRef = doc(db, 'users', user.uid);
+        const docRef = doc(db, 'users', user.uid || 'unknown');
 
         const docInDb = await getDoc(docRef);
 
