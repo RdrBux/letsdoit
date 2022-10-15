@@ -1,14 +1,17 @@
-import { useContext } from 'react';
 import msgIcon from '../../assets/msgIcon.svg';
-import { FriendsContext } from '../../context/FriendsContext';
-import { FriendData } from '../../types/types';
+import { FriendData, SelectedUser } from '../../types/types';
 
 type Props = {
   openMenu: () => void;
   userFriends: FriendData[];
+  selectChatUser: (user: SelectedUser) => void;
 };
 
-export default function ContactsNav({ openMenu, userFriends }: Props) {
+export default function ContactsNav({
+  openMenu,
+  userFriends,
+  selectChatUser,
+}: Props) {
   const friendsAvatars = getAvatarButtons();
 
   function getAvatarButtons() {
@@ -16,12 +19,21 @@ export default function ContactsNav({ openMenu, userFriends }: Props) {
     return userFriends.map((friend) => (
       <img
         key={friend.id}
-        className="h-10 w-10 rounded-full"
+        onClick={() => selectUser(friend)}
+        className="h-10 w-10 cursor-pointer rounded-full"
         src={friend.photoURL}
         alt=""
         referrerPolicy="no-referrer"
       />
     ));
+  }
+
+  function selectUser(user: FriendData) {
+    selectChatUser({
+      id: user.id,
+      name: user.name,
+      photoURL: user.photoURL,
+    });
   }
 
   return (

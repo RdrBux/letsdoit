@@ -20,7 +20,7 @@ function App() {
   const user = useContext(AuthContext);
   const friends = useContext(FriendsContext);
 
-  const userFriends = friends.filter((friend) => friend.status === 'accepted');
+  const userFriends = getFriends();
 
   const [taskFormOpen, setTaskFormOpen] = useState(false);
   const [taskDisplayOpen, setTaskDisplayOpen] = useState(false);
@@ -54,6 +54,11 @@ function App() {
       getData();
     };
   }, [user, taskFormOpen]);
+
+  function getFriends() {
+    if (!friends) return [];
+    return friends.filter((friend) => friend.status === 'accepted');
+  }
 
   function toggleMenu() {
     setMenuOpen((prevState) => !prevState);
@@ -112,11 +117,13 @@ function App() {
         <ContactsMenu
           userFriends={userFriends}
           close={() => setContactsMenuOpen(false)}
+          selectChatUser={selectChatUser}
         />
       )}
       <ContactsNav
         openMenu={() => setContactsMenuOpen(true)}
         userFriends={userFriends}
+        selectChatUser={selectChatUser}
       />
       {selectedChatUser ? (
         <ChatDisplay

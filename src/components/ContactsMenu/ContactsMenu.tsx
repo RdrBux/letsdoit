@@ -1,14 +1,18 @@
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
-import AvatarTwo from '../../assets/avatar2.png';
 import { useState } from 'react';
-import { FriendData } from '../../types/types';
+import { FriendData, SelectedUser } from '../../types/types';
 
 type Props = {
   userFriends: FriendData[];
   close: () => void;
+  selectChatUser: (user: SelectedUser) => void;
 };
 
-export default function ContactsMenu({ userFriends, close }: Props) {
+export default function ContactsMenu({
+  userFriends,
+  close,
+  selectChatUser,
+}: Props) {
   const [searchValue, setSearchValue] = useState('');
 
   const displayUsers = getDisplayUsers();
@@ -18,7 +22,7 @@ export default function ContactsMenu({ userFriends, close }: Props) {
     return userFriends.map((friend) => (
       <div
         key={friend.id}
-        onClick={handleClick}
+        onClick={() => selectUser(friend)}
         className="flex cursor-pointer items-center gap-4 py-2 hover:bg-zinc-100"
       >
         <img
@@ -40,8 +44,13 @@ export default function ContactsMenu({ userFriends, close }: Props) {
     ));
   }
 
-  function handleClick() {
-    console.log('click');
+  function selectUser(user: FriendData) {
+    selectChatUser({
+      id: user.id,
+      name: user.name,
+      photoURL: user.photoURL,
+    });
+    close();
   }
 
   return (
