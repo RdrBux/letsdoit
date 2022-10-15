@@ -4,20 +4,24 @@ import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { doc, setDoc, collection } from 'firebase/firestore';
 import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
-import Avatar from '../../assets/avatar.png';
 import DropdownFriends from '../DropdownFriends/DropdownFriends';
 import FormInput from '../FormInput/FormInput';
+import { FriendData } from '../../types/types';
 
 type Props = {
+  userFriends: FriendData[];
   close: () => void;
 };
 
-export default function TaskForm({ close }: Props) {
+export default function TaskForm({ userFriends, close }: Props) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [hour, setHour] = useState(format(new Date(), 'HH:mm'));
   const [openPeople, setOpenPeople] = useState(false);
+  const [selectedParticipants, setSelectedParticipants] = useState<
+    FriendData[]
+  >([]);
 
   const user = useContext(AuthContext);
 
@@ -41,6 +45,24 @@ export default function TaskForm({ close }: Props) {
     setDescription('');
     setDate(format(new Date(), 'yyyy-MM-dd'));
     setHour(format(new Date(), 'HH:mm'));
+  }
+
+  const displayParticipants = selectedParticipants.map((friend) => (
+    <img
+      key={friend.id}
+      className="h-8 w-8 rounded-full"
+      src={friend.photoURL}
+      alt=""
+      referrerPolicy="no-referrer"
+    />
+  ));
+
+  function handleParticipants(clickedFriend: FriendData) {
+    setSelectedParticipants((prevState) =>
+      prevState.some((friend) => friend.id === clickedFriend.id)
+        ? prevState.filter((friend) => friend.id !== clickedFriend.id)
+        : prevState.concat(clickedFriend)
+    );
   }
 
   return (
@@ -100,15 +122,22 @@ export default function TaskForm({ close }: Props) {
                 />
               </div>
               <div className="border-y py-4">
-                <div className="flex flex-col gap-1">
+                <div
+                  className={`flex flex-col gap-1 rounded-t p-2 text-zinc-800 ${
+                    openPeople
+                      ? 'border-b-2 border-emerald-800 bg-zinc-200'
+                      : 'border-b border-zinc-500 bg-zinc-100'
+                  }`}
+                >
                   Participantes
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <img
                       className="h-8 w-8 rounded-full"
-                      src={user.photoURL || Avatar}
+                      src={user.photoURL}
                       alt=""
                       referrerPolicy="no-referrer"
                     />
+                    <div>{displayParticipants}</div>
                     <button
                       type="button"
                       onClick={() => setOpenPeople((prev) => !prev)}
@@ -149,7 +178,13 @@ export default function TaskForm({ close }: Props) {
                     </button>
                   </div>
                 </div>
-                {openPeople && <DropdownFriends />}
+                {openPeople && (
+                  <DropdownFriends
+                    userFriends={userFriends}
+                    participants={selectedParticipants}
+                    handleParticipants={handleParticipants}
+                  />
+                )}
               </div>
               <button className="flex w-fit items-center gap-1 rounded-lg bg-emerald-700 py-2 px-8 font-bold text-white shadow-lg">
                 AGREGAR
