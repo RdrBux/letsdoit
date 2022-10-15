@@ -17,6 +17,11 @@ import ChatDisplay from '../../components/ChatDisplay/ChatDisplay';
 import { FriendsContext } from '../../context/FriendsContext';
 
 function App() {
+  const user = useContext(AuthContext);
+  const friends = useContext(FriendsContext);
+
+  const userFriends = friends.filter((friend) => friend.status === 'accepted');
+
   const [taskFormOpen, setTaskFormOpen] = useState(false);
   const [taskDisplayOpen, setTaskDisplayOpen] = useState(false);
   const [contactsMenuOpen, setContactsMenuOpen] = useState(false);
@@ -29,9 +34,6 @@ function App() {
   const [selectedChatUser, setSelectedChatUser] = useState<SelectedUser | null>(
     null
   );
-
-  const user = useContext(AuthContext);
-  const friends = useContext(FriendsContext);
 
   useEffect(() => {
     async function getData() {
@@ -107,9 +109,15 @@ function App() {
         />
       )}
       {contactsMenuOpen && (
-        <ContactsMenu close={() => setContactsMenuOpen(false)} />
+        <ContactsMenu
+          userFriends={userFriends}
+          close={() => setContactsMenuOpen(false)}
+        />
       )}
-      <ContactsNav openMenu={() => setContactsMenuOpen(true)} />
+      <ContactsNav
+        openMenu={() => setContactsMenuOpen(true)}
+        userFriends={userFriends}
+      />
       {selectedChatUser ? (
         <ChatDisplay
           selectedChatUser={selectedChatUser}

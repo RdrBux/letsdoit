@@ -42,6 +42,7 @@ export type Chat = {
 export type FriendData = {
   id: string;
   name: string;
+  photoURL: string;
   lastMsg: string;
   status: 'accepted' | 'rejected' | 'send' | 'received';
 };

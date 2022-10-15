@@ -37,12 +37,13 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
     }
   }
 
-  function handleClick(user: Notif) {
+  function handleClick(notif: Notif) {
     selectChatUser({
-      id: user.userId || 'unknown',
-      name: user.name,
-      photoURL: user.photoURL,
+      id: notif.userId || 'unknown',
+      name: notif.name,
+      photoURL: notif.photoURL,
     });
+    handleCloseClick(notif.id);
     close();
   }
 

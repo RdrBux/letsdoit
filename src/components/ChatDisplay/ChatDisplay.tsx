@@ -27,7 +27,6 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
 
   const [chatData, setChatData] = useState<DocumentData | undefined>();
   const [message, setMessage] = useState('');
-  /* const [friendRequestSend, setFriendRequestSend] = useState(false); */
   const messageRef = useRef<null | HTMLDivElement>(null);
 
   const friendData = friends.find(
@@ -71,51 +70,6 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   useEffect(() => {
     scrollToBottom();
   }, [chatData]);
-
-  /* useEffect(() => {
-    async function checkFriend() {
-      try {
-        const userRef = doc(db, 'users', user.id);
-        const friendsDoc = await getDoc(userRef);
-        if (friendsDoc.exists()) {
-          const friendsData = friendsDoc.data();
-          if (
-            friendsData.friends.some(
-              (friend: { id: string; status: string }) =>
-                friend.id === selectedChatUser.id &&
-                friend.status !== 'accepted'
-            )
-          ) {
-            setFriendRequestSend(true);
-          }
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    checkFriend();
-  }, [user, selectedChatUser]); */
-
-  /* useEffect(() => {
-    async function checkFriend() {
-      try {
-        const userRef = doc(db, 'users', user.id);
-        const friendsDoc = await getDoc(userRef);
-        if (friendsDoc.exists()) {
-          const foundFriendsData = friendsDoc.data();
-          console.log(foundFriendsData);
-          setFriendData(
-            foundFriendsData.friends.filter(
-              (friend: { id: string }) => friend.id === selectedChatUser.id
-            )
-          );
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    checkFriend();
-  }, [user, selectedChatUser]); */
 
   function chatDataToJSX() {
     if (chatData === undefined) return;
@@ -217,6 +171,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         name: selectedChatUser.name,
         lastMsg: '',
         status: 'send',
+        photoURL: selectedChatUser.photoURL,
       };
       await updateDoc(userFriendsRef, {
         friends: arrayUnion(userNewFriendData),
@@ -228,6 +183,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         name: user.name,
         lastMsg: '',
         status: 'received',
+        photoURL: selectedChatUser.photoURL,
       };
       await updateDoc(selectedUserRef, {
         friends: arrayUnion(selectedUserNewFriendData),
@@ -240,23 +196,73 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   const alertDisplay = handleAlertDisplay();
 
   function handleAlertDisplay() {
-    console.log(selectedChatUser);
-    if (friendData?.status === 'send') {
-      return <span>Solicitud de amistad enviada.</span>;
+    if (friendData?.status === 'send' || friendData?.status === 'rejected') {
+      return <div className="font-bold">Solicitud de amistad enviada.</div>;
     }
     if (friendData?.status === 'received') {
-      return <span>Aceptar / Rechazar</span>;
+      return (
+        <div className="">
+          <div className="">Has recibido una solicitud de amistad.</div>
+          <div className="font-bold">
+            <button
+              onClick={() => handleRequest('accept')}
+              className="text-emerald-800 underline"
+            >
+              Aceptar
+            </button>
+            <button
+              onClick={() => handleRequest('reject')}
+              className="ml-4 text-red-800 underline"
+            >
+              Rechazar
+            </button>
+          </div>
+        </div>
+      );
     } else {
       return (
-        <span>
+        <div>
           <button
             onClick={handleSendFriendRequest}
             className="self-start pt-2 font-bold text-emerald-800"
           >
             Enviar solicitud de amistad.
           </button>
-        </span>
+        </div>
       );
+    }
+  }
+
+  async function handleRequest(action: 'accept' | 'reject') {
+    const newStatus = action === 'accept' ? 'accepted' : 'rejected';
+
+    try {
+      const userRef = doc(db, 'users', user.id);
+      const friendRef = doc(db, 'users', selectedChatUser.id);
+
+      const newUserState: FriendData[] = friends.map((friend) =>
+        friend.id === selectedChatUser.id
+          ? { ...friend, status: newStatus }
+          : friend
+      );
+
+      await updateDoc(userRef, {
+        friends: newUserState,
+      });
+
+      const friendDoc = await getDoc(friendRef);
+      if (friendDoc.exists()) {
+        const friendData = friendDoc.data();
+        const newFriendState: FriendData[] = friendData.friends.map(
+          (friend: { id: string }) =>
+            friend.id === user.id ? { ...friend, status: newStatus } : friend
+        );
+        await updateDoc(friendRef, {
+          friends: newFriendState,
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -298,12 +304,12 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
               <span className="font-semibold">{selectedChatUser.name}</span>{' '}
               actualmente no son amigos.
             </p>
-            <p className="pt-2 font-bold">{alertDisplay}</p>
+            <div className="pt-2">{alertDisplay}</div>
           </div>
         )}
       </div>
       <div ref={messageRef} className=""></div>
-      {friendData?.status !== 'accepted' && (
+      {friendData?.status === 'accepted' && (
         <div className="fixed bottom-0 flex w-full items-center  bg-white p-4 shadow-sm">
           <input
             className="h-10 w-full rounded-l-lg bg-zinc-200 p-4"

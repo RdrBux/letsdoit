@@ -1,13 +1,44 @@
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import AvatarTwo from '../../assets/avatar2.png';
 import { useState } from 'react';
+import { FriendData } from '../../types/types';
 
 type Props = {
+  userFriends: FriendData[];
   close: () => void;
 };
 
-export default function ContactsMenu({ close }: Props) {
+export default function ContactsMenu({ userFriends, close }: Props) {
   const [searchValue, setSearchValue] = useState('');
+
+  const displayUsers = getDisplayUsers();
+
+  function getDisplayUsers() {
+    if (!userFriends) return '';
+    return userFriends.map((friend) => (
+      <div
+        key={friend.id}
+        onClick={handleClick}
+        className="flex cursor-pointer items-center gap-4 py-2 hover:bg-zinc-100"
+      >
+        <img
+          className="h-12 w-12 rounded-full"
+          src={friend.photoURL}
+          alt=""
+          referrerPolicy="no-referrer"
+        />
+        <div className="w-full">
+          <p className="font-semibold">{friend.name}</p>
+          <div className="flex justify-between text-sm text-zinc-700">
+            <p className="w-44 overflow-hidden text-ellipsis whitespace-nowrap">
+              {friend.lastMsg}
+            </p>
+            <p className="font-bold">6/07</p>
+          </div>
+        </div>
+      </div>
+    ));
+  }
 
   function handleClick() {
     console.log('click');
@@ -63,53 +94,7 @@ export default function ContactsMenu({ close }: Props) {
               />
             </label>
 
-            <div className="flex flex-col gap-2">
-              <div
-                onClick={handleClick}
-                className="flex cursor-pointer items-center gap-4 py-2 hover:bg-zinc-100"
-              >
-                <img className="h-12 w-12" src={AvatarTwo} alt="" />
-                <div className="w-full">
-                  <p className="font-semibold">Rodrigo Rodríguez</p>
-                  <div className="flex justify-between text-sm text-zinc-700">
-                    <p className="w-44 overflow-hidden text-ellipsis whitespace-nowrap">
-                      Este es el último mensaje. Y e
-                    </p>
-                    <p className="font-bold">6/07</p>
-                  </div>
-                </div>
-              </div>
-              <div
-                onClick={handleClick}
-                className="flex cursor-pointer items-center gap-4 rounded-lg py-2 hover:bg-zinc-200"
-              >
-                <img className="h-12 w-12" src={AvatarTwo} alt="" />
-                <div className="w-full">
-                  <p className="font-semibold">Rodrigo Rodríguez</p>
-                  <div className="flex justify-between text-sm text-zinc-700">
-                    <p className="w-44 overflow-hidden text-ellipsis whitespace-nowrap">
-                      Este es el último mensaje. Y e
-                    </p>
-                    <p className="font-bold">6/07</p>
-                  </div>
-                </div>
-              </div>
-              <div
-                onClick={handleClick}
-                className="flex cursor-pointer items-center gap-4 rounded-lg py-2 hover:bg-zinc-200"
-              >
-                <img className="h-12 w-12" src={AvatarTwo} alt="" />
-                <div className="w-full">
-                  <p className="font-semibold">Rodrigo Rodríguez</p>
-                  <div className="flex justify-between text-sm text-zinc-700">
-                    <p className="w-44 overflow-hidden text-ellipsis whitespace-nowrap">
-                      Este es el último mensaje. Y e
-                    </p>
-                    <p className="font-bold">6/07</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div className="flex flex-col gap-2">{displayUsers}</div>
           </div>
         </div>
       </OutsideAlerter>
