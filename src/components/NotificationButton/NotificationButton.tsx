@@ -1,8 +1,6 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import notificationIcon from '../../assets/notificationIcon.svg';
-import { AuthContext } from '../../context/AuthContext';
 import { NotifContext } from '../../context/NotifContext';
-import { Notif } from '../../types/types';
 
 type Props = {
   handleClick: () => void;
@@ -10,7 +8,15 @@ type Props = {
 
 export default function NotificationButton({ handleClick }: Props) {
   const { notifs, seenNotifs } = useContext(NotifContext);
-  const unseenNotifs = notifs.filter((notif) => !seenNotifs.includes(notif.id));
+  function getNotifs() {
+    if (notifs && seenNotifs) {
+      return notifs.filter((notif) => !seenNotifs.includes(notif.id));
+    } else {
+      return [];
+    }
+  }
+
+  const unseenNotifs = getNotifs();
   const unseenNotifsLen = unseenNotifs.length;
 
   return (

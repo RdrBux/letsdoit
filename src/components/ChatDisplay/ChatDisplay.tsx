@@ -14,6 +14,7 @@ import { FriendData, Notif, SelectedUser } from '../../types/types';
 import { nanoid } from 'nanoid';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { FriendsContext } from '../../context/FriendsContext';
 
 type Props = {
   selectedChatUser: SelectedUser;
@@ -22,10 +23,16 @@ type Props = {
 
 export default function ChatDisplay({ selectedChatUser, close }: Props) {
   const user = useContext(AuthContext);
+  const friends = useContext(FriendsContext);
+
   const [chatData, setChatData] = useState<DocumentData | undefined>();
   const [message, setMessage] = useState('');
-  const [friendRequestSend, setFriendRequestSend] = useState(false);
+  /* const [friendRequestSend, setFriendRequestSend] = useState(false); */
   const messageRef = useRef<null | HTMLDivElement>(null);
+
+  const friendData = friends.find(
+    (friend) => friend.id === selectedChatUser.id
+  );
 
   useEffect(() => {
     async function fetchChat() {
@@ -65,7 +72,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
     scrollToBottom();
   }, [chatData]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     async function checkFriend() {
       try {
         const userRef = doc(db, 'users', user.id);
@@ -87,7 +94,28 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
       }
     }
     checkFriend();
-  }, [user]);
+  }, [user, selectedChatUser]); */
+
+  /* useEffect(() => {
+    async function checkFriend() {
+      try {
+        const userRef = doc(db, 'users', user.id);
+        const friendsDoc = await getDoc(userRef);
+        if (friendsDoc.exists()) {
+          const foundFriendsData = friendsDoc.data();
+          console.log(foundFriendsData);
+          setFriendData(
+            foundFriendsData.friends.filter(
+              (friend: { id: string }) => friend.id === selectedChatUser.id
+            )
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    checkFriend();
+  }, [user, selectedChatUser]); */
 
   function chatDataToJSX() {
     if (chatData === undefined) return;
@@ -164,18 +192,12 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
     }
   }
 
-  const isFriend = user.friends.some(
-    (friend) =>
-      friend.id === selectedChatUser.id && friend.status === 'accepted'
-  );
-
   async function handleSendFriendRequest() {
     const docRef = doc(db, 'users', selectedChatUser.id);
-    const userFriendsRef = doc(db, 'users', user?.id || 'unknown');
+    const userFriendsRef = doc(db, 'users', user.id);
+    const selectedUserRef = doc(db, 'users', selectedChatUser.id);
 
     try {
-      setFriendRequestSend(true);
-
       const newNotif: Notif = {
         type: 'friendRequest',
         id: nanoid(),
@@ -185,21 +207,56 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         time: new Date(),
         seen: false,
       };
+      // update own friends data
       await updateDoc(docRef, {
         notifications: arrayUnion(newNotif),
       });
 
-      const newFriendData: FriendData = {
+      const userNewFriendData: FriendData = {
         id: selectedChatUser.id,
         name: selectedChatUser.name,
         lastMsg: '',
-        status: 'pending',
+        status: 'send',
       };
       await updateDoc(userFriendsRef, {
-        friends: arrayUnion(newFriendData),
+        friends: arrayUnion(userNewFriendData),
+      });
+
+      //update selectedChatUser friends data
+      const selectedUserNewFriendData: FriendData = {
+        id: user.id,
+        name: user.name,
+        lastMsg: '',
+        status: 'received',
+      };
+      await updateDoc(selectedUserRef, {
+        friends: arrayUnion(selectedUserNewFriendData),
       });
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  const alertDisplay = handleAlertDisplay();
+
+  function handleAlertDisplay() {
+    console.log(selectedChatUser);
+    if (friendData?.status === 'send') {
+      return <span>Solicitud de amistad enviada.</span>;
+    }
+    if (friendData?.status === 'received') {
+      return <span>Aceptar / Rechazar</span>;
+    } else {
+      return (
+        <span>
+          <button
+            onClick={handleSendFriendRequest}
+            className="self-start pt-2 font-bold text-emerald-800"
+          >
+            Enviar solicitud de amistad.
+          </button>
+        </span>
+      );
     }
   }
 
@@ -234,28 +291,19 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
 
       <div className="mb-20 flex flex-col gap-8 p-4">
         {chatToJSX}
-        {!isFriend && (
+        {friendData?.status !== 'accepted' && (
           <div className="flex w-fit flex-col self-center  rounded-lg bg-yellow-100 p-4 shadow">
             <p>
               Tú y{' '}
               <span className="font-semibold">{selectedChatUser.name}</span>{' '}
               actualmente no son amigos.
             </p>
-            {friendRequestSend ? (
-              <p className="pt-2 font-bold">Solicitud de amistad enviada.</p>
-            ) : (
-              <button
-                onClick={handleSendFriendRequest}
-                className="self-start pt-2 font-bold text-emerald-800"
-              >
-                Enviar solicitud de amistad.
-              </button>
-            )}
+            <p className="pt-2 font-bold">{alertDisplay}</p>
           </div>
         )}
       </div>
       <div ref={messageRef} className=""></div>
-      {isFriend && (
+      {friendData?.status !== 'accepted' && (
         <div className="fixed bottom-0 flex w-full items-center  bg-white p-4 shadow-sm">
           <input
             className="h-10 w-full rounded-l-lg bg-zinc-200 p-4"

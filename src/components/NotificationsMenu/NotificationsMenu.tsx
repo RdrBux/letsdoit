@@ -7,12 +7,14 @@ import { NotifContext } from '../../context/NotifContext';
 import { nanoid } from 'nanoid';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { Notif, SelectedUser } from '../../types/types';
 
 type Props = {
+  selectChatUser: (user: SelectedUser) => void;
   close: () => void;
 };
 
-export default function NotificationsMenu({ close }: Props) {
+export default function NotificationsMenu({ selectChatUser, close }: Props) {
   const { notifs, seenNotifs } = useContext(NotifContext);
   const user = useContext(AuthContext);
   const [filterNotifs, setFilterNotifs] = useState(true);
@@ -24,7 +26,7 @@ export default function NotificationsMenu({ close }: Props) {
     return notifs.filter((notif) => !seenNotifs.includes(notif.id));
   }
 
-  async function handleClick(id: string) {
+  async function handleCloseClick(id: string) {
     try {
       const docRef = doc(db, 'users', user.id);
       await updateDoc(docRef, {
@@ -35,11 +37,21 @@ export default function NotificationsMenu({ close }: Props) {
     }
   }
 
+  function handleClick(user: Notif) {
+    selectChatUser({
+      id: user.userId || 'unknown',
+      name: user.name,
+      photoURL: user.photoURL,
+    });
+    close();
+  }
+
   const notificationsDisplay =
     unseenNotifs.map((notif) => (
       <div
         key={nanoid()}
-        onClick={() => handleClick(notif.id)}
+        /* onClick={() => handleClick(notif.id)} */
+        onClick={() => handleClick(notif)}
         className="flex cursor-pointer items-center gap-4 border-b p-4 hover:bg-zinc-100"
       >
         <img
@@ -48,12 +60,12 @@ export default function NotificationsMenu({ close }: Props) {
           alt=""
           referrerPolicy="no-referrer"
         />
-        <div>
+        <div className="flex flex-col gap-1">
           <p className="text-sm">
             <span className="font-semibold">{notif.name} </span>
             te ha enviado una solicitud de amistad.
           </p>
-          <p className="mt-2 text-xs font-bold">
+          <p className="text-xs font-bold">
             hace{' '}
             {formatDistanceToNowStrict(notif.time.toDate(), {
               locale: es,

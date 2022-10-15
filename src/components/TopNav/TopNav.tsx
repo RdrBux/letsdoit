@@ -90,7 +90,10 @@ export default function TopNav({
           />
         )}
         {openNotifications && (
-          <NotificationsMenu close={() => setOpenNotifications(false)} />
+          <NotificationsMenu
+            selectChatUser={selectChatUser}
+            close={() => setOpenNotifications(false)}
+          />
         )}
         {openAvatar && <AvatarMenu close={() => setOpenAvatar(false)} />}
       </div>

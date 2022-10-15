@@ -14,6 +14,7 @@ import { format, parseISO } from 'date-fns';
 import TaskDisplay from '../../components/TaskDisplay/TaskDisplay';
 import ContactsMenu from '../../components/ContactsMenu/ContactsMenu';
 import ChatDisplay from '../../components/ChatDisplay/ChatDisplay';
+import { FriendsContext } from '../../context/FriendsContext';
 
 function App() {
   const [taskFormOpen, setTaskFormOpen] = useState(false);
@@ -25,10 +26,12 @@ function App() {
     format(new Date(), 'yyyy-MM-dd')
   );
   const [tasks, setTasks] = useState<Task[]>([]);
-  const user = useContext(AuthContext);
   const [selectedChatUser, setSelectedChatUser] = useState<SelectedUser | null>(
     null
   );
+
+  const user = useContext(AuthContext);
+  const friends = useContext(FriendsContext);
 
   useEffect(() => {
     async function getData() {

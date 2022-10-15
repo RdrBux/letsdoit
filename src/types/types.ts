@@ -43,7 +43,7 @@ export type FriendData = {
   id: string;
   name: string;
   lastMsg: string;
-  status: 'accepted' | 'rejected' | 'pending';
+  status: 'accepted' | 'rejected' | 'send' | 'received';
 };
 
 export type Notif = {
