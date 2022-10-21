@@ -46,24 +46,24 @@ export default function TasksSlider({
     }
     if (type === 'week') {
       return (
-        <div className="flex w-20 gap-2 text-sm font-bold uppercase text-zinc-700 dark:text-zinc-600">
+        <div className="flex w-20 gap-2 text-sm font-bold uppercase text-zinc-700 dark:text-zinc-500">
           <p className="w-8">
             {format(parseISO(task.date), 'eee', {
               locale: es,
               weekStartsOn: 1,
             })}
           </p>
-          <p className="text-zinc-500">{task.hour}</p>
+          <p className="text-zinc-500 dark:text-zinc-400">{task.hour}</p>
         </div>
       );
     }
     if (type === 'month') {
       return (
-        <div className="flex gap-2 text-sm font-bold uppercase text-zinc-700 dark:text-zinc-600">
+        <div className="flex gap-2 text-sm font-bold uppercase text-zinc-700 dark:text-zinc-500">
           <p className="w-14">
             {format(parseISO(task.date), 'eee, dd', { locale: es })}
           </p>
-          <p className="text-zinc-500">{task.hour}</p>
+          <p className="text-zinc-500 dark:text-zinc-400">{task.hour}</p>
         </div>
       );
     }

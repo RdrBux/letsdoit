@@ -20,7 +20,6 @@ export type UserData = {
   tags: string[];
   email: string;
   bio?: string;
-  darkMode?: boolean;
   photoURL: string;
 };
 

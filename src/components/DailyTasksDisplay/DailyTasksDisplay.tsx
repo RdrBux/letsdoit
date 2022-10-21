@@ -47,7 +47,7 @@ export default function DailyTasksDisplay({
   ));
 
   return (
-    <div className="mb-4 w-[350px] rounded-lg bg-zinc-200 p-8 text-zinc-800 shadow-lg dark:bg-zinc-700 dark:text-zinc-200 md:mt-4">
+    <div className="mb-4 w-[350px] rounded-lg bg-zinc-200 p-8 text-zinc-800 shadow-lg dark:bg-zinc-700 dark:text-zinc-100 md:mt-4">
       <h3 className="mb-6 text-sm font-bold uppercase">
         {format(parseISO(date), 'PPPP', { locale: es })}
       </h3>
