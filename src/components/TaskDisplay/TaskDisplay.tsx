@@ -30,7 +30,7 @@ export default function TaskDisplay({ task, remove, close }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-900/80">
       <OutsideAlerter action={close}>
-        <div className="relative w-80 rounded-lg bg-white px-4 pb-4 pt-8 text-zinc-700 shadow-lg">
+        <div className="relative w-80 rounded-lg bg-white px-4 pb-4 pt-8 text-zinc-700 shadow-lg dark:bg-zinc-800 dark:text-zinc-100">
           <button onClick={close} className="absolute top-4 right-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -47,8 +47,8 @@ export default function TaskDisplay({ task, remove, close }: Props) {
               />
             </svg>
           </button>
-          <div className="flex flex-col gap-1 border-b pb-4">
-            <h3 className="text-2xl font-semibold leading-7 text-zinc-900">
+          <div className="flex flex-col gap-1 border-b pb-4 dark:border-zinc-600">
+            <h3 className="text-2xl font-semibold leading-7 text-zinc-900 dark:text-white">
               {task.title}
             </h3>
             <p className="">{task.description}</p>
@@ -58,12 +58,12 @@ export default function TaskDisplay({ task, remove, close }: Props) {
                   locale: es,
                 })}
               </p>
-              <div className="rounded-full bg-zinc-200 py-1 px-3">
+              <div className="rounded-full bg-zinc-200 py-1 px-3 dark:bg-zinc-600">
                 {task.hour} hs
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-1 border-b py-4">
+          <div className="flex flex-col gap-1 border-b py-4 dark:border-zinc-600">
             <div className="font-semibold">PARTICIPANTES</div>
             <img
               className="w-10 rounded-full"
@@ -75,7 +75,7 @@ export default function TaskDisplay({ task, remove, close }: Props) {
           <div className="pt-4">
             <button
               onClick={handleDelete}
-              className="flex items-center gap-1 font-bold text-emerald-700"
+              className="flex items-center gap-1 font-bold text-emerald-700 dark:text-emerald-500"
             >
               ELIMINAR{' '}
               <svg

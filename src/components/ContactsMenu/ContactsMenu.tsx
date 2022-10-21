@@ -23,7 +23,7 @@ export default function ContactsMenu({
       <div
         key={friend.id}
         onClick={() => selectUser(friend)}
-        className="flex cursor-pointer items-center gap-4 py-2 hover:bg-zinc-100"
+        className="flex cursor-pointer items-center gap-4 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-700"
       >
         <img
           className="h-12 w-12 rounded-full"
@@ -33,7 +33,7 @@ export default function ContactsMenu({
         />
         <div className="w-full">
           <p className="font-semibold">{friend.name}</p>
-          <div className="flex justify-between text-sm text-zinc-700">
+          <div className="flex justify-between text-sm text-zinc-700 dark:text-zinc-400">
             <p className="w-44 overflow-hidden text-ellipsis whitespace-nowrap">
               {friend.lastMsg}
             </p>
@@ -57,7 +57,7 @@ export default function ContactsMenu({
     <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-900/80">
       <OutsideAlerter action={close}>
         <div className="flex w-80 flex-col rounded-lg shadow-lg">
-          <div className="flex items-center justify-between rounded-t-lg bg-white px-4 pt-4 text-zinc-800">
+          <div className="flex items-center justify-between rounded-t-lg bg-white px-4 pt-4 text-zinc-800 dark:bg-zinc-800 dark:text-white">
             <h1 className="text-2xl font-bold">AMIGOS</h1>
             <button onClick={close} className="">
               <svg
@@ -77,8 +77,8 @@ export default function ContactsMenu({
             </button>
           </div>
 
-          <div className="flex flex-col gap-4 rounded-b-lg bg-white p-4 text-zinc-700">
-            <label className="flex items-center gap-2 rounded-full bg-zinc-200 px-4">
+          <div className="flex flex-col gap-4 rounded-b-lg bg-white p-4 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-100">
+            <label className="flex items-center gap-2 rounded-full bg-zinc-200 px-4 dark:bg-zinc-600">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -95,7 +95,7 @@ export default function ContactsMenu({
               </svg>
 
               <input
-                className="bg-zinc-200 p-2"
+                className="bg-zinc-200 p-2 dark:bg-zinc-600"
                 type="text"
                 placeholder="Buscar"
                 value={searchValue}

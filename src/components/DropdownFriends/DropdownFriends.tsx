@@ -15,8 +15,8 @@ export default function DropdownFriends({
     <div
       key={friend.id}
       onClick={() => handleParticipants(friend)}
-      className={`flex cursor-pointer items-center justify-between gap-4 p-2 hover:bg-zinc-200 ${
-        participants.includes(friend) ? 'bg-zinc-200' : ''
+      className={`flex cursor-pointer items-center justify-between gap-4 p-2 hover:bg-zinc-200 dark:hover:bg-zinc-600 ${
+        participants.includes(friend) ? 'bg-zinc-200 dark:bg-zinc-600' : ''
       }`}
     >
       <div className="flex items-center gap-4">
@@ -50,7 +50,7 @@ export default function DropdownFriends({
   ));
 
   return (
-    <div className="max-h-36 overflow-y-auto rounded-b border font-normal">
+    <div className="max-h-36 overflow-y-auto rounded-b border font-normal dark:border-zinc-600 dark:text-zinc-200">
       {participantsDisplay}
     </div>
   );

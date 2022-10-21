@@ -52,7 +52,7 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
         key={notif.id}
         /* onClick={() => handleClick(notif.id)} */
         onClick={() => handleClick(notif)}
-        className="flex cursor-pointer items-center gap-4 border-b p-4 hover:bg-zinc-100"
+        className="flex cursor-pointer items-center gap-4 border-b p-4 hover:bg-zinc-100 dark:border-zinc-600 dark:hover:bg-zinc-700"
       >
         <img
           className="w-16 rounded-full"
@@ -77,7 +77,7 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
 
   return (
     <OutsideAlerter action={close}>
-      <div className="absolute right-0 top-12 w-80 rounded-lg bg-white text-zinc-800 shadow-lg">
+      <div className="absolute right-0 top-12 w-80 rounded-lg bg-white text-zinc-800 shadow-lg dark:bg-zinc-800 dark:text-white">
         <h2 className="mt-4 px-4 text-xl font-bold">Notificaciones</h2>
         {unseenNotifs.length < 1 && (
           <p className="p-4">No tienes nuevas notificaciones.</p>

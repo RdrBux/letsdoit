@@ -69,7 +69,7 @@ export default function TaskForm({ userFriends, close }: Props) {
     <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-900/80">
       <OutsideAlerter action={close}>
         <div className="flex w-80 flex-col rounded-lg shadow-lg">
-          <div className="flex items-center justify-between rounded-t-lg bg-white px-4 pt-4 text-zinc-800">
+          <div className="flex items-center justify-between rounded-t-lg bg-white px-4 pt-4 text-zinc-800 dark:bg-zinc-800 dark:text-white">
             <h1 className="text-2xl font-bold">AGREGAR ACTIVIDAD</h1>
             <button onClick={close} className="top-4 right-4">
               <svg
@@ -88,7 +88,7 @@ export default function TaskForm({ userFriends, close }: Props) {
               </svg>
             </button>
           </div>
-          <div className="flex flex-col gap-4 rounded-b-lg bg-white p-4 text-zinc-700">
+          <div className="flex flex-col gap-4 rounded-b-lg bg-white p-4 text-zinc-700 dark:bg-zinc-800 dark:text-white">
             <form
               onSubmit={handleSubmitForm}
               className="flex flex-col gap-4 font-semibold text-zinc-600"
@@ -121,12 +121,12 @@ export default function TaskForm({ userFriends, close }: Props) {
                   onChange={(e) => setHour(e.target.value)}
                 />
               </div>
-              <div className="border-y py-4">
+              <div className="border-y py-4 dark:border-zinc-600">
                 <div
-                  className={`flex flex-col gap-1 rounded-t p-2 text-zinc-800 ${
+                  className={`flex flex-col gap-1 rounded-t p-2 text-zinc-800 dark:text-zinc-200 ${
                     openPeople
-                      ? 'border-b-2 border-emerald-800 bg-zinc-200'
-                      : 'border-b border-zinc-500 bg-zinc-100'
+                      ? 'border-b-2 border-emerald-800 bg-zinc-200 dark:bg-zinc-500'
+                      : 'border-b border-zinc-500 bg-zinc-100 dark:bg-zinc-600'
                   }`}
                 >
                   Participantes

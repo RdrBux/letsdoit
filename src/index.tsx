@@ -8,6 +8,7 @@ import { AuthContextProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { NotifContextProvider } from './context/NotifContext';
 import { FriendsContextProvider } from './context/FriendsContext';
+import { ThemeContextProvider } from './context/ThemeContext';
 
 const router = createBrowserRouter([
   {
@@ -28,13 +29,15 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <AuthContextProvider>
-    <NotifContextProvider>
-      <FriendsContextProvider>
-        <React.StrictMode>
-          <RouterProvider router={router} />
-        </React.StrictMode>
-      </FriendsContextProvider>
-    </NotifContextProvider>
-  </AuthContextProvider>
+  <ThemeContextProvider>
+    <AuthContextProvider>
+      <NotifContextProvider>
+        <FriendsContextProvider>
+          <React.StrictMode>
+            <RouterProvider router={router} />
+          </React.StrictMode>
+        </FriendsContextProvider>
+      </NotifContextProvider>
+    </AuthContextProvider>
+  </ThemeContextProvider>
 );

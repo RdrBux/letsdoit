@@ -53,7 +53,7 @@ export default function SearchMenu({ selectChatUser, close }: Props) {
     <div
       key={result.id}
       onClick={() => handleClick(result)}
-      className="flex cursor-pointer items-center gap-4 border-b py-4 hover:bg-zinc-100"
+      className="flex cursor-pointer items-center gap-4 border-b py-4 hover:bg-zinc-100 dark:border-zinc-600 dark:hover:bg-zinc-700"
     >
       <img
         className="w-10 rounded-full"
@@ -67,9 +67,9 @@ export default function SearchMenu({ selectChatUser, close }: Props) {
 
   return (
     <OutsideAlerter action={close}>
-      <div className="absolute right-0 top-12 w-80 rounded-lg bg-white p-4 text-zinc-800 shadow-lg">
+      <div className="absolute right-0 top-12 w-80 rounded-lg bg-white p-4 text-zinc-800 shadow-lg dark:bg-zinc-800 dark:text-white">
         <h2 className="mb-2 text-xl font-bold">Buscar personas</h2>
-        <label className="flex items-center gap-2 rounded-full bg-zinc-200 px-4">
+        <label className="flex items-center gap-2 rounded-full bg-zinc-200 px-4 dark:bg-zinc-600">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -86,7 +86,7 @@ export default function SearchMenu({ selectChatUser, close }: Props) {
           </svg>
 
           <input
-            className="bg-zinc-200 p-2"
+            className="bg-zinc-200 p-2 dark:bg-zinc-600"
             type="text"
             placeholder="Nombre"
             value={searchValue}

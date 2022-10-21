@@ -45,7 +45,7 @@ export default function HamburgerMenu({
   );
 
   return (
-    <div className="fixed z-20 flex h-screen w-screen flex-col gap-4 bg-zinc-200/[0.95] p-4 text-zinc-900">
+    <div className="fixed z-20 flex h-screen w-screen flex-col gap-4 bg-zinc-200/[0.95] p-4 text-zinc-900 dark:bg-zinc-900/[0.98] dark:text-zinc-100">
       <h2 className="text-2xl font-bold">PRÓXIMAS ACTIVIDADES</h2>
       <button
         onClick={handleTaskButton}

@@ -46,7 +46,7 @@ export default function TasksSlider({
     }
     if (type === 'week') {
       return (
-        <div className="flex w-20 gap-2 text-sm font-bold uppercase text-zinc-700">
+        <div className="flex w-20 gap-2 text-sm font-bold uppercase text-zinc-700 dark:text-zinc-600">
           <p className="w-8">
             {format(parseISO(task.date), 'eee', {
               locale: es,
@@ -59,7 +59,7 @@ export default function TasksSlider({
     }
     if (type === 'month') {
       return (
-        <div className="flex gap-2 text-sm font-bold uppercase text-zinc-700">
+        <div className="flex gap-2 text-sm font-bold uppercase text-zinc-700 dark:text-zinc-600">
           <p className="w-14">
             {format(parseISO(task.date), 'eee, dd', { locale: es })}
           </p>
@@ -81,12 +81,12 @@ export default function TasksSlider({
   ));
 
   return (
-    <div className="rounded-lg bg-white p-4 shadow-lg">
+    <div className="rounded-lg bg-white p-4 shadow-lg dark:bg-zinc-800">
       <div
         onClick={expandMenu}
         className="mb flex cursor-pointer items-center justify-between"
       >
-        <legend className="text-xl font-bold text-emerald-700">
+        <legend className="text-xl font-bold text-emerald-700 dark:text-emerald-500">
           {titleByType[type]}
         </legend>
         <svg

@@ -90,7 +90,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-100 font-manrope">
+    <div className="min-h-screen bg-zinc-100 font-manrope dark:bg-zinc-400">
       {taskFormOpen && (
         <TaskForm
           userFriends={userFriends}
