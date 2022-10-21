@@ -29,8 +29,8 @@ export default function TaskForm({ userFriends, close }: Props) {
     e.preventDefault();
 
     try {
-      const docRef = doc(collection(db, 'users', user.id, 'tasks'));
       close();
+      const docRef = doc(collection(db, 'users', user.id, 'tasks'));
       await setDoc(docRef, {
         id: docRef.id,
         title: title,

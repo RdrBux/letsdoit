@@ -21,10 +21,7 @@ export type UserData = {
   email: string;
   bio?: string;
   darkMode?: boolean;
-  friends?: FriendData[];
   photoURL: string;
-  notifications: Notif[];
-  seenNotifs: string[];
 };
 
 export type SelectedUser = {

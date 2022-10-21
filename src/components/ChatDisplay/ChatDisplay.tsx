@@ -139,7 +139,6 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   function scrollToBottom() {
     if (messageRef.current) {
       messageRef.current.scrollIntoView({
-        behavior: 'smooth',
         block: 'end',
         inline: 'nearest',
       });
@@ -148,8 +147,30 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
 
   async function handleSendFriendRequest() {
     const docRef = doc(db, 'users', selectedChatUser.id);
-    const userFriendsRef = doc(db, 'users', user.id);
-    const selectedUserRef = doc(db, 'users', selectedChatUser.id);
+    /* const userFriendsRef = doc(db, 'users', user.id); */
+    /* const userFriendsRef = doc(
+      collection(db, 'users', user.id, 'friends'),
+      selectedChatUser.id
+    ); */
+    const userFriendsRef = doc(
+      db,
+      'users',
+      user.id,
+      'friends',
+      selectedChatUser.id
+    );
+    /* const selectedUserRef = doc(db, 'users', selectedChatUser.id); */
+    /* const selectedUserRef = doc(
+      collection(db, 'users', selectedChatUser.id),
+      user.id
+    ); */
+    const selectedUserRef = doc(
+      db,
+      'users',
+      selectedChatUser.id,
+      'friends',
+      user.id
+    );
 
     try {
       const newNotif: Notif = {
@@ -173,9 +194,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         status: 'send',
         photoURL: selectedChatUser.photoURL,
       };
-      await updateDoc(userFriendsRef, {
-        friends: arrayUnion(userNewFriendData),
-      });
+      await setDoc(userFriendsRef, userNewFriendData);
 
       //update selectedChatUser friends data
       const selectedUserNewFriendData: FriendData = {
@@ -185,9 +204,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         status: 'received',
         photoURL: selectedChatUser.photoURL,
       };
-      await updateDoc(selectedUserRef, {
-        friends: arrayUnion(selectedUserNewFriendData),
-      });
+      await setDoc(selectedUserRef, selectedUserNewFriendData);
     } catch (err) {
       console.log(err);
     }
@@ -237,28 +254,23 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
     const newStatus = action === 'accept' ? 'accepted' : 'rejected';
 
     try {
-      const userRef = doc(db, 'users', user.id);
-      const friendRef = doc(db, 'users', selectedChatUser.id);
-
-      const newUserState: FriendData[] = friends.map((friend) =>
-        friend.id === selectedChatUser.id
-          ? { ...friend, status: newStatus }
-          : friend
+      const userRef = doc(db, 'users', user.id, 'friends', selectedChatUser.id);
+      const friendRef = doc(
+        db,
+        'users',
+        selectedChatUser.id,
+        'friends',
+        user.id
       );
 
       await updateDoc(userRef, {
-        friends: newUserState,
+        status: newStatus,
       });
 
       const friendDoc = await getDoc(friendRef);
       if (friendDoc.exists()) {
-        const friendData = friendDoc.data();
-        const newFriendState: FriendData[] = friendData.friends.map(
-          (friend: { id: string }) =>
-            friend.id === user.id ? { ...friend, status: newStatus } : friend
-        );
         await updateDoc(friendRef, {
-          friends: newFriendState,
+          status: newStatus,
         });
       }
     } catch (err) {

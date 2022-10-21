@@ -37,9 +37,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             tags: generateTags(user.displayName.toLowerCase()),
             bio: '',
             darkMode: false,
-            friends: [],
-            notifications: [],
-            seenNotifs: [],
             photoURL: user.photoURL,
           };
           await setDoc(docRef, data);
