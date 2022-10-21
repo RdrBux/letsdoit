@@ -146,12 +146,14 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   }
 
   async function handleSendFriendRequest() {
-    const docRef = doc(db, 'users', selectedChatUser.id);
-    /* const userFriendsRef = doc(db, 'users', user.id); */
-    /* const userFriendsRef = doc(
-      collection(db, 'users', user.id, 'friends'),
-      selectedChatUser.id
-    ); */
+    const notifId = nanoid();
+    const selectedUserNotifs = doc(
+      db,
+      'users',
+      selectedChatUser.id,
+      'notifs',
+      notifId
+    );
     const userFriendsRef = doc(
       db,
       'users',
@@ -159,11 +161,6 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
       'friends',
       selectedChatUser.id
     );
-    /* const selectedUserRef = doc(db, 'users', selectedChatUser.id); */
-    /* const selectedUserRef = doc(
-      collection(db, 'users', selectedChatUser.id),
-      user.id
-    ); */
     const selectedUserRef = doc(
       db,
       'users',
@@ -175,17 +172,15 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
     try {
       const newNotif: Notif = {
         type: 'friendRequest',
-        id: nanoid(),
+        id: notifId,
         userId: user.id,
         name: user.name,
         photoURL: user.photoURL,
         time: new Date(),
         seen: false,
       };
-      // update own friends data
-      await updateDoc(docRef, {
-        notifications: arrayUnion(newNotif),
-      });
+      // update friend notification
+      await setDoc(selectedUserNotifs, newNotif);
 
       const userNewFriendData: FriendData = {
         id: selectedChatUser.id,
@@ -202,7 +197,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         name: user.name,
         lastMsg: '',
         status: 'received',
-        photoURL: selectedChatUser.photoURL,
+        photoURL: user.photoURL,
       };
       await setDoc(selectedUserRef, selectedUserNewFriendData);
     } catch (err) {

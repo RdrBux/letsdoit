@@ -4,8 +4,7 @@ import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { NotifContext } from '../../context/NotifContext';
-import { nanoid } from 'nanoid';
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { Notif, SelectedUser } from '../../types/types';
 
@@ -15,7 +14,7 @@ type Props = {
 };
 
 export default function NotificationsMenu({ selectChatUser, close }: Props) {
-  const { notifs, seenNotifs } = useContext(NotifContext);
+  const notifs = useContext(NotifContext);
   const user = useContext(AuthContext);
   const [filterNotifs, setFilterNotifs] = useState(true);
 
@@ -23,14 +22,14 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
 
   function getNotifs() {
     if (!filterNotifs) return notifs;
-    return notifs.filter((notif) => !seenNotifs.includes(notif.id));
+    return notifs.filter((notif) => notif.seen === false);
   }
 
   async function handleCloseClick(id: string) {
     try {
-      const docRef = doc(db, 'users', user.id);
+      const docRef = doc(db, 'users', user.id, 'notifs', id);
       await updateDoc(docRef, {
-        seenNotifs: arrayUnion(id),
+        seen: true,
       });
     } catch (err) {
       console.log(err);
@@ -50,7 +49,7 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
   const notificationsDisplay =
     unseenNotifs.map((notif) => (
       <div
-        key={nanoid()}
+        key={notif.id}
         /* onClick={() => handleClick(notif.id)} */
         onClick={() => handleClick(notif)}
         className="flex cursor-pointer items-center gap-4 border-b p-4 hover:bg-zinc-100"

@@ -7,10 +7,10 @@ type Props = {
 };
 
 export default function NotificationButton({ handleClick }: Props) {
-  const { notifs, seenNotifs } = useContext(NotifContext);
+  const notifs = useContext(NotifContext);
   function getNotifs() {
-    if (notifs && seenNotifs) {
-      return notifs.filter((notif) => !seenNotifs.includes(notif.id));
+    if (notifs) {
+      return notifs.filter((notif) => notif.seen === false);
     } else {
       return [];
     }
