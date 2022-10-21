@@ -13,6 +13,7 @@ export default function DropdownFriends({
 }: Props) {
   const participantsDisplay = userFriends.map((friend) => (
     <div
+      key={friend.id}
       onClick={() => handleParticipants(friend)}
       className={`flex cursor-pointer items-center justify-between gap-4 p-2 hover:bg-zinc-200 ${
         participants.includes(friend) ? 'bg-zinc-200' : ''
