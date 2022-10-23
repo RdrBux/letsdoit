@@ -54,7 +54,7 @@ export default function ContactsMenu({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-900/80">
+    <div className="fixed inset-0 z-50 flex h-screen w-screen justify-center bg-zinc-900/80 pt-32">
       <OutsideAlerter action={close}>
         <div className="flex w-80 flex-col rounded-lg shadow-lg">
           <div className="flex items-center justify-between rounded-t-lg bg-white px-4 pt-4 text-zinc-800 dark:bg-zinc-800 dark:text-white">
