@@ -22,6 +22,7 @@ export default function TaskForm({ userFriends, close }: Props) {
   const [selectedParticipants, setSelectedParticipants] = useState<
     FriendData[]
   >([]);
+  console.log(selectedParticipants);
 
   const user = useContext(AuthContext);
 

@@ -7,6 +7,7 @@ import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import ParticipantAvatar from '../ParticipantAvatar/ParticipantAvatar';
 
 type Props = {
   task: Task;
@@ -63,15 +64,14 @@ export default function TaskDisplay({ task, remove, close }: Props) {
               </div>
             </div>
           </div>
+
           <div className="flex flex-col gap-1 border-b py-4 dark:border-zinc-600">
             <div className="font-semibold">PARTICIPANTES</div>
-            <img
-              className="w-10 rounded-full"
-              src={user.photoURL || Avatar}
-              alt=""
-              referrerPolicy="no-referrer"
-            />
+            <div className="flex flex-wrap gap-4">
+              <ParticipantAvatar user={user} isAccepted={true} />
+            </div>
           </div>
+
           <div className="pt-4">
             <button
               onClick={handleDelete}
