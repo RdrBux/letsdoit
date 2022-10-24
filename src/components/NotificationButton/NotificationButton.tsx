@@ -10,7 +10,9 @@ export default function NotificationButton({ handleClick }: Props) {
   const notifs = useContext(NotifContext);
   function getNotifs() {
     if (notifs) {
-      return notifs.filter((notif) => notif.seen === false);
+      return notifs.filter(
+        (notif) => notif.seen === false && notif.type !== 'newChat'
+      );
     } else {
       return [];
     }

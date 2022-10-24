@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import msgIcon from '../../assets/msgIcon.svg';
+import { NotifContext } from '../../context/NotifContext';
 import { FriendData, SelectedUser } from '../../types/types';
 
 type Props = {
@@ -12,20 +14,31 @@ export default function ContactsNav({
   userFriends,
   selectChatUser,
 }: Props) {
+  const notifs = useContext(NotifContext);
+  const newMsgs = notifs.filter(
+    (notif) => notif.type === 'newChat' && !notif.seen
+  );
   const friendsAvatars = getAvatarButtons();
 
   function getAvatarButtons() {
     if (!userFriends) return;
-    return userFriends.map((friend) => (
-      <img
-        key={friend.id}
-        onClick={() => selectUser(friend)}
-        className="h-10 w-10 cursor-pointer rounded-full"
-        src={friend.photoURL}
-        alt=""
-        referrerPolicy="no-referrer"
-      />
-    ));
+    return userFriends.map((friend) => {
+      const friendHasNewMsg = newMsgs.some((msg) => msg.userId === friend.id);
+      return (
+        <div key={friend.id} className="relative h-10 w-10 rounded-full">
+          <img
+            onClick={() => selectUser(friend)}
+            className="h-10 w-10 cursor-pointer rounded-full"
+            src={friend.photoURL}
+            alt=""
+            referrerPolicy="no-referrer"
+          />
+          {friendHasNewMsg && (
+            <div className="absolute top-0 right-0 h-3 w-3 rounded-full bg-green-400 shadow"></div>
+          )}
+        </div>
+      );
+    });
   }
 
   function selectUser(user: FriendData) {

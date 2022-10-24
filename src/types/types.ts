@@ -45,7 +45,7 @@ export type FriendData = {
 };
 
 export type Notif = {
-  type: 'friendRequest';
+  type: 'friendRequest' | 'newChat';
   userId?: string;
   id: string;
   name: string;

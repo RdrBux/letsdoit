@@ -21,8 +21,11 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
   const unseenNotifs = getNotifs();
 
   function getNotifs() {
-    if (!filterNotifs) return notifs;
-    return notifs.filter((notif) => notif.seen === false);
+    if (!filterNotifs)
+      return notifs.filter((notif) => notif.type !== 'newChat');
+    return notifs.filter(
+      (notif) => notif.seen === false && notif.type !== 'newChat'
+    );
   }
 
   async function handleCloseClick(id: string) {

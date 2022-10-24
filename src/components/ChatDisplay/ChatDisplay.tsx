@@ -1,11 +1,16 @@
 import {
   arrayUnion,
+  collection,
+  deleteDoc,
   doc,
   DocumentData,
   getDoc,
+  getDocs,
   onSnapshot,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import { KeyboardEvent, useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
@@ -65,6 +70,27 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
     return () => {
       unsub();
     };
+  }, [user, selectedChatUser]);
+
+  useEffect(() => {
+    async function deleteNewMsgNotif() {
+      if (selectedChatUser.id) {
+        const q = query(
+          collection(db, 'users', user.id, 'notifs'),
+          where('userId', '==', selectedChatUser.id)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (document) => {
+          try {
+            const docRef = doc(db, 'users', user.id, 'notifs', document.id);
+            await deleteDoc(docRef);
+          } catch (err) {
+            console.log(err);
+          }
+        });
+      }
+    }
+    deleteNewMsgNotif();
   }, [user, selectedChatUser]);
 
   useEffect(() => {
@@ -149,6 +175,30 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
     } catch (err) {
       console.log(err);
     }
+
+    // Send alert to notify a new msg to friend
+    const notifId = nanoid();
+    const friendNotifsRef = doc(
+      db,
+      'users',
+      selectedChatUser.id,
+      'notifs',
+      notifId
+    );
+    const notif: Notif = {
+      type: 'newChat',
+      userId: user.id,
+      id: notifId,
+      name: user.name,
+      photoURL: user.photoURL,
+      time: new Date(),
+      seen: false,
+    };
+    try {
+      await setDoc(friendNotifsRef, notif);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function handleKey(e: KeyboardEvent) {
@@ -207,6 +257,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         id: selectedChatUser.id,
         name: selectedChatUser.name,
         lastMsg: '',
+        lastMsgTime: new Date(),
         status: 'send',
         photoURL: selectedChatUser.photoURL,
       };
@@ -217,6 +268,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         id: user.id,
         name: user.name,
         lastMsg: '',
+        lastMsgTime: new Date(),
         status: 'received',
         photoURL: user.photoURL,
       };

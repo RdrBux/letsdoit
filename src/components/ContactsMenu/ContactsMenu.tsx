@@ -1,8 +1,9 @@
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FriendData, SelectedUser } from '../../types/types';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { NotifContext } from '../../context/NotifContext';
 
 type Props = {
   userFriends: FriendData[];
@@ -16,39 +17,52 @@ export default function ContactsMenu({
   selectChatUser,
 }: Props) {
   const [searchValue, setSearchValue] = useState('');
+  const notifs = useContext(NotifContext);
 
+  const newMsgs = notifs.filter(
+    (notif) => notif.type === 'newChat' && !notif.seen
+  );
   const displayUsers = getDisplayUsers();
 
   function getDisplayUsers() {
     if (!userFriends) return '';
-    return userFriends.map((friend) => (
-      <div
-        key={friend.id}
-        onClick={() => selectUser(friend)}
-        className="flex cursor-pointer items-center gap-4 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-700"
-      >
-        <img
-          className="h-12 w-12 rounded-full"
-          src={friend.photoURL}
-          alt=""
-          referrerPolicy="no-referrer"
-        />
-        <div className="w-full">
-          <p className="font-semibold">{friend.name}</p>
-          <div className="flex justify-between text-sm text-zinc-700 dark:text-zinc-400">
-            <p className="w-40 overflow-hidden text-ellipsis whitespace-nowrap">
-              {friend.lastMsg}
-            </p>
-            <p className="whitespace-nowrap font-bold">
-              {friend.lastMsgTime &&
-                formatDistanceToNowStrict(friend.lastMsgTime.toDate(), {
-                  locale: es,
-                })}
-            </p>
+    return userFriends.map((friend) => {
+      const friendHasNewMsg = newMsgs.some((msg) => msg.userId === friend.id);
+
+      return (
+        <div
+          key={friend.id}
+          onClick={() => selectUser(friend)}
+          className="flex cursor-pointer items-center gap-4 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-700"
+        >
+          <div className="relative h-12 w-12 shrink-0 rounded-full">
+            <img
+              className="h-12 w-12 rounded-full"
+              src={friend.photoURL}
+              alt=""
+              referrerPolicy="no-referrer"
+            />
+            {friendHasNewMsg && (
+              <div className="absolute top-0 right-0 h-3 w-3 rounded-full bg-green-400 shadow"></div>
+            )}
+          </div>
+          <div className="w-full">
+            <p className="font-semibold">{friend.name}</p>
+            <div className="flex justify-between text-sm text-zinc-700 dark:text-zinc-400">
+              <p className="w-40 overflow-hidden text-ellipsis whitespace-nowrap">
+                {friend.lastMsg}
+              </p>
+              <p className="overflow-hidden whitespace-nowrap font-bold">
+                {friend.lastMsgTime &&
+                  formatDistanceToNowStrict(friend.lastMsgTime.toDate(), {
+                    locale: es,
+                  })}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    ));
+      );
+    });
   }
 
   function selectUser(user: FriendData) {

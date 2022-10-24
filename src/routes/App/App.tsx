@@ -21,7 +21,6 @@ function App() {
   const friends = useContext(FriendsContext);
 
   const userFriends = getFriends();
-
   const [taskFormOpen, setTaskFormOpen] = useState(false);
   const [taskDisplayOpen, setTaskDisplayOpen] = useState(false);
   const [contactsMenuOpen, setContactsMenuOpen] = useState(false);
@@ -57,7 +56,13 @@ function App() {
 
   function getFriends() {
     if (!friends) return [];
-    return friends.filter((friend) => friend.status === 'accepted');
+    const filteredFriends = friends.filter(
+      (friend) => friend.status === 'accepted'
+    );
+    const sortedFriendByRecentMsg = filteredFriends.sort(
+      (a, b) => b.lastMsgTime.toDate() - a.lastMsgTime.toDate()
+    );
+    return sortedFriendByRecentMsg;
   }
 
   function toggleMenu() {
