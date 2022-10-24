@@ -40,6 +40,7 @@ export type FriendData = {
   name: string;
   photoURL: string;
   lastMsg: string;
+  lastMsgTime?: any;
   status: 'accepted' | 'rejected' | 'send' | 'received';
 };
 

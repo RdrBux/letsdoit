@@ -111,6 +111,10 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   const chatToJSX = chatDataToJSX();
 
   async function handleSubmit() {
+    const msg = message;
+    setMessage('');
+
+    // Add msg to array on the doc with combined ids
     const combinedId =
       user.id > selectedChatUser.id
         ? user.id + selectedChatUser.id
@@ -122,16 +126,33 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
         chat: arrayUnion({
           id: user.id,
           time: new Date(),
-          msg: message,
+          msg: msg,
         }),
       });
     } catch (err) {
       console.log(err);
     }
-    setMessage('');
+
+    // Update lastMsg element in both users friendslists
+    const userRef = doc(db, 'users', user.id, 'friends', selectedChatUser.id);
+    const friendRef = doc(db, 'users', selectedChatUser.id, 'friends', user.id);
+    try {
+      await updateDoc(userRef, {
+        lastMsg: 'tú: ' + msg,
+        lastMsgTime: new Date(),
+      });
+
+      await updateDoc(friendRef, {
+        lastMsg: msg,
+        lastMsgTime: new Date(),
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
+
   function handleKey(e: KeyboardEvent) {
-    if (e.code === 'Enter') {
+    if (e.code === 'Enter' || e.code === 'NumpadEnter') {
       handleSubmit();
     }
   }

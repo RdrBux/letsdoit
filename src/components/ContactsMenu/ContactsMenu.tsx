@@ -1,6 +1,8 @@
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { useState } from 'react';
 import { FriendData, SelectedUser } from '../../types/types';
+import { formatDistanceToNowStrict } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 type Props = {
   userFriends: FriendData[];
@@ -34,10 +36,15 @@ export default function ContactsMenu({
         <div className="w-full">
           <p className="font-semibold">{friend.name}</p>
           <div className="flex justify-between text-sm text-zinc-700 dark:text-zinc-400">
-            <p className="w-44 overflow-hidden text-ellipsis whitespace-nowrap">
+            <p className="w-40 overflow-hidden text-ellipsis whitespace-nowrap">
               {friend.lastMsg}
             </p>
-            <p className="font-bold">6/07</p>
+            <p className="whitespace-nowrap font-bold">
+              {friend.lastMsgTime &&
+                formatDistanceToNowStrict(friend.lastMsgTime.toDate(), {
+                  locale: es,
+                })}
+            </p>
           </div>
         </div>
       </div>

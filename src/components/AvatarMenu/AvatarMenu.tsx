@@ -32,7 +32,7 @@ export default function AvatarMenu({ close }: Props) {
           />
           <p className="font-semibold">{user.name}</p>
         </div>
-        <div className="flex cursor-pointer items-center gap-4 rounded-lg py-4 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+        <div className="flex items-center gap-4 rounded-lg py-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -50,7 +50,7 @@ export default function AvatarMenu({ close }: Props) {
           Modo oscuro
           <input
             type="checkbox"
-            className="h-5 w-5"
+            className="h-5 w-5 cursor-pointer"
             checked={checkedDarkMode}
             onChange={() =>
               setTheme((prev: string) => (prev === 'light' ? 'dark' : 'light'))

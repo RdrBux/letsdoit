@@ -1,6 +1,32 @@
 @tailwind base;
 @tailwind components;
 
+/* LOGIN BACKGROUND */
+
+.login-bg {
+  background: linear-gradient(
+    -45deg,
+    rgb(6 95 70),
+    rgb(52 211 153),
+    rgb(20 184 166),
+    rgb(8 145 178)
+  );
+  background-size: 400% 100%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 /* HAMBURGER ICON */
 
 #nav-icon {
