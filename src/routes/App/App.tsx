@@ -7,14 +7,7 @@ import Calendar from 'react-calendar';
 import DailyTasksDisplay from '../../components/DailyTasksDisplay/DailyTasksDisplay';
 import { SelectedUser, SharedTask, Task } from '../../types/types';
 import TaskForm from '../../components/TaskForm/TaskForm';
-import {
-  collection,
-  doc,
-  DocumentReference,
-  getDoc,
-  getDocs,
-  onSnapshot,
-} from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
 import { format, parseISO } from 'date-fns';
@@ -36,12 +29,21 @@ function App() {
   const [selectedDay, setSelectedDay] = useState(
     format(new Date(), 'yyyy-MM-dd')
   );
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [ownTasks, setOwnTasks] = useState<Task[]>([]);
   const [sharedTasks, setSharedTasks] = useState<SharedTask[]>([]);
   const [sharedTasksData, setSharedTasksData] = useState<Task[]>([]);
   const [selectedChatUser, setSelectedChatUser] = useState<SelectedUser | null>(
     null
   );
+
+  const tasks = [
+    ...ownTasks,
+    ...sharedTasksData.filter((task) =>
+      task.participants.some(
+        (person) => person.id === user.id && person.isAccepted
+      )
+    ),
+  ];
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -49,7 +51,7 @@ function App() {
       (docs) => {
         const data: any[] = [];
         docs.forEach((doc) => data.push(doc.data()));
-        setTasks(data);
+        setOwnTasks(data);
       }
     );
 
@@ -86,46 +88,7 @@ function App() {
       }
     }
     getDocsData();
-  }, [sharedTasks]);
-
-  console.log(sharedTasksData);
-
-  /*   useEffect(() => {
-    async function getSharedData() {
-      const sharedTasksRef = collection(db, 'users', user.id, 'sharedTasks');
-      const sharedDocs = await getDocs(sharedTasksRef);
-      const sharedData: any[] = [];
-
-      sharedDocs.forEach((doc) => sharedData.push(doc.data()));
-
-      const fetchedData: any[] = [];
-      for (const doc of sharedData) {
-        try {
-          const newDoc = await getDoc(doc.taskRef);
-          fetchedData.push(newDoc.data());
-        } catch (err) {
-          console.log(err);
-        }
-      }
-      await Promise.all(
-        sharedData.map(async (doc) => {
-          try {
-            const newDoc = await getDoc(doc.taskRef);
-            fetchedData.push(newDoc.data());
-          } catch (err) {
-            console.log(err);
-          }
-        })
-      );
-
-      console.log(fetchedData);
-      setTasks((prevTasks) => [...prevTasks, ...fetchedData]);
-    }
-    getSharedData();
-    return () => {
-      getSharedData();
-    };
-  }, [user]); */
+  }, [sharedTasks, user]);
 
   function getFriends() {
     if (!friends) return [];
