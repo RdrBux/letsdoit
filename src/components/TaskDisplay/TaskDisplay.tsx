@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
-import Avatar from '../../assets/avatar.png';
 import { Task } from '../../types/types';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -11,22 +10,24 @@ import ParticipantAvatar from '../ParticipantAvatar/ParticipantAvatar';
 
 type Props = {
   task: Task;
-  remove: (id: string) => void;
   close: () => void;
 };
 
-export default function TaskDisplay({ task, remove, close }: Props) {
+export default function TaskDisplay({ task, close }: Props) {
   const user = useContext(AuthContext);
 
   async function handleDelete() {
     try {
-      await deleteDoc(doc(db, 'users', user.id, 'tasks', task.id));
-      remove(task.id);
       close();
+      await deleteDoc(doc(db, 'users', user.id, 'tasks', task.id));
     } catch (err) {
       console.log(err);
     }
   }
+
+  const participants = [task.creator, ...task.participants].map((person) => (
+    <ParticipantAvatar key={person.id} user={person} />
+  ));
 
   return (
     <div className="fixed inset-0 z-50 flex h-screen w-screen justify-center bg-zinc-900/80 pt-32">
@@ -67,9 +68,7 @@ export default function TaskDisplay({ task, remove, close }: Props) {
 
           <div className="flex flex-col gap-1 border-b py-4 dark:border-zinc-600">
             <div className="font-semibold">PARTICIPANTES</div>
-            <div className="flex flex-wrap gap-4">
-              <ParticipantAvatar user={user} isAccepted={true} />
-            </div>
+            <div className="flex flex-wrap gap-4">{participants}</div>
           </div>
 
           <div className="pt-4">

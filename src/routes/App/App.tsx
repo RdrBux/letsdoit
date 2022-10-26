@@ -5,9 +5,16 @@ import HamburgerMenu from '../../components/HamburgerMenu/HamburgerMenu';
 import TopNav from '../../components/TopNav/TopNav';
 import Calendar from 'react-calendar';
 import DailyTasksDisplay from '../../components/DailyTasksDisplay/DailyTasksDisplay';
-import { SelectedUser, Task } from '../../types/types';
+import { SelectedUser, SharedTask, Task } from '../../types/types';
 import TaskForm from '../../components/TaskForm/TaskForm';
-import { collection, getDocs } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  DocumentReference,
+  getDoc,
+  getDocs,
+  onSnapshot,
+} from 'firebase/firestore';
 import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
 import { format, parseISO } from 'date-fns';
@@ -30,29 +37,95 @@ function App() {
     format(new Date(), 'yyyy-MM-dd')
   );
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [sharedTasks, setSharedTasks] = useState<SharedTask[]>([]);
+  const [sharedTasksData, setSharedTasksData] = useState<Task[]>([]);
   const [selectedChatUser, setSelectedChatUser] = useState<SelectedUser | null>(
     null
   );
 
   useEffect(() => {
-    async function getData() {
-      try {
-        if (!user) return;
-        const collectionRef = collection(db, 'users', user.id, 'tasks');
-        const docs = await getDocs(collectionRef);
+    const unsub = onSnapshot(
+      collection(db, 'users', user.id || 'unknown', 'tasks'),
+      (docs) => {
         const data: any[] = [];
-        docs.forEach((doc) => {
-          data.push(doc.data());
-        });
+        docs.forEach((doc) => data.push(doc.data()));
         setTasks(data);
-      } catch (err) {
-        console.log(err);
+      }
+    );
+
+    return () => {
+      unsub();
+    };
+  }, [user]);
+
+  useEffect(() => {
+    const unsub = onSnapshot(
+      collection(db, 'users', user.id || 'unknown', 'sharedTasks'),
+      (docs) => {
+        const data: any[] = [];
+        docs.forEach((doc) => data.push(doc.data()));
+        setSharedTasks(data);
+      }
+    );
+
+    return () => {
+      unsub();
+    };
+  }, [user]);
+
+  useEffect(() => {
+    async function getDocsData() {
+      for (const task of sharedTasks) {
+        onSnapshot(task.taskRef, (doc: { data: () => any }) => {
+          const newTask = doc.data();
+          setSharedTasksData((prev) => {
+            const filtered = prev.filter((doc) => doc.id !== newTask.id);
+            return filtered.concat(newTask);
+          });
+        });
       }
     }
+    getDocsData();
+  }, [sharedTasks]);
+
+  console.log(sharedTasksData);
+
+  /*   useEffect(() => {
+    async function getSharedData() {
+      const sharedTasksRef = collection(db, 'users', user.id, 'sharedTasks');
+      const sharedDocs = await getDocs(sharedTasksRef);
+      const sharedData: any[] = [];
+
+      sharedDocs.forEach((doc) => sharedData.push(doc.data()));
+
+      const fetchedData: any[] = [];
+      for (const doc of sharedData) {
+        try {
+          const newDoc = await getDoc(doc.taskRef);
+          fetchedData.push(newDoc.data());
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      await Promise.all(
+        sharedData.map(async (doc) => {
+          try {
+            const newDoc = await getDoc(doc.taskRef);
+            fetchedData.push(newDoc.data());
+          } catch (err) {
+            console.log(err);
+          }
+        })
+      );
+
+      console.log(fetchedData);
+      setTasks((prevTasks) => [...prevTasks, ...fetchedData]);
+    }
+    getSharedData();
     return () => {
-      getData();
+      getSharedData();
     };
-  }, [user, taskFormOpen]);
+  }, [user]); */
 
   function getFriends() {
     if (!friends) return [];
@@ -75,10 +148,6 @@ function App() {
 
   function handleClickTaskButton() {
     setTaskFormOpen(true);
-  }
-
-  function removeFromTasksState(id: string) {
-    setTasks((prevState) => prevState.filter((task) => task.id !== id));
   }
 
   function selectedTaskBody(id: string) {
@@ -120,7 +189,6 @@ function App() {
         <TaskDisplay
           task={selectedTaskBody(selectedTask)}
           close={() => setTaskDisplayOpen(false)}
-          remove={removeFromTasksState}
         />
       )}
       {contactsMenuOpen && (

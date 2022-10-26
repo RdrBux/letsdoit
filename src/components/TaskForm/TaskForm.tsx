@@ -6,7 +6,12 @@ import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
 import DropdownFriends from '../DropdownFriends/DropdownFriends';
 import FormInput from '../FormInput/FormInput';
-import { FriendData } from '../../types/types';
+import {
+  FriendData,
+  SharedTask,
+  Task,
+  TaskParticipant,
+} from '../../types/types';
 
 type Props = {
   userFriends: FriendData[];
@@ -22,7 +27,6 @@ export default function TaskForm({ userFriends, close }: Props) {
   const [selectedParticipants, setSelectedParticipants] = useState<
     FriendData[]
   >([]);
-  console.log(selectedParticipants);
 
   const user = useContext(AuthContext);
 
@@ -32,12 +36,48 @@ export default function TaskForm({ userFriends, close }: Props) {
     try {
       close();
       const docRef = doc(collection(db, 'users', user.id, 'tasks'));
-      await setDoc(docRef, {
+
+      const participants: TaskParticipant[] = selectedParticipants.map(
+        (person) => ({
+          id: person.id,
+          name: person.name,
+          photoURL: person.photoURL,
+        })
+      );
+      const task: Task = {
         id: docRef.id,
         title: title,
         description: description,
         date: date,
         hour: hour,
+        creator: {
+          id: user.id,
+          name: user.name,
+          photoURL: user.photoURL,
+          isAccepted: true,
+        },
+        participants: participants,
+      };
+
+      await setDoc(docRef, task);
+
+      // Send shared task to each invited participant
+      selectedParticipants.forEach(async (person) => {
+        const personTaskRef = doc(
+          db,
+          'users',
+          person.id,
+          'sharedTasks',
+          docRef.id
+        );
+        try {
+          const sharedTask = {
+            taskRef: docRef,
+          };
+          await setDoc(personTaskRef, sharedTask);
+        } catch (err) {
+          console.log(err);
+        }
       });
     } catch (err) {
       console.log(err);
@@ -138,7 +178,9 @@ export default function TaskForm({ userFriends, close }: Props) {
                       alt=""
                       referrerPolicy="no-referrer"
                     />
-                    <div>{displayParticipants}</div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {displayParticipants}
+                    </div>
                     <button
                       type="button"
                       onClick={() => setOpenPeople((prev) => !prev)}

@@ -1,9 +1,22 @@
+export type TaskParticipant = {
+  id: string;
+  name: string;
+  photoURL: string;
+  isAccepted?: boolean;
+};
+
 export type Task = {
   id: string;
   date: string;
   description: string;
   hour: string;
   title: string;
+  creator: TaskParticipant;
+  participants: TaskParticipant[];
+};
+
+export type SharedTask = {
+  taskRef: any;
 };
 
 export type User = {
