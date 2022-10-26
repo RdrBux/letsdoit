@@ -1,7 +1,3 @@
-//
-// DELETE REFERENCE TO TASK ON EACH PARTICIPANT SHARED TASKS
-//
-
 import { useContext, useEffect, useState } from 'react';
 import AddTaskButton from '../../components/AddTaskButton/AddTaskButton';
 import ContactsNav from '../../components/ContactsNav/ContactsNav';

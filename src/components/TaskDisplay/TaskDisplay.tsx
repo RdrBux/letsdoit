@@ -28,7 +28,14 @@ export default function TaskDisplay({ task, close }: Props) {
     if (isCreator) {
       try {
         close();
+        // DELETE DOC ON OWN TASKS
         await deleteDoc(doc(db, 'users', user.id, 'tasks', task.id));
+
+        // DELETE DOC REFERENCE ON EACH PARTICIPANT SHAREDTASKS COLLECTION
+        task.participants.forEach(async (person) => {
+          const taskRef = doc(db, 'users', person.id, 'sharedTasks', task.id);
+          await deleteDoc(taskRef);
+        });
       } catch (err) {
         console.log(err);
       }

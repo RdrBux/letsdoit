@@ -54,12 +54,16 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
     if (notif.type === 'invitation') {
       try {
         const task = await getDoc(notif.taskRef);
-        setNotifTask(task.data());
-        setTaskDisplayOpen(true);
+        const taskData = task.data();
+        if (taskData) {
+          setNotifTask(taskData);
+          setTaskDisplayOpen(true);
+        } else {
+          alert('Lo sentimos. Esta actividad ha sido eliminada.');
+        }
       } catch (err) {
         console.log(err);
       }
-      /* displayTask(true); */
     }
     handleCloseClick(notif.id);
   }
