@@ -1,3 +1,7 @@
+//
+// DELETE REFERENCE TO TASK ON EACH PARTICIPANT SHARED TASKS
+//
+
 import { useContext, useEffect, useState } from 'react';
 import AddTaskButton from '../../components/AddTaskButton/AddTaskButton';
 import ContactsNav from '../../components/ContactsNav/ContactsNav';
@@ -77,6 +81,7 @@ function App() {
 
   useEffect(() => {
     async function getDocsData() {
+      if (sharedTasks.length < 1) return;
       for (const task of sharedTasks) {
         onSnapshot(task.taskRef, (doc: { data: () => any }) => {
           const newTask = doc.data();

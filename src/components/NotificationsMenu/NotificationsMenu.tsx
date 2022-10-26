@@ -4,9 +4,10 @@ import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { NotifContext } from '../../context/NotifContext';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { Notif, SelectedUser } from '../../types/types';
+import { Notif, SelectedUser, Task } from '../../types/types';
+import TaskDisplay from '../TaskDisplay/TaskDisplay';
 
 type Props = {
   selectChatUser: (user: SelectedUser) => void;
@@ -17,6 +18,8 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
   const notifs = useContext(NotifContext);
   const user = useContext(AuthContext);
   const [filterNotifs, setFilterNotifs] = useState(true);
+  const [taskDisplayOpen, setTaskDisplayOpen] = useState(false);
+  const [notifTask, setNotifTask] = useState<any>(null);
 
   const unseenNotifs = getNotifs();
 
@@ -39,21 +42,32 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
     }
   }
 
-  function handleClick(notif: Notif) {
-    selectChatUser({
-      id: notif.userId || 'unknown',
-      name: notif.name,
-      photoURL: notif.photoURL,
-    });
+  async function handleClick(notif: Notif) {
+    if (notif.type === 'friendRequest') {
+      selectChatUser({
+        id: notif.userId || 'unknown',
+        name: notif.name,
+        photoURL: notif.photoURL,
+      });
+      close();
+    }
+    if (notif.type === 'invitation') {
+      try {
+        const task = await getDoc(notif.taskRef);
+        setNotifTask(task.data());
+        setTaskDisplayOpen(true);
+      } catch (err) {
+        console.log(err);
+      }
+      /* displayTask(true); */
+    }
     handleCloseClick(notif.id);
-    close();
   }
 
   const notificationsDisplay =
     unseenNotifs.map((notif) => (
       <div
         key={notif.id}
-        /* onClick={() => handleClick(notif.id)} */
         onClick={() => handleClick(notif)}
         className="flex cursor-pointer items-center gap-4 border-b p-4 hover:bg-zinc-100 dark:border-zinc-600 dark:hover:bg-zinc-700"
       >
@@ -66,7 +80,10 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
         <div className="flex flex-col gap-1">
           <p className="text-sm">
             <span className="font-semibold">{notif.name} </span>
-            te ha enviado una solicitud de amistad.
+            {notif.type === 'friendRequest' &&
+              'te ha enviado una solicitud de amistad.'}
+            {notif.type === 'invitation' &&
+              'te ha invitado a realizar una actividad.'}
           </p>
           <p className="text-xs font-bold">
             hace{' '}
@@ -80,6 +97,9 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
 
   return (
     <OutsideAlerter action={close}>
+      {taskDisplayOpen && (
+        <TaskDisplay task={notifTask} close={() => setTaskDisplayOpen(false)} />
+      )}
       <div className="absolute right-0 top-12 w-80 rounded-lg bg-white text-zinc-800 shadow-lg dark:bg-zinc-800 dark:text-white">
         <h2 className="mt-4 px-4 text-xl font-bold">Notificaciones</h2>
         {unseenNotifs.length < 1 && (

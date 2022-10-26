@@ -58,8 +58,9 @@ export type FriendData = {
 };
 
 export type Notif = {
-  type: 'friendRequest' | 'newChat';
+  type: 'friendRequest' | 'newChat' | 'invitation';
   userId?: string;
+  taskRef?: any;
   id: string;
   name: string;
   photoURL: string;

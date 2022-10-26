@@ -6,12 +6,8 @@ import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
 import DropdownFriends from '../DropdownFriends/DropdownFriends';
 import FormInput from '../FormInput/FormInput';
-import {
-  FriendData,
-  SharedTask,
-  Task,
-  TaskParticipant,
-} from '../../types/types';
+import { FriendData, Notif, Task, TaskParticipant } from '../../types/types';
+import { nanoid } from 'nanoid';
 
 type Props = {
   userFriends: FriendData[];
@@ -70,11 +66,28 @@ export default function TaskForm({ userFriends, close }: Props) {
           'sharedTasks',
           docRef.id
         );
+        const notifId = nanoid();
+        const personNotifsRef = doc(db, 'users', person.id, 'notifs', notifId);
+
         try {
+          // send task reference to user sharedTasks collection
           const sharedTask = {
             taskRef: docRef,
           };
           await setDoc(personTaskRef, sharedTask);
+
+          // send notification to user
+          const notif: Notif = {
+            type: 'invitation',
+            userId: user.id,
+            taskRef: docRef,
+            id: notifId,
+            name: user.name,
+            photoURL: user.photoURL,
+            time: new Date(),
+            seen: false,
+          };
+          await setDoc(personNotifsRef, notif);
         } catch (err) {
           console.log(err);
         }
