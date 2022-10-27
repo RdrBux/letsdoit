@@ -91,7 +91,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
       }
     }
     deleteNewMsgNotif();
-  }, [user, selectedChatUser]);
+  }, [user, selectedChatUser, chatData]);
 
   useEffect(() => {
     scrollToBottom();
