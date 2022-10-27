@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { signOut } from 'firebase/auth';
-import { auth, obtainToken, requestPermision } from '../../firebase';
+import { auth, messaging, obtainToken, requestPermision } from '../../firebase';
 import { ThemeContext } from '../../context/ThemeContext';
 
 type Props = {
@@ -24,13 +24,8 @@ export default function AvatarMenu({ close }: Props) {
     requestPermision();
   }
 
-  function handleTest() {
-    console.log('hi');
-  }
-
   return (
     <OutsideAlerter action={close}>
-      <button onClick={handleTest}>TEST</button>
       <div className="absolute right-0 top-12 w-80 rounded-lg bg-white px-4 text-zinc-800 shadow-lg dark:bg-zinc-800 dark:text-white">
         <div className="flex items-center gap-4 border-b py-4 dark:border-zinc-600">
           <img
