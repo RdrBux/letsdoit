@@ -109,7 +109,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
             className="relative ml-8 w-fit self-end rounded-2xl rounded-tr-none bg-emerald-200 p-4 shadow-sm"
           >
             {chat.msg}
-            <div className="absolute -bottom-4 right-2 whitespace-nowrap text-xs font-semibold text-zinc-500 dark:text-zinc-700">
+            <div className="absolute -bottom-4 right-2 whitespace-nowrap text-xs font-semibold text-zinc-500">
               {formatDistanceToNowStrict(chat.time.toDate(), {
                 locale: es,
               })}
@@ -123,7 +123,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
             className="relative mr-8 w-fit rounded-xl rounded-tl-none bg-white p-4 shadow-sm"
           >
             {chat.msg}
-            <div className="absolute -bottom-4 left-2 whitespace-nowrap text-xs font-bold text-zinc-500 dark:text-zinc-700">
+            <div className="absolute -bottom-4 left-2 whitespace-nowrap text-xs font-bold text-zinc-500">
               {formatDistanceToNowStrict(chat.time.toDate(), {
                 locale: es,
               })}
@@ -347,7 +347,7 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
   }
 
   return (
-    <div className="flex flex-col justify-between bg-zinc-100 text-zinc-900 dark:bg-zinc-400">
+    <div className="flex flex-col justify-between bg-zinc-100 text-zinc-900 dark:bg-zinc-900">
       <div className="sticky top-14 z-10 flex items-center gap-4 bg-white px-4 py-2 shadow dark:bg-zinc-800 dark:text-zinc-100">
         <button onClick={close} className="py-2">
           <svg
