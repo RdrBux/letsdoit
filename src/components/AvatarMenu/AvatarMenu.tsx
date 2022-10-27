@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../firebase';
+import { auth, obtainToken, requestPermision } from '../../firebase';
 import { ThemeContext } from '../../context/ThemeContext';
 
 type Props = {
@@ -20,8 +20,17 @@ export default function AvatarMenu({ close }: Props) {
       .catch((err) => console.log(err));
   }
 
+  function handleNotifs() {
+    requestPermision();
+  }
+
+  function handleTest() {
+    console.log('hi');
+  }
+
   return (
     <OutsideAlerter action={close}>
+      <button onClick={handleTest}>TEST</button>
       <div className="absolute right-0 top-12 w-80 rounded-lg bg-white px-4 text-zinc-800 shadow-lg dark:bg-zinc-800 dark:text-white">
         <div className="flex items-center gap-4 border-b py-4 dark:border-zinc-600">
           <img
@@ -31,6 +40,27 @@ export default function AvatarMenu({ close }: Props) {
             referrerPolicy="no-referrer"
           />
           <p className="font-semibold">{user.name}</p>
+        </div>
+        <div
+          onClick={handleNotifs}
+          className="flex cursor-pointer items-center gap-4 rounded-lg py-4 hover:bg-zinc-100 dark:hover:bg-zinc-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="ml-2 h-6 w-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5"
+            />
+          </svg>
+
+          <p>Activar notificaciones</p>
         </div>
         <div className="flex items-center gap-4 rounded-lg py-4">
           <svg
