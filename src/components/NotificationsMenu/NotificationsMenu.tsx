@@ -109,7 +109,7 @@ export default function NotificationsMenu({ selectChatUser, close }: Props) {
         {unseenNotifs.length < 1 && (
           <p className="p-4">No tienes nuevas notificaciones.</p>
         )}
-        <div className="max-h-[60vh] overflow-y-scroll">
+        <div className="max-h-[60vh] overflow-y-auto">
           {notificationsDisplay}
         </div>
 

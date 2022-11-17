@@ -147,6 +147,7 @@ function App() {
           handleTaskButton={handleClickTaskButton}
           selectTask={setSelectedTask}
           displayTask={setTaskDisplayOpen}
+          close={() => setMenuOpen(false)}
         />
       )}
       {taskDisplayOpen && (
