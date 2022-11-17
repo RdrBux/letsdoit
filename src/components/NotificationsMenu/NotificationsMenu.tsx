@@ -6,7 +6,7 @@ import { es } from 'date-fns/locale';
 import { NotifContext } from '../../context/NotifContext';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { Notif, SelectedUser, Task } from '../../types/types';
+import { Notif, SelectedUser } from '../../types/types';
 import TaskDisplay from '../TaskDisplay/TaskDisplay';
 
 type Props = {

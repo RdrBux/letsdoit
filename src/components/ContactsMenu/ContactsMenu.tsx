@@ -26,7 +26,12 @@ export default function ContactsMenu({
 
   function getDisplayUsers() {
     if (!userFriends) return '';
-    return userFriends.map((friend) => {
+
+    const filteredFriends = userFriends.filter((user) =>
+      user.name.toLowerCase().includes(searchValue)
+    );
+
+    return filteredFriends.map((friend) => {
       const friendHasNewMsg = newMsgs.some((msg) => msg.userId === friend.id);
 
       return (
