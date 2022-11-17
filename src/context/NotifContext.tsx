@@ -16,6 +16,7 @@ export const NotifContextProvider = ({ children }: { children: any }) => {
       (docs) => {
         const data: any[] = [];
         docs.forEach((doc) => data.push(doc.data()));
+        data.sort((a, b) => b.time.seconds - a.time.seconds);
         setNotifs(data);
       }
     );
