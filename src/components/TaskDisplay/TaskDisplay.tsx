@@ -90,7 +90,7 @@ export default function TaskDisplay({ task, close }: Props) {
   ));
 
   return (
-    <div className="fixed inset-0 z-50 flex h-screen w-screen justify-center bg-zinc-900/80 pt-32">
+    <div className="fixed inset-0 z-50 flex h-screen w-screen justify-center overflow-y-auto bg-zinc-900/80 py-32">
       <OutsideAlerter action={close}>
         <div className="relative w-80 rounded-lg bg-white px-4 pb-4 pt-8 text-zinc-700 shadow-lg dark:bg-zinc-800 dark:text-zinc-100">
           <button onClick={close} className="absolute top-4 right-4">
