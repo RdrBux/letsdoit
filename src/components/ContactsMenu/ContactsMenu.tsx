@@ -28,7 +28,7 @@ export default function ContactsMenu({
     if (!userFriends) return '';
 
     const filteredFriends = userFriends.filter((user) =>
-      user.name.toLowerCase().includes(searchValue)
+      user.name.toLowerCase().includes(searchValue.toLowerCase())
     );
 
     return filteredFriends.map((friend) => {
