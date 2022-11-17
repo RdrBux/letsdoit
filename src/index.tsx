@@ -40,8 +40,8 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <ThemeContextProvider>
-    <AuthContextProvider>
+  <AuthContextProvider>
+    <ThemeContextProvider>
       <NotifContextProvider>
         <FriendsContextProvider>
           <React.StrictMode>
@@ -49,6 +49,6 @@ root.render(
           </React.StrictMode>
         </FriendsContextProvider>
       </NotifContextProvider>
-    </AuthContextProvider>
-  </ThemeContextProvider>
+    </ThemeContextProvider>
+  </AuthContextProvider>
 );

@@ -1,7 +1,6 @@
 import {
   arrayUnion,
   collection,
-  deleteDoc,
   doc,
   DocumentData,
   getDoc,
@@ -77,13 +76,16 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
       if (selectedChatUser.id) {
         const q = query(
           collection(db, 'users', user.id, 'notifs'),
-          where('userId', '==', selectedChatUser.id)
+          where('userId', '==', selectedChatUser.id),
+          where('type', '==', 'friendRequest')
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach(async (document) => {
           try {
             const docRef = doc(db, 'users', user.id, 'notifs', document.id);
-            await deleteDoc(docRef);
+            await updateDoc(docRef, {
+              seen: true,
+            });
           } catch (err) {
             console.log(err);
           }
