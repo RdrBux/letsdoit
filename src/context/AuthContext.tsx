@@ -21,12 +21,13 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   });
 
   useEffect(() => {
-    async function addUserToDb(user: any, anon: boolean = false) {
+    async function addUserToDb(user: any) {
+      const anon: boolean = user.isAnonymous;
+
       try {
         const docRef = doc(db, 'users', user.uid || 'unknown');
 
         const docInDb = await getDoc(docRef);
-
         if (!docInDb.exists()) {
           const data: UserData = {
             id: user.uid,
@@ -66,7 +67,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user.isAnonymous) {
-          addUserToDb(user, true);
+          addUserToDb(user);
         } else if (!user.displayName || !user.email || !user.photoURL) {
           throw new Error('Error: missing user data.');
         }
