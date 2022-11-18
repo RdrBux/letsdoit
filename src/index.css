@@ -96,6 +96,12 @@ abbr[title] {
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
+
+.calendar-dark {
+  background: #1e1e22;
+  color: #e4e4e7;
+}
+
 .react-calendar--doubleView {
   width: 700px;
 }
@@ -140,7 +146,7 @@ abbr[title] {
 }
 .react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
-  background-color: #e6e6e6;
+  background-color: #a0a0a0;
   border-radius: 4px;
 }
 .react-calendar__month-view__weekdays {

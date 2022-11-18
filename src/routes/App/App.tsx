@@ -15,10 +15,12 @@ import TaskDisplay from '../../components/TaskDisplay/TaskDisplay';
 import ContactsMenu from '../../components/ContactsMenu/ContactsMenu';
 import ChatDisplay from '../../components/ChatDisplay/ChatDisplay';
 import { FriendsContext } from '../../context/FriendsContext';
+import { ThemeContext } from '../../context/ThemeContext';
 
 function App() {
   const user = useContext(AuthContext);
   const friends = useContext(FriendsContext);
+  const { theme } = useContext(ThemeContext);
 
   const userFriends = getFriends();
   const [taskFormOpen, setTaskFormOpen] = useState(false);
@@ -178,6 +180,7 @@ function App() {
           <AddTaskButton handleClick={handleClickTaskButton} />
           <div className="flex flex-col items-center md:flex-row md:items-start md:justify-center md:gap-8">
             <Calendar
+              className={theme === 'dark' ? 'calendar-dark' : ''}
               value={parseISO(selectedDay)}
               onChange={handleCalendarChange}
               minDetail="year"

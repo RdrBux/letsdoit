@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import OutsideAlerter from '../OutsideAlerter/OutsideAlerter';
 import { signOut } from 'firebase/auth';
-import { auth, messaging, obtainToken, requestPermision } from '../../firebase';
+import { auth, requestPermision } from '../../firebase';
 import { ThemeContext } from '../../context/ThemeContext';
 
 type Props = {
