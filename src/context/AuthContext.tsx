@@ -21,7 +21,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   });
 
   useEffect(() => {
-    async function addUserToDb(user: any) {
+    async function addUserToDb(user: any, anon: boolean = false) {
       try {
         const docRef = doc(db, 'users', user.uid || 'unknown');
 
@@ -30,26 +30,32 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         if (!docInDb.exists()) {
           const data: UserData = {
             id: user.uid,
-            email: user.email,
-            name: user.displayName,
-            tags: generateTags(user.displayName.toLowerCase()),
+            email: anon ? '' : user.email,
+            name: anon ? 'Anónimo' : user.displayName,
+            tags: anon ? [] : generateTags(user.displayName.toLowerCase()),
             bio: '',
-            photoURL: user.photoURL,
+            photoURL: anon
+              ? 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png'
+              : user.photoURL,
           };
           await setDoc(docRef, data);
 
           setUser({
             id: user.uid,
-            name: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
+            name: anon ? 'Anónimo' : user.displayName,
+            email: anon ? '' : user.email,
+            photoURL: anon
+              ? 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png'
+              : user.photoURL,
           });
         } else {
           setUser({
             id: user.uid,
-            name: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
+            name: anon ? 'Anónimo' : user.displayName,
+            email: anon ? '' : user.email,
+            photoURL: anon
+              ? 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png'
+              : user.photoURL,
           });
         }
       } catch (err) {
@@ -59,7 +65,9 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        if (!user.displayName || !user.email || !user.photoURL) {
+        if (user.isAnonymous) {
+          addUserToDb(user, true);
+        } else if (!user.displayName || !user.email || !user.photoURL) {
           throw new Error('Error: missing user data.');
         }
         addUserToDb(user);

@@ -1,4 +1,4 @@
-import { signInWithRedirect } from 'firebase/auth';
+import { signInAnonymously, signInWithRedirect } from 'firebase/auth';
 import { useContext, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -23,6 +23,14 @@ export default function LogIn() {
   async function handleLogInGoogle() {
     try {
       await signInWithRedirect(auth, googleProvider);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleLogInAnon() {
+    try {
+      await signInAnonymously(auth);
     } catch (err) {
       console.log(err);
     }
@@ -54,7 +62,7 @@ export default function LogIn() {
             <div className="mt-4 flex w-full flex-col gap-4 rounded border border-black px-6 py-4 text-black shadow-lg lg:w-fit">
               <p className="font-semibold">Ingresar:</p>
               <button
-                className="flex items-center gap-2 rounded border border-black bg-white py-3 px-6 shadow hover:bg-zinc-100 lg:px-20"
+                className="flex items-center gap-2 rounded border border-black bg-white py-3 px-6 shadow hover:bg-zinc-100 lg:px-14"
                 onClick={handleLogInGoogle}
               >
                 <img className="w-6" src={googleLogo} alt="" />
@@ -65,8 +73,11 @@ export default function LogIn() {
                   o
                 </div>
               </div>
-              <div className="font-medium underline">
-                Usar una cuenta de prueba.
+              <div
+                onClick={handleLogInAnon}
+                className="cursor-pointer font-medium underline"
+              >
+                Ingresar como anónimo.
               </div>
             </div>
           </div>

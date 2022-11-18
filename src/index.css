@@ -87,7 +87,7 @@ abbr[title] {
 .react-calendar {
   width: 350px;
   max-width: 100%;
-  background: white;
+  background: rgb(255, 255, 255);
   font-family: 'Manrope', Arial, Helvetica, sans-serif;
   line-height: 1.125em;
   color: #1f2937;
