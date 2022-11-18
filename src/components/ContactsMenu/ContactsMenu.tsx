@@ -104,33 +104,42 @@ export default function ContactsMenu({
           </div>
 
           <div className="flex flex-col gap-4 rounded-b-lg bg-white p-4 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-100">
-            <label className="flex items-center gap-2 rounded-full bg-zinc-200 px-4 dark:bg-zinc-600">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="h-4 w-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                />
-              </svg>
+            {userFriends.length > 0 && (
+              <label className="flex items-center gap-2 rounded-full bg-zinc-200 px-4 dark:bg-zinc-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="h-4 w-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                  />
+                </svg>
 
-              <input
-                className="bg-zinc-200 p-2 dark:bg-zinc-600"
-                type="text"
-                placeholder="Buscar"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-            </label>
+                <input
+                  className="bg-zinc-200 p-2 dark:bg-zinc-600"
+                  type="text"
+                  placeholder="Buscar"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
+              </label>
+            )}
 
             <div className="flex flex-col gap-2 overflow-y-auto">
-              {displayUsers}
+              {userFriends.length === 0 ? (
+                <div className="p-2">
+                  Parece que aún no tienes amigos. Puedes encontrar personas en
+                  el menú de búsqueda.
+                </div>
+              ) : (
+                displayUsers
+              )}
             </div>
           </div>
         </div>
