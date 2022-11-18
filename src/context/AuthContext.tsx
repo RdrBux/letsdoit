@@ -10,7 +10,6 @@ export const AuthContext = createContext<User>({
   name: '',
   email: '',
   photoURL: '',
-  friends: [],
 });
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
@@ -19,7 +18,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     name: '',
     email: '',
     photoURL: '',
-    friends: [],
   });
 
   useEffect(() => {
@@ -45,18 +43,13 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             name: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
-            friends: [],
           });
         } else {
-          const userData = docInDb.data();
-          const friends = userData.friends;
-
           setUser({
             id: user.uid,
             name: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
-            friends: friends,
           });
         }
       } catch (err) {
@@ -76,7 +69,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           name: '',
           email: '',
           photoURL: '',
-          friends: [],
         });
       }
     });

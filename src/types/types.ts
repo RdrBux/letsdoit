@@ -24,7 +24,6 @@ export type User = {
   name: string;
   email: string;
   photoURL: string;
-  friends: FriendData[];
 };
 
 export type UserData = {

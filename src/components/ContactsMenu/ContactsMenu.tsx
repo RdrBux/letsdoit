@@ -129,7 +129,9 @@ export default function ContactsMenu({
               />
             </label>
 
-            <div className="flex flex-col gap-2">{displayUsers}</div>
+            <div className="flex flex-col gap-2 overflow-y-auto">
+              {displayUsers}
+            </div>
           </div>
         </div>
       </OutsideAlerter>
