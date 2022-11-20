@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { NotifContext } from '../../context/NotifContext';
 import { FriendData, SelectedUser } from '../../types/types';
+import botAvatar from '../../assets/botAvatar.jpg';
 
 type Props = {
   openMenu: () => void;
@@ -48,9 +49,34 @@ export default function ContactsNav({
     });
   }
 
+  const botData = {
+    id: 'xYBakCpC34YbT9kYCxh3OJX70q73',
+    name: 'Bot Ayudante',
+    photoURL:
+      'https://media.istockphoto.com/id/819599030/vector/robot-face-icon-smiling-face-laugh-emotion-robotic-emoji.jpg?s=612x612&w=0&k=20&c=EEhge0MYWUWM50lhFXTAMx8r1ivUfQAElcuXyWr_p08=',
+    lastMsg: 'hola',
+    lastMsgTime: new Date(),
+    status: 'accepted',
+  };
+
+  const bot = (
+    <div className="relative h-10 w-10 rounded-full">
+      <img
+        onClick={() => selectChatUser(botData)}
+        className="h-10 w-10 cursor-pointer rounded-full"
+        src={botAvatar}
+        alt=""
+        referrerPolicy="no-referrer"
+      />
+    </div>
+  );
+
   return (
     <div className="flex justify-center gap-4 border-t border-emerald-500/10 bg-emerald-900/90 py-2 px-4 shadow-lg">
-      <div className="flex gap-4">{friendsAvatars}</div>
+      <div className="flex gap-4">
+        {bot}
+        {friendsAvatars}
+      </div>
 
       <button
         onClick={openMenu}

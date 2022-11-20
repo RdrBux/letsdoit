@@ -15,8 +15,6 @@ export default function LogIn() {
   const user = useContext(AuthContext);
   const [showAnonLoader, setShowAnonLoader] = useState(false);
 
-  console.log(auth);
-
   useEffect(() => {
     const loader = document.getElementById('loader');
 

@@ -379,16 +379,34 @@ export default function ChatDisplay({ selectedChatUser, close }: Props) {
 
       <div className="mb-20 flex flex-col gap-8 p-4">
         {chatToJSX}
-        {friendData?.status !== 'accepted' && (
-          <div className="flex w-fit flex-col self-center  rounded-lg bg-yellow-100 p-4 shadow">
-            <p>
-              Tú y{' '}
-              <span className="font-semibold">{selectedChatUser.name}</span>{' '}
-              actualmente no son amigos.
-            </p>
-            <div className="pt-2">{alertDisplay}</div>
+        {selectedChatUser.name === 'Bot Ayudante' && (
+          <div>
+            <div
+              key={nanoid()}
+              className="relative mr-8 w-fit rounded-xl rounded-tl-none bg-white p-4 shadow-sm"
+            >
+              Bienvenido a DO IT, soy Mike el Bot Ayudante.
+            </div>
+            <div
+              key={nanoid()}
+              className="relative mr-8 mt-4 w-fit rounded-xl rounded-tl-none bg-white p-4 shadow-sm"
+            >
+              En esta ventana de chat recibirás avisos sobre todas las nuevas
+              actualizaciones.
+            </div>
           </div>
         )}
+        {friendData?.status !== 'accepted' &&
+          selectedChatUser.name !== 'Bot Ayudante' && (
+            <div className="flex w-fit flex-col self-center  rounded-lg bg-yellow-100 p-4 shadow">
+              <p>
+                Tú y{' '}
+                <span className="font-semibold">{selectedChatUser.name}</span>{' '}
+                actualmente no son amigos.
+              </p>
+              <div className="pt-2">{alertDisplay}</div>
+            </div>
+          )}
       </div>
       <div ref={messageRef} className=""></div>
       {friendData?.status === 'accepted' && (

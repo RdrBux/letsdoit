@@ -34,7 +34,7 @@ export function obtainToken() {
   })
     .then((currentToken) => {
       if (currentToken) {
-        console.log('currentToken', currentToken);
+        /* console.log('currentToken', currentToken); */
       } else {
         console.log('no token');
       }
